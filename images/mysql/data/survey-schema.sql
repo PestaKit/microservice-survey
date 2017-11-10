@@ -6,16 +6,5 @@ DROP SCHEMA IF EXISTS survey_schema;
 CREATE SCHEMA survey_schema;
 USE survey_schema;
 
---
--- Table structure for table `questions`
---
 
-CREATE TABLE questions (
-  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  title VARCHAR(45) NOT NULL,
-  used INT UNSIGNED NOT NULL,
-  enabled BOOLEAN NOT NULL,
-  choices JSON NOT NULL,
-  PRIMARY KEY  (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
