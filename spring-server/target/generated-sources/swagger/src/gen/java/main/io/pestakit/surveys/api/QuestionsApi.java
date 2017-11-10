@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-09T19:11:51.817+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-10T10:14:34.627+01:00")
 
 @Api(value = "questions", description = "the questions API")
 public interface QuestionsApi {
@@ -32,7 +32,7 @@ public interface QuestionsApi {
         @ApiResponse(code = 201, message = "Created", response = Void.class) })
     
     @RequestMapping(value = "/questions",
-        produces = { "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Void> createQuestion(@ApiParam(value = "The question to be created" ,required=true )  @Valid @RequestBody Question question);
 
@@ -44,7 +44,6 @@ public interface QuestionsApi {
     
     @RequestMapping(value = "/questions/{id_question}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<Question> findQuestionById(@ApiParam(value = "ID of question to fetch",required=true ) @PathVariable("id_question") Long idQuestion);
 
@@ -56,7 +55,6 @@ public interface QuestionsApi {
     
     @RequestMapping(value = "/questions",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<Question>> questionsGet();
 

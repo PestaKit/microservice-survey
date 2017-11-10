@@ -3,18 +3,15 @@ package io.pestakit.surveys.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.pestakit.surveys.model.Choice;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Question
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-09T19:11:51.817+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-10T10:14:34.627+01:00")
 
 public class Question   {
   @JsonProperty("id")
@@ -30,7 +27,7 @@ public class Question   {
   private Integer enabled = null;
 
   @JsonProperty("choices")
-  private List<Choice> choices = null;
+  private String choices = null;
 
   public Question id(Long id) {
     this.id = id;
@@ -112,16 +109,8 @@ public class Question   {
     this.enabled = enabled;
   }
 
-  public Question choices(List<Choice> choices) {
+  public Question choices(String choices) {
     this.choices = choices;
-    return this;
-  }
-
-  public Question addChoicesItem(Choice choicesItem) {
-    if (this.choices == null) {
-      this.choices = new ArrayList<Choice>();
-    }
-    this.choices.add(choicesItem);
     return this;
   }
 
@@ -131,13 +120,12 @@ public class Question   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public List<Choice> getChoices() {
+  public String getChoices() {
     return choices;
   }
 
-  public void setChoices(List<Choice> choices) {
+  public void setChoices(String choices) {
     this.choices = choices;
   }
 

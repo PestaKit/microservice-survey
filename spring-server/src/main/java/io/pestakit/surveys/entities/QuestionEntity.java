@@ -1,6 +1,7 @@
 package io.pestakit.surveys.entities;
 
-import io.pestakit.surveys.model.Choice;
+//import io.pestakit.surveys.model.Choice;
+import springfox.documentation.spring.web.json.Json;
 //import org.springframework.data.annotation.Id;
 
 
@@ -21,17 +22,17 @@ public class QuestionEntity implements Serializable {
     private int used;
     private int enabled;
 
-    @OneToMany(targetEntity=ChoiceEntity.class, fetch= FetchType.EAGER)
-    private List<Choice> choices;
+//    @OneToMany(targetEntity=ChoiceEntity.class, fetch= FetchType.EAGER)
+    private String choices;
 
     public long getId(){return id;}
     public String getTitle(){return title;}
     public int getUsed(){return used;}
     public int getEnabled(){return enabled;}
-    public List<Choice> getChoices(){return choices;}
+    public String getChoices(){return choices;}
 
     public void setTitle(String title){this.title = title;}
     public void setUsed(int used){this.used = used;}
-    public void setChoices(List<Choice> choices){this.choices = choices;}
+    public void setChoices(String choices){this.choices = choices;}
     public void setEnabled(int enabled) {this.enabled = enabled;}
 }

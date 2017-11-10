@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by ali.miladi on 09.11.2017.
  */
-//@Service
     @Repository
 public interface QuestionsRepository extends CrudRepository<QuestionEntity, Long> {
 }

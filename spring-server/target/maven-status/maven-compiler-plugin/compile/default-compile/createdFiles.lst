@@ -1,8 +1,6 @@
 io\pestakit\surveys\api\endpoints\QuestionsApiController.class
 io\pestakit\surveys\config\HomeController.class
-io\pestakit\surveys\entities\ChoiceEntity.class
 io\pestakit\surveys\api\exceptions\ApiException.class
-io\pestakit\surveys\model\Choice.class
 io\pestakit\surveys\model\Error.class
 io\pestakit\surveys\config\SwaggerDocumentationConfig.class
 io\pestakit\surveys\model\Question.class
