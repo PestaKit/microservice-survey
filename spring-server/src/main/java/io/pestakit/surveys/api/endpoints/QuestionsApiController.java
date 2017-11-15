@@ -2,8 +2,10 @@ package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.QuestionsApi;
 //import io.pestakit.surveys.entities.ChoiceEntity;
+import io.pestakit.surveys.entities.ChoiceEntity;
 import io.pestakit.surveys.entities.QuestionEntity;
 //import io.pestakit.surveys.model.Choice;
+import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Question;
 
 //import io.pestakit.surveys.repositories.ChoicesRepository;
@@ -65,8 +67,12 @@ public class QuestionsApiController implements QuestionsApi {
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
         entity.setUsed(question.getUsed());
-        entity.setChoices(question.getChoices());
         entity.setEnabled(question.getEnabled());
+        List<ChoiceEntity> choiceEntities = entity.getChoices();
+        for (Choice choice : question.getChoices()){
+            choiceEntities.add(toChoiceEntity(choice));
+        }
+        entity.setChoices(choiceEntities);
         return entity;
     }
 
@@ -74,24 +80,28 @@ public class QuestionsApiController implements QuestionsApi {
         Question question= new Question();
         question.setTitle(entity.getTitle());
         question.setUsed(entity.getUsed());
-        question.setChoices(entity.getChoices());
+        List<Choice> choices = new ArrayList<>();
         question.setEnabled(entity.getEnabled());
+        for (ChoiceEntity choiceEntity : entity.getChoices()){
+            choices.add(toChoice(choiceEntity));
+        }
+        question.setChoices(choices);
         return question;
     }
 
 
 
-//    public Choice toChoice(ChoiceEntity entity){
-//        Choice choice = new Choice();
-//        choice.setId(entity.getId());
-//        choice.setText(entity.getText());
-//        return choice;
-//    }
-//
-//    public ChoiceEntity toChoiceEntity(Choice choice){
-//        ChoiceEntity entity = new ChoiceEntity();
-//        entity.setId(choice.getId());
-//        entity.setText(choice.getText());
-//        return entity;
-//    }
+    public Choice toChoice(ChoiceEntity entity){
+        Choice choice = new Choice();
+        choice.setPosition(entity.getPosition());
+        choice.setText(entity.getText());
+        return choice;
+    }
+
+    public ChoiceEntity toChoiceEntity(Choice choice){
+        ChoiceEntity entity = new ChoiceEntity();
+        entity.setPosition(choice.getPosition());
+        entity.setText(choice.getText());
+        return entity;
+    }
 }
