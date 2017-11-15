@@ -1,12 +1,14 @@
 package io.pestakit.surveys.entities;
 
 //import io.pestakit.surveys.model.Choice;
+
 import springfox.documentation.spring.web.json.Json;
 //import org.springframework.data.annotation.Id;
 
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,17 +24,44 @@ public class QuestionEntity implements Serializable {
     private int used;
     private int enabled;
 
-//    @OneToMany(targetEntity=ChoiceEntity.class, fetch= FetchType.EAGER)
-    private String choices;
+    // Fetch type for cascade requests. Here it makes sense to have it eager since we have at most a dozen of choices
+    // per question
+    @OneToMany(targetEntity = ChoiceEntity.class, fetch = FetchType.EAGER, cascade =CascadeType.PERSIST)
+    private List<ChoiceEntity> choices = new ArrayList<>();
 
-    public long getId(){return id;}
-    public String getTitle(){return title;}
-    public int getUsed(){return used;}
-    public int getEnabled(){return enabled;}
-    public String getChoices(){return choices;}
+    public long getId() {
+        return id;
+    }
 
-    public void setTitle(String title){this.title = title;}
-    public void setUsed(int used){this.used = used;}
-    public void setChoices(String choices){this.choices = choices;}
-    public void setEnabled(int enabled) {this.enabled = enabled;}
+    public String getTitle() {
+        return title;
+    }
+
+    public int getUsed() {
+        return used;
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public List<ChoiceEntity> getChoices() {
+        return choices;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUsed(int used) {
+        this.used = used;
+    }
+
+    public void setChoices(List<ChoiceEntity> choices) {
+        this.choices = choices;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
 }
