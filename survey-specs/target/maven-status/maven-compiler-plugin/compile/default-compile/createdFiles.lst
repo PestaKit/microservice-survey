@@ -16,6 +16,7 @@ io\pestakit\survey\Pair.class
 io\pestakit\survey\api\DefaultApi$4.class
 io\pestakit\survey\ProgressResponseBody$ProgressListener.class
 io\pestakit\survey\ApiClient$1.class
+io\pestakit\survey\api\dto\Choice.class
 io\pestakit\survey\api\DefaultApi$10.class
 io\pestakit\survey\api\dto\Error.class
 io\pestakit\survey\ApiClient$2.class

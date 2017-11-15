@@ -27,18 +27,18 @@ package io.pestakit.survey.api.dto;
 
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;
+import io.pestakit.survey.api.dto.Choice;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * Question
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T15:55:50.098+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T16:11:05.045+01:00")
 public class Question   {
-  @SerializedName("id")
-  private Long id = null;
-
   @SerializedName("title")
   private String title = null;
 
@@ -49,25 +49,7 @@ public class Question   {
   private Integer enabled = null;
 
   @SerializedName("choices")
-  private String choices = null;
-
-  public Question id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
+  private List<Choice> choices = new ArrayList<Choice>();
 
   public Question title(String title) {
     this.title = title;
@@ -123,8 +105,13 @@ public class Question   {
     this.enabled = enabled;
   }
 
-  public Question choices(String choices) {
+  public Question choices(List<Choice> choices) {
     this.choices = choices;
+    return this;
+  }
+
+  public Question addChoicesItem(Choice choicesItem) {
+    this.choices.add(choicesItem);
     return this;
   }
 
@@ -133,11 +120,11 @@ public class Question   {
    * @return choices
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getChoices() {
+  public List<Choice> getChoices() {
     return choices;
   }
 
-  public void setChoices(String choices) {
+  public void setChoices(List<Choice> choices) {
     this.choices = choices;
   }
 
@@ -151,8 +138,7 @@ public class Question   {
       return false;
     }
     Question question = (Question) o;
-    return Objects.equals(this.id, question.id) &&
-        Objects.equals(this.title, question.title) &&
+    return Objects.equals(this.title, question.title) &&
         Objects.equals(this.used, question.used) &&
         Objects.equals(this.enabled, question.enabled) &&
         Objects.equals(this.choices, question.choices);
@@ -160,7 +146,7 @@ public class Question   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, title, used, enabled, choices);
+    return Objects.hash(title, used, enabled, choices);
   }
 
   @Override
@@ -168,7 +154,6 @@ public class Question   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Question {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    used: ").append(toIndentedString(used)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");

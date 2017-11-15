@@ -1,7 +1,7 @@
 Feature: Creation of questions
 
   Background:
-    Given there is a Questions server
+    Given there is a Survey server
 
   Scenario: create a question
     Given I have a question payload

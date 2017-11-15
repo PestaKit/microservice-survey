@@ -46,7 +46,7 @@ public class CreationSteps {
     @When("^I POST it to the /questions endpoint$")
     public void i_POST_it_to_the_questions_endpoint() throws Throwable {
         try {
-            lastApiResponse = api.createFruitWithHttpInfo(question);
+            lastApiResponse = api.createQuestionWithHttpInfo(question);
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();

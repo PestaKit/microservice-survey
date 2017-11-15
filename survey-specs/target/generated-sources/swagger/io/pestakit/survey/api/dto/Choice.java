@@ -32,71 +32,50 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * Error
+ * Choice
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T16:11:05.045+01:00")
-public class Error   {
-  @SerializedName("code")
-  private Integer code = null;
+public class Choice   {
+  @SerializedName("position")
+  private Integer position = null;
 
-  @SerializedName("message")
-  private String message = null;
+  @SerializedName("text")
+  private String text = null;
 
-  @SerializedName("fields")
-  private String fields = null;
-
-  public Error code(Integer code) {
-    this.code = code;
+  public Choice position(Integer position) {
+    this.position = position;
     return this;
   }
 
    /**
-   * Get code
-   * @return code
+   * Get position
+   * @return position
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Integer getCode() {
-    return code;
+  public Integer getPosition() {
+    return position;
   }
 
-  public void setCode(Integer code) {
-    this.code = code;
+  public void setPosition(Integer position) {
+    this.position = position;
   }
 
-  public Error message(String message) {
-    this.message = message;
+  public Choice text(String text) {
+    this.text = text;
     return this;
   }
 
    /**
-   * Get message
-   * @return message
+   * Get text
+   * @return text
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getMessage() {
-    return message;
+  public String getText() {
+    return text;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  public Error fields(String fields) {
-    this.fields = fields;
-    return this;
-  }
-
-   /**
-   * Get fields
-   * @return fields
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getFields() {
-    return fields;
-  }
-
-  public void setFields(String fields) {
-    this.fields = fields;
+  public void setText(String text) {
+    this.text = text;
   }
 
 
@@ -108,25 +87,23 @@ public class Error   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Error error = (Error) o;
-    return Objects.equals(this.code, error.code) &&
-        Objects.equals(this.message, error.message) &&
-        Objects.equals(this.fields, error.fields);
+    Choice choice = (Choice) o;
+    return Objects.equals(this.position, choice.position) &&
+        Objects.equals(this.text, choice.text);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, fields);
+    return Objects.hash(position, text);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Error {\n");
+    sb.append("class Choice {\n");
     
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
-    sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
+    sb.append("    position: ").append(toIndentedString(position)).append("\n");
+    sb.append("    text: ").append(toIndentedString(text)).append("\n");
     sb.append("}");
     return sb.toString();
   }
