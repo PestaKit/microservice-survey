@@ -25,7 +25,7 @@ Then open your web browser and and go to the following url if you want to admini
 Then launch IntelliJ IDEA, open the project in the folder "spring-server" that contains the survey API and run it.
 You will be able to manually test your own requests with tis API on the following interface: <http://localhost:8080/api/swagger-ui.html#/questions-api-controller>.
 
-Then if you want to execute some tests on the api-server, you can open the "survey-specs" folder that contains all the tests and run it with IntelliJ IDEA by doing a right click on the project and select "All tests".
+Then if you want to execute some tests on the api-server, you can open the "survey-specs" folder that contains all the tests and run it with IntelliJ IDEA by doing a right click on the project and select "Run" then "All tests".
 
 
 

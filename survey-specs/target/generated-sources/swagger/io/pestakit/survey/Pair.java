@@ -25,7 +25,7 @@
 
 package io.pestakit.survey;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T16:11:05.045+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T16:44:27.487+01:00")
 public class Pair {
     private String name = "";
     private String value = "";

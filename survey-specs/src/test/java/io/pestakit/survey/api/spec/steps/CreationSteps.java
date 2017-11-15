@@ -7,8 +7,12 @@ import cucumber.api.java.en.When;
 import io.pestakit.survey.ApiException;
 import io.pestakit.survey.ApiResponse;
 import io.pestakit.survey.api.DefaultApi;
+import io.pestakit.survey.api.dto.Choice;
 import io.pestakit.survey.api.dto.Question;
 import io.pestakit.survey.api.spec.helpers.Environment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -38,10 +42,29 @@ public class CreationSteps {
         assertNotNull(api);
     }
 
-    @Given("^I have a question payload$")
-    public void i_have_a_question_payload() throws Throwable {
+    @Given("^I have a question with full payload$")
+    public void i_have_a_question_with_full_payload() throws Throwable {
+        question = new io.pestakit.survey.api.dto.Question();
+        question.setTitle("test1");
+        question.setEnabled(1);
+        question.setUsed(0);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("pomme");
+        Choice choice2 = new Choice();
+        choice2.setPosition(2);
+        choice2.setText("banane");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+
+    @Given("^I have a question with empty payload$")
+    public void i_have_a_question_with_empty_payload() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
     }
+
 
     @When("^I POST it to the /questions endpoint$")
     public void i_POST_it_to_the_questions_endpoint() throws Throwable {
