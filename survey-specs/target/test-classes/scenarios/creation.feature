@@ -1,17 +1,12 @@
 #-----------------------------------------------------------------------------------------------------------------------
-Feature: Creation of questions
+
+Feature: Getting questions
 
   Background:
     Given there is a Survey server
+  #1
+  Scenario: get a given question by specifying the id
+    Given I have a correct id that exists
+    When I GET it to the /questions/id_question endpoint
+    Then I receive a 200 status code
 
-  Scenario: create a question with full payload
-    Given I have a question with full payload
-    When I POST it to the /questions endpoint
-    Then I receive a 201 status code
-#-----------------------------------------------------------------------------------------------------------------------
-
-
-  Scenario: create a question with empty payload
-    Given I have a question with empty payload
-    When I POST it to the /questions endpoint
-    Then I receive a 500 status code

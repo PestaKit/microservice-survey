@@ -1,5 +1,6 @@
 package io.pestakit.survey.api.spec.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -11,6 +12,7 @@ import io.pestakit.survey.api.dto.Choice;
 import io.pestakit.survey.api.dto.Question;
 import io.pestakit.survey.api.spec.helpers.Environment;
 
+import javax.xml.stream.Location;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class CreationSteps {
     private DefaultApi api;
 
     Question question;
+    Object location;
+    long questionId;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
@@ -36,7 +40,7 @@ public class CreationSteps {
         this.environment = environment;
         this.api = environment.getApi();
     }
-
+    //------------------------------------------------------------------------------------------------------------------
     @Given("^there is a Survey server$")
     public void there_is_a_Survey_server() throws Throwable {
         assertNotNull(api);
@@ -65,11 +69,40 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
     }
 
+    @Given("^I have a correct id that exists$")
+    public void i_have_a_correct_id_that_exists() throws Throwable {
+        i_have_a_question_with_full_payload();
+        i_POST_it_to_the_questions_endpoint();
+        String locationStr = location.toString();
+        String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
+        idStr = idStr.substring(0, idStr.length() - 1);
+        questionId = Integer.parseInt(idStr);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
 
     @When("^I POST it to the /questions endpoint$")
     public void i_POST_it_to_the_questions_endpoint() throws Throwable {
         try {
             lastApiResponse = api.createQuestionWithHttpInfo(question);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+            location = lastApiResponse.getHeaders().get("Location");
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+
+
+    @When("^I GET it to the /questions endpoint$")
+    public void i_GET_it_to_the_questions_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.questionsGetWithHttpInfo();
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -79,12 +112,33 @@ public class CreationSteps {
             lastApiException = e;
             lastStatusCode = lastApiException.getCode();
         }
-
     }
 
+
+    @When("^I GET it to the /questions/id_question endpoint$")
+    public void i_GET_it_to_the_questions_id_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.findQuestionByIdWithHttpInfo(questionId);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+//----------------------------------------------------------------------------------------------------------------------
     @Then("^I receive a (\\d+) status code$")
-    public void i_receive_a_status_code(int arg1) throws Throwable {
-        assertEquals(201, lastStatusCode);
+    public void i_receive_a_status_code(int statusCode) throws Throwable {
+        assertEquals(statusCode, lastStatusCode);
+    }
+
+    @And("^I compare the getted value with the posted value$")
+    public void i_compare_the_getted_value_with_the_posted_value() throws Throwable {
+        //get the value and compare with the current question
+        //assertEquals(questionposted, questiongetted);
     }
 
 }
