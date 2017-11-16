@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * Choice
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-15T15:13:29.533+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-16T15:49:51.666+01:00")
 
 public class Choice   {
   @JsonProperty("position")

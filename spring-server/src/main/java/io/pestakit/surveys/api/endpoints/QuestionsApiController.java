@@ -55,7 +55,7 @@ public class QuestionsApiController implements QuestionsApi {
     }
 
     @Override
-    public ResponseEntity<List<Question>> questionsGet() {
+    public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = new ArrayList<>();
         for (QuestionEntity entity : questionsRepository.findAll()){
             questions.add(toQuestion(entity));

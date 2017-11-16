@@ -14,3 +14,5 @@ C:\Users\ali.miladi\Documents\home\ali\HEIG-VD\3eme\AMT\repos\microservice-surve
 C:\Users\ali.miladi\Documents\home\ali\HEIG-VD\3eme\AMT\repos\microservice-survey\spring-server\src\main\java\io\pestakit\surveys\api\endpoints\QuestionsApiController.java
 C:\Users\ali.miladi\Documents\home\ali\HEIG-VD\3eme\AMT\repos\microservice-survey\spring-server\src\main\java\io\pestakit\surveys\repositories\QuestionsRepository.java
 C:\Users\ali.miladi\Documents\home\ali\HEIG-VD\3eme\AMT\repos\microservice-survey\spring-server\src\main\java\io\pestakit\surveys\api\exceptions\NotFoundException.java
+C:\Users\ali.miladi\Documents\home\ali\HEIG-VD\3eme\AMT\repos\microservice-survey\spring-server\target\generated-sources\swagger\src\gen\java\main\io\pestakit\surveys\model\Survey.java
+C:\Users\ali.miladi\Documents\home\ali\HEIG-VD\3eme\AMT\repos\microservice-survey\spring-server\target\generated-sources\swagger\src\gen\java\main\io\pestakit\surveys\api\SurveysApi.java

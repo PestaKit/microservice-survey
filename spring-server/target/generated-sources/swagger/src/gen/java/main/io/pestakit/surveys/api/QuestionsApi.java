@@ -22,14 +22,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-15T15:13:29.533+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-16T15:49:51.666+01:00")
 
 @Api(value = "questions", description = "the questions API")
 public interface QuestionsApi {
 
     @ApiOperation(value = "", notes = "Create a question", response = Void.class, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Created", response = Void.class) })
+        @ApiResponse(code = 201, message = "Created", response = Void.class),
+        @ApiResponse(code = 422, message = "Unprocessable Entity", response = Void.class) })
     
     @RequestMapping(value = "/questions",
         consumes = { "application/json" },
@@ -56,6 +57,6 @@ public interface QuestionsApi {
     @RequestMapping(value = "/questions",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Question>> questionsGet();
+    ResponseEntity<List<Question>> getAllQuestions();
 
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Question
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-15T15:13:29.533+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-16T15:49:51.666+01:00")
 
 public class Question   {
   @JsonProperty("title")
@@ -27,7 +27,7 @@ public class Question   {
   private Integer enabled = null;
 
   @JsonProperty("choices")
-  private List<Choice> choices = null;
+  private List<Choice> choices = new ArrayList<Choice>();
 
   public Question title(String title) {
     this.title = title;
@@ -38,7 +38,8 @@ public class Question   {
    * Get title
    * @return title
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public String getTitle() {
@@ -58,7 +59,8 @@ public class Question   {
    * Get used
    * @return used
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public Integer getUsed() {
@@ -78,7 +80,8 @@ public class Question   {
    * Get enabled
    * @return enabled
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public Integer getEnabled() {
@@ -95,9 +98,6 @@ public class Question   {
   }
 
   public Question addChoicesItem(Choice choicesItem) {
-    if (this.choices == null) {
-      this.choices = new ArrayList<Choice>();
-    }
     this.choices.add(choicesItem);
     return this;
   }
@@ -106,7 +106,8 @@ public class Question   {
    * Get choices
    * @return choices
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
   @Valid
 
