@@ -27,6 +27,7 @@ public class CreationSteps {
     private Environment environment;
     private DefaultApi api;
 
+    Object id;
     Question question;
     Object location;
     long questionId;
