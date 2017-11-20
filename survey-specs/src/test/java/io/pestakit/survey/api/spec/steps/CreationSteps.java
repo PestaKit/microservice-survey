@@ -30,6 +30,8 @@ public class CreationSteps {
     Question question;
     Object location;
     long questionId;
+    Question questionPosted;
+    Question questionGetted;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
@@ -69,8 +71,8 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
     }
 
-    @Given("^I have a correct id that exists$")
-    public void i_have_a_correct_id_that_exists() throws Throwable {
+    @Given("^I have a correct id that exists because I posted a question$")
+    public void i_have_a_correct_id_that_exists_because_i_posted_a_question() throws Throwable {
         i_have_a_question_with_full_payload();
         i_POST_it_to_the_questions_endpoint();
         String locationStr = location.toString();
@@ -85,6 +87,7 @@ public class CreationSteps {
     public void i_POST_it_to_the_questions_endpoint() throws Throwable {
         try {
             lastApiResponse = api.createQuestionWithHttpInfo(question);
+            questionPosted = question;
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -122,6 +125,7 @@ public class CreationSteps {
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
+            questionGetted = (Question)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -135,10 +139,9 @@ public class CreationSteps {
         assertEquals(statusCode, lastStatusCode);
     }
 
-    @And("^I compare the getted value with the posted value$")
-    public void i_compare_the_getted_value_with_the_posted_value() throws Throwable {
-        //get the value and compare with the current question
-        //assertEquals(questionposted, questiongetted);
+    @And("^The getted question and the posted question are the same$")
+    public void the_getted_question_and_the_posted_question_are_the_same() throws Throwable {
+        assertEquals(questionPosted, questionGetted);
     }
 
 }

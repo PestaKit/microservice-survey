@@ -7,9 +7,9 @@ formatter.feature({
     }
   ],
   "line": 3,
-  "name": "Getting questions",
+  "name": "questions",
   "description": "",
-  "id": "getting-questions",
+  "id": "questions",
   "keyword": "Feature"
 });
 formatter.background({
@@ -28,26 +28,26 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 191947689,
+  "duration": 226503417,
   "status": "passed"
 });
 formatter.scenario({
   "comments": [
     {
       "line": 7,
-      "value": "#1"
+      "value": "#1 #adrien"
     }
   ],
   "line": 8,
-  "name": "get a given question by specifying the id",
+  "name": "post a question and get it by specifying the id",
   "description": "",
-  "id": "getting-questions;get-a-given-question-by-specifying-the-id",
+  "id": "questions;post-a-question-and-get-it-by-specifying-the-id",
   "type": "scenario",
   "keyword": "Scenario"
 });
 formatter.step({
   "line": 9,
-  "name": "I have a correct id that exists",
+  "name": "I have a correct id that exists because I posted a question",
   "keyword": "Given "
 });
 formatter.step({
@@ -60,18 +60,23 @@ formatter.step({
   "name": "I receive a 200 status code",
   "keyword": "Then "
 });
+formatter.step({
+  "line": 12,
+  "name": "I compare the getted value with the posted value",
+  "keyword": "And "
+});
 formatter.match({
-  "location": "CreationSteps.i_have_a_correct_id_that_exists()"
+  "location": "CreationSteps.i_have_a_correct_id_that_exists_because_i_posted_a_question()"
 });
 formatter.result({
-  "duration": 984311487,
+  "duration": 1097974204,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_id_endpoint()"
 });
 formatter.result({
-  "duration": 31544240,
+  "duration": 78240975,
   "status": "passed"
 });
 formatter.match({
@@ -84,7 +89,14 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 2846042,
+  "duration": 3016670,
+  "status": "passed"
+});
+formatter.match({
+  "location": "CreationSteps.i_compare_the_getted_value_with_the_posted_value()"
+});
+formatter.result({
+  "duration": 127013,
   "status": "passed"
 });
 });

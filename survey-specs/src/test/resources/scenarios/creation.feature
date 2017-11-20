@@ -1,14 +1,15 @@
 #-----------------------------------------------------------------------------------------------------------------------
 
-Feature: Getting questions
+Feature: questions
 
   Background:
     Given there is a Survey server
   #1 #adrien
-  Scenario: get a given question by specifying the id
-    Given I have a correct id that exists
+  Scenario: post a question and get it by specifying the id
+    Given I have a correct id that exists because I posted a question
     When I GET it to the /questions/id_question endpoint
     Then I receive a 200 status code
+    And The getted question and the posted question are the same
 
 ##########LA SUITE EST A IMPLEMENTER, VOICI UNE IDEE GLOBALE DES TESTS A FAIRE (LES STATUS CODE NE SONT PAS TOUJOURS JUSTES)
     #2
@@ -30,10 +31,6 @@ Feature: Getting questions
 
  #----------------------------------------------------------------------------------------------------------------------
 
-#Feature: Creation of questions
-
-  #Background:
-    #Given there is a Survey server
   #5
   #Scenario: create a question with full payload
     #Given I have a question with full payload
