@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Question
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T10:32:53.895+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T13:34:26.616+01:00")
 public class Question   {
   @SerializedName("title")
   private String title = null;

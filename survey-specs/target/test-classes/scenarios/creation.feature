@@ -37,3 +37,10 @@ Feature: questions
     Given I have a question with full payload
     When I POST it to the /questions endpoint
     Then I receive a 201 status code
+
+
+    #6 #adrien #TEST PERTINANT???????????????????????ON POURRAIT FAIRE POUR LES AUTRES ATTRIBUTS????????????????????????
+  Scenario: create a question with missing enabled attribute in payload
+    Given I have a question with missing enabled attribute in payload
+    When I POST it to the /questions endpoint
+    Then I receive a 400 status code
