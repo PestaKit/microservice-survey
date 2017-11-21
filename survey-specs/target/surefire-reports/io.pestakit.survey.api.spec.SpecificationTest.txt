@@ -1,22 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: io.pestakit.survey.api.spec.SpecificationTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 1.501 sec <<< FAILURE!
-Then I receive a 201 status code(Scenario: create a question)  Time elapsed: 0.006 sec  <<< FAILURE!
-java.lang.AssertionError: expected:<201> but was:<500>
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.failNotEquals(Assert.java:834)
-	at org.junit.Assert.assertEquals(Assert.java:645)
-	at org.junit.Assert.assertEquals(Assert.java:631)
-	at io.pestakit.survey.api.spec.steps.CreationSteps.i_receive_a_status_code(CreationSteps.java:64)
-	at ✽.Then I receive a 201 status code(creation.feature:9)
-
-Scenario: create a question  Time elapsed: 0.01 sec  <<< FAILURE!
-java.lang.AssertionError: expected:<201> but was:<500>
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.failNotEquals(Assert.java:834)
-	at org.junit.Assert.assertEquals(Assert.java:645)
-	at org.junit.Assert.assertEquals(Assert.java:631)
-	at io.pestakit.survey.api.spec.steps.CreationSteps.i_receive_a_status_code(CreationSteps.java:64)
-	at ✽.Then I receive a 201 status code(creation.feature:9)
-
+Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.432 sec

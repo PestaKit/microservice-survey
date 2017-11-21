@@ -49,6 +49,11 @@ public class CreationSteps {
         assertNotNull(api);
     }
 
+    @Given("^I have a wrong id$")
+    public void i_have_a_wrong_id() throws Throwable {
+        questionId = -1;
+    }
+
     @Given("^I have a question with full payload$")
     public void i_have_a_question_with_full_payload() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
@@ -106,7 +111,7 @@ public class CreationSteps {
     @When("^I GET it to the /questions endpoint$")
     public void i_GET_it_to_the_questions_endpoint() throws Throwable {
         try {
-            lastApiResponse = api.questionsGetWithHttpInfo();
+            lastApiResponse = api.getAllQuestionsWithHttpInfo();
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();

@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Question
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-15T16:44:27.487+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T10:20:12.429+01:00")
 public class Question   {
   @SerializedName("title")
   private String title = null;
@@ -60,7 +60,7 @@ public class Question   {
    * Get title
    * @return title
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public String getTitle() {
     return title;
   }
@@ -78,7 +78,7 @@ public class Question   {
    * Get used
    * @return used
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public Integer getUsed() {
     return used;
   }
@@ -96,7 +96,7 @@ public class Question   {
    * Get enabled
    * @return enabled
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public Integer getEnabled() {
     return enabled;
   }
@@ -119,7 +119,7 @@ public class Question   {
    * Get choices
    * @return choices
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public List<Choice> getChoices() {
     return choices;
   }
