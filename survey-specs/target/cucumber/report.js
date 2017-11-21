@@ -28,7 +28,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 183223997,
+  "duration": 205066842,
   "status": "passed"
 });
 formatter.scenario({
@@ -69,14 +69,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_correct_id_that_exists_because_i_posted_a_question()"
 });
 formatter.result({
-  "duration": 538617138,
+  "duration": 1168673076,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_id_endpoint()"
 });
 formatter.result({
-  "duration": 16250417,
+  "duration": 35881438,
   "status": "passed"
 });
 formatter.match({
@@ -89,14 +89,14 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 1599853,
+  "duration": 3978891,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.the_getted_question_and_the_posted_question_are_the_same()"
 });
 formatter.result({
-  "duration": 133428,
+  "duration": 396436,
   "status": "passed"
 });
 formatter.background({
@@ -115,7 +115,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 3387446,
+  "duration": 946826,
   "status": "passed"
 });
 formatter.scenario({
@@ -151,14 +151,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_wrong_id()"
 });
 formatter.result({
-  "duration": 39344,
+  "duration": 113756,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_id_endpoint()"
 });
 formatter.result({
-  "duration": 14362753,
+  "duration": 20759171,
   "status": "passed"
 });
 formatter.match({
@@ -171,7 +171,7 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 86386,
+  "duration": 105631,
   "status": "passed"
 });
 formatter.background({
@@ -190,7 +190,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 485387,
+  "duration": 617532,
   "status": "passed"
 });
 formatter.scenario({
@@ -221,7 +221,7 @@ formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_endpoint()"
 });
 formatter.result({
-  "duration": 40710932,
+  "duration": 58134831,
   "status": "passed"
 });
 formatter.match({
@@ -234,7 +234,7 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 115039,
+  "duration": 85959,
   "status": "passed"
 });
 formatter.background({
@@ -253,17 +253,17 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 627796,
+  "duration": 508908,
   "status": "passed"
 });
 formatter.scenario({
   "comments": [
     {
-      "line": 29,
+      "line": 28,
       "value": "#4 #adrien #REVOIR LE CODE STATUS AVEC ALI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     }
   ],
-  "line": 30,
+  "line": 29,
   "name": "create a question with empty payload",
   "description": "",
   "id": "questions;create-a-question-with-empty-payload",
@@ -271,17 +271,17 @@ formatter.scenario({
   "keyword": "Scenario"
 });
 formatter.step({
-  "line": 31,
+  "line": 30,
   "name": "I have a question with empty payload",
   "keyword": "Given "
 });
 formatter.step({
-  "line": 32,
+  "line": 31,
   "name": "I POST it to the /questions endpoint",
   "keyword": "When "
 });
 formatter.step({
-  "line": 33,
+  "line": 32,
   "name": "I receive a 400 status code",
   "keyword": "Then "
 });
@@ -289,14 +289,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_question_with_empty_payload()"
 });
 formatter.result({
-  "duration": 47042,
+  "duration": 45332,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_POST_it_to_the_questions_endpoint()"
 });
 formatter.result({
-  "duration": 8108317,
+  "duration": 9141100,
   "status": "passed"
 });
 formatter.match({
@@ -309,7 +309,82 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 107341,
+  "duration": 138987,
+  "status": "passed"
+});
+formatter.background({
+  "line": 5,
+  "name": "",
+  "description": "",
+  "type": "background",
+  "keyword": "Background"
+});
+formatter.step({
+  "line": 6,
+  "name": "there is a Survey server",
+  "keyword": "Given "
+});
+formatter.match({
+  "location": "CreationSteps.there_is_a_Survey_server()"
+});
+formatter.result({
+  "duration": 471702,
+  "status": "passed"
+});
+formatter.scenario({
+  "comments": [
+    {
+      "line": 35,
+      "value": "#5 #adrien #TEST PERTINANT?????????????????????????????????????????????????????????????????????"
+    }
+  ],
+  "line": 36,
+  "name": "create a question with full payload",
+  "description": "",
+  "id": "questions;create-a-question-with-full-payload",
+  "type": "scenario",
+  "keyword": "Scenario"
+});
+formatter.step({
+  "line": 37,
+  "name": "I have a question with full payload",
+  "keyword": "Given "
+});
+formatter.step({
+  "line": 38,
+  "name": "I POST it to the /questions endpoint",
+  "keyword": "When "
+});
+formatter.step({
+  "line": 39,
+  "name": "I receive a 201 status code",
+  "keyword": "Then "
+});
+formatter.match({
+  "location": "CreationSteps.i_have_a_question_with_full_payload()"
+});
+formatter.result({
+  "duration": 46615,
+  "status": "passed"
+});
+formatter.match({
+  "location": "CreationSteps.i_POST_it_to_the_questions_endpoint()"
+});
+formatter.result({
+  "duration": 17925965,
+  "status": "passed"
+});
+formatter.match({
+  "arguments": [
+    {
+      "val": "201",
+      "offset": 12
+    }
+  ],
+  "location": "CreationSteps.i_receive_a_status_code(int)"
+});
+formatter.result({
+  "duration": 71846,
   "status": "passed"
 });
 });
