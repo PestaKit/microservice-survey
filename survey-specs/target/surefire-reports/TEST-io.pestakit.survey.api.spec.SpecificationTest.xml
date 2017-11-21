@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="11" failures="0" name="io.pestakit.survey.api.spec.SpecificationTest" time="0.002" errors="0" skipped="0">
+<testsuite tests="20" failures="0" name="io.pestakit.survey.api.spec.SpecificationTest" time="0.006" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2017.2.5"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -62,15 +62,24 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="Scenario: post a question and get it by specifying the id" name="Given there is a Survey server" time="0.002"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="Given there is a Survey server" time="0.004"/>
   <testcase classname="Scenario: post a question and get it by specifying the id" name="Given I have a correct id that exists because I posted a question" time="0"/>
   <testcase classname="Scenario: post a question and get it by specifying the id" name="When I GET it to the /questions/id_question endpoint" time="0"/>
   <testcase classname="Scenario: post a question and get it by specifying the id" name="Then I receive a 200 status code" time="0"/>
   <testcase classname="Scenario: post a question and get it by specifying the id" name="And The getted question and the posted question are the same" time="0"/>
-  <testcase classname="Scenario: post a question and get it by specifying the id" name="Scenario: post a question and get it by specifying the id" time="0"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="Scenario: post a question and get it by specifying the id" time="0.001"/>
   <testcase classname="Scenario: get a given question by specifying a wrong id" name="Given there is a Survey server" time="0"/>
   <testcase classname="Scenario: get a given question by specifying a wrong id" name="Given I have a wrong id" time="0"/>
   <testcase classname="Scenario: get a given question by specifying a wrong id" name="When I GET it to the /questions/id_question endpoint" time="0"/>
   <testcase classname="Scenario: get a given question by specifying a wrong id" name="Then I receive a 500 status code" time="0"/>
-  <testcase classname="Scenario: get a given question by specifying a wrong id" name="Scenario: get a given question by specifying a wrong id" time="0"/>
+  <testcase classname="Scenario: get a given question by specifying a wrong id" name="Scenario: get a given question by specifying a wrong id" time="0.001"/>
+  <testcase classname="Scenario: get all the questions" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="When I GET it to the /questions endpoint" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="Then I receive a 200 status code" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="Scenario: get all the questions" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Given I have a question with empty payload" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="When I POST it to the /questions endpoint" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Then I receive a 400 status code" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Scenario: create a question with empty payload" time="0"/>
 </testsuite>

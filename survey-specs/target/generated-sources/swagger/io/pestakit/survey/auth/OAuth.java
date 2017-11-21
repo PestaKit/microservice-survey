@@ -30,7 +30,7 @@ import io.pestakit.survey.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T10:20:12.429+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T10:32:53.895+01:00")
 public class OAuth implements Authentication {
   private String accessToken;
 
