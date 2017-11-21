@@ -50,8 +50,14 @@ public class QuestionsApiController implements QuestionsApi {
 
     @Override
     public ResponseEntity<Question> findQuestionById(@ApiParam(value = "ID of question to fetch",required=true ) @PathVariable("id_question") Long idQuestion) {
-        Question question = toQuestion(questionsRepository.findOne(idQuestion));
-        return ok(question);
+        QuestionEntity entity = questionsRepository.findOne(idQuestion);
+        if (entity != null) {
+            Question question = toQuestion(entity);
+            return ok(question);
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @Override
