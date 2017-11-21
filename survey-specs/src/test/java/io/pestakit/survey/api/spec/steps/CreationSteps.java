@@ -15,6 +15,7 @@ import io.pestakit.survey.api.spec.helpers.Environment;
 import javax.xml.stream.Location;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -27,9 +28,13 @@ public class CreationSteps {
     private Environment environment;
     private DefaultApi api;
 
+    Object id;
     Question question;
     Object location;
     long questionId;
+    Question questionPosted;
+    Question questionGetted;
+    ArrayList<Question> listOfAllQuestions;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
@@ -44,6 +49,29 @@ public class CreationSteps {
     @Given("^there is a Survey server$")
     public void there_is_a_Survey_server() throws Throwable {
         assertNotNull(api);
+    }
+
+    @Given("^I have a wrong id$")
+    public void i_have_a_wrong_id() throws Throwable {
+        questionId = -1;
+    }
+
+
+    @Given("^I have a question with missing enabled attribute in payload$")
+    public void i_have_a_question_with_missing_enabled_attribute_in_payload() throws Throwable {
+        question = new io.pestakit.survey.api.dto.Question();
+        question.setTitle("test2");
+        //question.setEnabled(1);
+        question.setUsed(0);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("otpion1");
+        Choice choice2 = new Choice();
+        choice2.setPosition(2);
+        choice2.setText("option2");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
     }
 
     @Given("^I have a question with full payload$")
@@ -69,8 +97,8 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
     }
 
-    @Given("^I have a correct id that exists$")
-    public void i_have_a_correct_id_that_exists() throws Throwable {
+    @Given("^I have a correct id that exists because I posted a question$")
+    public void i_have_a_correct_id_that_exists_because_i_posted_a_question() throws Throwable {
         i_have_a_question_with_full_payload();
         i_POST_it_to_the_questions_endpoint();
         String locationStr = location.toString();
@@ -85,6 +113,7 @@ public class CreationSteps {
     public void i_POST_it_to_the_questions_endpoint() throws Throwable {
         try {
             lastApiResponse = api.createQuestionWithHttpInfo(question);
+            questionPosted = question;
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
@@ -102,10 +131,11 @@ public class CreationSteps {
     @When("^I GET it to the /questions endpoint$")
     public void i_GET_it_to_the_questions_endpoint() throws Throwable {
         try {
-            lastApiResponse = api.questionsGetWithHttpInfo();
+            lastApiResponse = api.getAllQuestionsWithHttpInfo();
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
+            listOfAllQuestions = (ArrayList<Question>)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -122,6 +152,7 @@ public class CreationSteps {
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
+            questionGetted = (Question)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -135,10 +166,10 @@ public class CreationSteps {
         assertEquals(statusCode, lastStatusCode);
     }
 
-    @And("^I compare the getted value with the posted value$")
-    public void i_compare_the_getted_value_with_the_posted_value() throws Throwable {
-        //get the value and compare with the current question
-        //assertEquals(questionposted, questiongetted);
+    @And("^The getted question and the posted question are the same$")
+    public void the_getted_question_and_the_posted_question_are_the_same() throws Throwable {
+        assertEquals(questionPosted, questionGetted);
     }
+
 
 }

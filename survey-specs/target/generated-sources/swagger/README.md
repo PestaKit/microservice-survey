@@ -90,8 +90,11 @@ All URIs are relative to *https://localhost/api*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DefaultApi* | [**createQuestion**](docs/DefaultApi.md#createQuestion) | **POST** /questions | 
+*DefaultApi* | [**createSurvey**](docs/DefaultApi.md#createSurvey) | **POST** /surveys | 
 *DefaultApi* | [**findQuestionById**](docs/DefaultApi.md#findQuestionById) | **GET** /questions/{id_question} | 
-*DefaultApi* | [**questionsGet**](docs/DefaultApi.md#questionsGet) | **GET** /questions | All the questions
+*DefaultApi* | [**findSurveyById**](docs/DefaultApi.md#findSurveyById) | **GET** /surveys/{id_survey} | 
+*DefaultApi* | [**getAllQuestions**](docs/DefaultApi.md#getAllQuestions) | **GET** /questions | All the questions
+*DefaultApi* | [**getAllSurveys**](docs/DefaultApi.md#getAllSurveys) | **GET** /surveys | 
 
 
 ## Documentation for Models
@@ -99,6 +102,7 @@ Class | Method | HTTP request | Description
  - [Choice](docs/Choice.md)
  - [Error](docs/Error.md)
  - [Question](docs/Question.md)
+ - [Survey](docs/Survey.md)
 
 
 ## Documentation for Authorization

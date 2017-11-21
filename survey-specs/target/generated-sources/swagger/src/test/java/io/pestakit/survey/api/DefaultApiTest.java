@@ -27,6 +27,7 @@ package io.pestakit.survey.api;
 
 import io.pestakit.survey.ApiException;
 import io.pestakit.survey.api.dto.Question;
+import io.pestakit.survey.api.dto.Survey;
 import io.pestakit.survey.api.dto.Error;
 import org.junit.Test;
 
@@ -62,6 +63,22 @@ public class DefaultApiTest {
     /**
      * 
      *
+     * Create a survey
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void createSurveyTest() throws ApiException {
+        Survey idSurvey = null;
+        // api.createSurvey(idSurvey);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
      * Returns the identified question
      *
      * @throws ApiException
@@ -76,6 +93,22 @@ public class DefaultApiTest {
     }
     
     /**
+     * 
+     *
+     * Returns the identified survey
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void findSurveyByIdTest() throws ApiException {
+        Long idSurvey = null;
+        // Survey response = api.findSurveyById(idSurvey);
+
+        // TODO: test validations
+    }
+    
+    /**
      * All the questions
      *
      * 
@@ -84,8 +117,23 @@ public class DefaultApiTest {
      *          if the Api call fails
      */
     @Test
-    public void questionsGetTest() throws ApiException {
-        // List<Question> response = api.questionsGet();
+    public void getAllQuestionsTest() throws ApiException {
+        // List<Question> response = api.getAllQuestions();
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * Returns the identified survey
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void getAllSurveysTest() throws ApiException {
+        // Survey response = api.getAllSurveys();
 
         // TODO: test validations
     }

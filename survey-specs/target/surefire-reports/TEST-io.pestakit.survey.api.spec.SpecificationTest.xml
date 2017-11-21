@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="2" name="io.pestakit.survey.api.spec.SpecificationTest" time="0.018" errors="0" skipped="0">
+<testsuite tests="30" failures="0" name="io.pestakit.survey.api.spec.SpecificationTest" time="0.006" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2017.2.5"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -30,7 +30,7 @@
     <property name="os.name" value="Windows 10"/>
     <property name="classworlds.conf" value="C:\Program Files\JetBrains\IntelliJ IDEA 2017.2.5\plugins\maven\lib\maven3\bin\m2.conf"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_131\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Lenovo\Fingerprint Manager Pro\;C:\Program Files (x86)\Common Files\Lenovo;C:\SWTOOLS\ReadyApps;C:\Program Files (x86)\Common Files\lenovo\easyplussdk\bin;C:\Program Files (x86)\Lenovo\Access Connections\;C:\MinGW\bin;C:\MinGW\msys\1.0\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Java\jdk1.8.0_102\bin;C:\Program Files (x86)\Windows Live\Shared;%USERPROFILE%\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\Git\cmd;C:\HashiCorp\Vagrant\bin;C:\Users\Adrien\Desktop\RES\maven\apache-maven-3.3.9\bin;C:\Program Files\nodejs\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Docker Toolbox;C:\Users\Adrien\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_131\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Lenovo\Fingerprint Manager Pro\;C:\Program Files (x86)\Common Files\Lenovo;C:\SWTOOLS\ReadyApps;C:\Program Files (x86)\Common Files\lenovo\easyplussdk\bin;C:\Program Files (x86)\Lenovo\Access Connections\;C:\MinGW\bin;C:\MinGW\msys\1.0\bin;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Java\jdk1.8.0_102\bin;C:\Program Files (x86)\Windows Live\Shared;C:\WINDOWS\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\MySQL\MySQL Utilities 1.6\;C:\Program Files\Git\cmd;C:\HashiCorp\Vagrant\bin;C:\Users\Adrien\Desktop\RES\maven\apache-maven-3.3.9\bin;C:\Program Files\nodejs\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Docker Toolbox;C:\Users\Adrien\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -62,27 +62,34 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="Scenario: create a question" name="Given there is a Survey server" time="0.002"/>
-  <testcase classname="Scenario: create a question" name="Given I have a question payload" time="0"/>
-  <testcase classname="Scenario: create a question" name="When I POST it to the /questions endpoint" time="0"/>
-  <testcase classname="Scenario: create a question" name="Then I receive a 201 status code" time="0.006">
-    <failure message="expected:&lt;201&gt; but was:&lt;500&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;201&gt; but was:&lt;500&gt;
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.failNotEquals(Assert.java:834)
-	at org.junit.Assert.assertEquals(Assert.java:645)
-	at org.junit.Assert.assertEquals(Assert.java:631)
-	at io.pestakit.survey.api.spec.steps.CreationSteps.i_receive_a_status_code(CreationSteps.java:64)
-	at ✽.Then I receive a 201 status code(creation.feature:9)
-</failure>
-  </testcase>
-  <testcase classname="Scenario: create a question" name="Scenario: create a question" time="0.01">
-    <failure message="expected:&lt;201&gt; but was:&lt;500&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;201&gt; but was:&lt;500&gt;
-	at org.junit.Assert.fail(Assert.java:88)
-	at org.junit.Assert.failNotEquals(Assert.java:834)
-	at org.junit.Assert.assertEquals(Assert.java:645)
-	at org.junit.Assert.assertEquals(Assert.java:631)
-	at io.pestakit.survey.api.spec.steps.CreationSteps.i_receive_a_status_code(CreationSteps.java:64)
-	at ✽.Then I receive a 201 status code(creation.feature:9)
-</failure>
-  </testcase>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="Given there is a Survey server" time="0.003"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="Given I have a correct id that exists because I posted a question" time="0"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="When I GET it to the /questions/id_question endpoint" time="0"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="Then I receive a 200 status code" time="0"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="And The getted question and the posted question are the same" time="0.001"/>
+  <testcase classname="Scenario: post a question and get it by specifying the id" name="Scenario: post a question and get it by specifying the id" time="0.001"/>
+  <testcase classname="Scenario: get a given question by specifying a wrong id" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: get a given question by specifying a wrong id" name="Given I have a wrong id" time="0"/>
+  <testcase classname="Scenario: get a given question by specifying a wrong id" name="When I GET it to the /questions/id_question endpoint" time="0"/>
+  <testcase classname="Scenario: get a given question by specifying a wrong id" name="Then I receive a 500 status code" time="0"/>
+  <testcase classname="Scenario: get a given question by specifying a wrong id" name="Scenario: get a given question by specifying a wrong id" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="When I GET it to the /questions endpoint" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="Then I receive a 200 status code" time="0"/>
+  <testcase classname="Scenario: get all the questions" name="Scenario: get all the questions" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Given I have a question with empty payload" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="When I POST it to the /questions endpoint" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Then I receive a 400 status code" time="0"/>
+  <testcase classname="Scenario: create a question with empty payload" name="Scenario: create a question with empty payload" time="0"/>
+  <testcase classname="Scenario: create a question with full payload" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: create a question with full payload" name="Given I have a question with full payload" time="0"/>
+  <testcase classname="Scenario: create a question with full payload" name="When I POST it to the /questions endpoint" time="0"/>
+  <testcase classname="Scenario: create a question with full payload" name="Then I receive a 201 status code" time="0"/>
+  <testcase classname="Scenario: create a question with full payload" name="Scenario: create a question with full payload" time="0.001"/>
+  <testcase classname="Scenario: create a question with missing enabled attribute in payload" name="Given there is a Survey server" time="0"/>
+  <testcase classname="Scenario: create a question with missing enabled attribute in payload" name="Given I have a question with missing enabled attribute in payload" time="0"/>
+  <testcase classname="Scenario: create a question with missing enabled attribute in payload" name="When I POST it to the /questions endpoint" time="0"/>
+  <testcase classname="Scenario: create a question with missing enabled attribute in payload" name="Then I receive a 400 status code" time="0"/>
+  <testcase classname="Scenario: create a question with missing enabled attribute in payload" name="Scenario: create a question with missing enabled attribute in payload" time="0"/>
 </testsuite>
