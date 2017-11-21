@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-16T15:49:51.666+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-11-21T16:11:33.349+01:00")
 
 @Api(value = "questions", description = "the questions API")
 public interface QuestionsApi {

@@ -163,6 +163,9 @@ definitions:
 
   Choice:
     type: object
+    required:
+    - position
+    - text
     properties:
       position:
         type: integer
