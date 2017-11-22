@@ -28,7 +28,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 259487927,
+  "duration": 347450756,
   "status": "passed"
 });
 formatter.scenario({
@@ -69,14 +69,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_correct_id_that_exists_because_i_posted_a_question()"
 });
 formatter.result({
-  "duration": 585831401,
+  "duration": 720794667,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_id_endpoint()"
 });
 formatter.result({
-  "duration": 21197944,
+  "duration": 25685315,
   "status": "passed"
 });
 formatter.match({
@@ -89,14 +89,14 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 2212253,
+  "duration": 1959082,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.the_getted_question_and_the_posted_question_are_the_same()"
 });
 formatter.result({
-  "duration": 121881,
+  "duration": 2543684,
   "status": "passed"
 });
 formatter.background({
@@ -115,7 +115,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 5344389,
+  "duration": 839056,
   "status": "passed"
 });
 formatter.scenario({
@@ -144,34 +144,34 @@ formatter.step({
 });
 formatter.step({
   "line": 19,
-  "name": "I receive a 500 status code",
+  "name": "I receive a 400 status code",
   "keyword": "Then "
 });
 formatter.match({
   "location": "CreationSteps.i_have_a_wrong_id()"
 });
 formatter.result({
-  "duration": 35496,
+  "duration": 40627,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_id_endpoint()"
 });
 formatter.result({
-  "duration": 19194813,
+  "duration": 16839724,
   "status": "passed"
 });
 formatter.match({
   "arguments": [
     {
-      "val": "500",
+      "val": "400",
       "offset": 12
     }
   ],
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 112473,
+  "duration": 1658441,
   "status": "passed"
 });
 formatter.background({
@@ -190,7 +190,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 505914,
+  "duration": 1780323,
   "status": "passed"
 });
 formatter.scenario({
@@ -221,7 +221,7 @@ formatter.match({
   "location": "CreationSteps.i_GET_it_to_the_questions_endpoint()"
 });
 formatter.result({
-  "duration": 24879187,
+  "duration": 28598493,
   "status": "passed"
 });
 formatter.match({
@@ -234,7 +234,7 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 97505,
+  "duration": 99643,
   "status": "passed"
 });
 formatter.background({
@@ -253,7 +253,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 546114,
+  "duration": 2775474,
   "status": "passed"
 });
 formatter.scenario({
@@ -289,14 +289,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_question_with_empty_payload()"
 });
 formatter.result({
-  "duration": 32074,
+  "duration": 53885,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_POST_it_to_the_questions_endpoint()"
 });
 formatter.result({
-  "duration": 5926854,
+  "duration": 18186834,
   "status": "passed"
 });
 formatter.match({
@@ -309,7 +309,7 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 99643,
+  "duration": 138132,
   "status": "passed"
 });
 formatter.background({
@@ -328,7 +328,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 558516,
+  "duration": 585458,
   "status": "passed"
 });
 formatter.scenario({
@@ -364,14 +364,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_question_with_full_payload()"
 });
 formatter.result({
-  "duration": 42337,
+  "duration": 54312,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_POST_it_to_the_questions_endpoint()"
 });
 formatter.result({
-  "duration": 15131675,
+  "duration": 24057665,
   "status": "passed"
 });
 formatter.match({
@@ -384,7 +384,7 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 99215,
+  "duration": 97077,
   "status": "passed"
 });
 formatter.background({
@@ -403,7 +403,7 @@ formatter.match({
   "location": "CreationSteps.there_is_a_Survey_server()"
 });
 formatter.result({
-  "duration": 546542,
+  "duration": 676976,
   "status": "passed"
 });
 formatter.scenario({
@@ -439,14 +439,14 @@ formatter.match({
   "location": "CreationSteps.i_have_a_question_with_missing_enabled_attribute_in_payload()"
 });
 formatter.result({
-  "duration": 35923,
+  "duration": 55595,
   "status": "passed"
 });
 formatter.match({
   "location": "CreationSteps.i_POST_it_to_the_questions_endpoint()"
 });
 formatter.result({
-  "duration": 7724711,
+  "duration": 11983715,
   "status": "passed"
 });
 formatter.match({
@@ -459,7 +459,7 @@ formatter.match({
   "location": "CreationSteps.i_receive_a_status_code(int)"
 });
 formatter.result({
-  "duration": 143692,
+  "duration": 155666,
   "status": "passed"
 });
 });

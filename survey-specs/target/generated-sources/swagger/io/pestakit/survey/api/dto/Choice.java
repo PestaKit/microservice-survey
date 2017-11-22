@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Choice
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-21T13:34:26.616+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-11-22T11:23:37.684+01:00")
 public class Choice   {
   @SerializedName("position")
   private Integer position = null;
@@ -51,7 +51,7 @@ public class Choice   {
    * Get position
    * @return position
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public Integer getPosition() {
     return position;
   }
@@ -69,7 +69,7 @@ public class Choice   {
    * Get text
    * @return text
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public String getText() {
     return text;
   }

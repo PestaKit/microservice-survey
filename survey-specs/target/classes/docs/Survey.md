@@ -1,11 +1,11 @@
 
-# Choice
+# Survey
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**position** | **Integer** |  | 
-**text** | **String** |  | 
+**title** | **String** |  | 
+**questions** | **List&lt;String&gt;** |  | 
 
 
 
