@@ -26,6 +26,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -40,7 +41,12 @@ public class QuestionsApiController implements QuestionsApi {
 
     @Override
     public ResponseEntity<Void> createQuestion(@ApiParam(value = "The question to be created" ,required=true )  @Valid @RequestBody Question question) {
+        List<Choice> choices = question.getChoices();
+        if (choices.size() == 0){
+            return badRequest().build();
+        }
         QuestionEntity entity = toQuestionEntity(question);
+        entity.setUsed(0);
         questionsRepository.save(entity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -72,7 +78,7 @@ public class QuestionsApiController implements QuestionsApi {
     private QuestionEntity toQuestionEntity(Question question){
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
-        entity.setUsed(question.getUsed());
+//        entity.setUsed(question.getUsed());
         entity.setEnabled(question.getEnabled());
         List<ChoiceEntity> choiceEntities = entity.getChoices();
         for (Choice choice : question.getChoices()){

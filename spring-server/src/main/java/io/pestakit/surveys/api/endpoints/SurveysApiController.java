@@ -110,14 +110,14 @@ public class SurveysApiController implements SurveysApi {
     private SurveyEntity toSurveyEntity(Survey survey) {
         SurveyEntity surveyEntity = new SurveyEntity();
         surveyEntity.setTitle(survey.getTitle());
-        surveyEntity.setQuestions(survey.getQuestions());
+        surveyEntity.setQuestions(survey.getQuestionURLs());
         return surveyEntity;
     }
 
     private Survey toSurvey(SurveyEntity entity) {
         Survey survey = new Survey();
         survey.setTitle(entity.getTitle());
-        survey.setQuestions(entity.getQuestions());
+        survey.setQuestionURLs(entity.getQuestions());
         return survey;
     }
 }
