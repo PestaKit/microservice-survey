@@ -172,4 +172,13 @@ public class CreationSteps {
     }
 
 
+    @And("^The response is a table$")
+    public void the_response_is_a_table() throws Throwable {
+        String response = lastApiResponse.getData().toString();
+        char firstChar = response.charAt(0);
+        char lastChar = response.charAt(response.length()-1);
+        assertEquals(firstChar, '[');
+        assertEquals(lastChar, ']');
+    }
+
 }
