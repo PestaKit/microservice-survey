@@ -56,7 +56,7 @@ public class QuestionsApiController implements QuestionsApi {
             return ok(question);
         }
         else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 
