@@ -183,7 +183,7 @@ definitions:
     properties:
       title:
         type: string
-      questions:
+      questionURLs:
         type: array
         items:
           type: string # Not sure for now these fields should be URLs
