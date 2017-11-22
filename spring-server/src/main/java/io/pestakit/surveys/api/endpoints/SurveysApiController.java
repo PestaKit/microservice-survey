@@ -4,6 +4,7 @@ import io.pestakit.surveys.api.SurveysApi;
 import io.pestakit.surveys.entities.SurveyEntity;
 import io.pestakit.surveys.model.Question;
 import io.pestakit.surveys.model.Survey;
+import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.pestakit.surveys.repositories.SurveysRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class SurveysApiController implements SurveysApi {
     @Autowired
     SurveysRepository surveysRepository;
 
+    @Autowired
+    QuestionsRepository questionsRepository;
+
     @Override
     public ResponseEntity<Void> createSurvey(@ApiParam(value = "The survey to be created", required = true)
                                              @Valid
@@ -59,8 +63,16 @@ public class SurveysApiController implements SurveysApi {
             // Controlling url patterns
             for (String url : questions) {
                 if (url.length() < questionsEndpointAddress.length()
-                        || !url.substring(0, questionsEndpointAddress.length()).equals(questionsEndpointAddress))
+                        || !url.substring(0, questionsEndpointAddress.length()).equals(questionsEndpointAddress)) {
                     return badRequest().build();
+                }
+                else {
+                    Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
+                    if (questionsRepository.findOne(idQuestion)
+                            == null) {
+                        return badRequest().build();
+                    }
+                }
             }
             surveysRepository.save(entity);
             URI location = ServletUriComponentsBuilder
