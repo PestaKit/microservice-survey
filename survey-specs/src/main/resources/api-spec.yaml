@@ -146,7 +146,6 @@ definitions:
     type: object
     required:
     - title
-    - used
     - enabled
     - choices
     properties:
