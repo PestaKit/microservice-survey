@@ -1,14 +1,15 @@
 package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.SurveysApi;
+import io.pestakit.surveys.entities.QuestionEntity;
 import io.pestakit.surveys.entities.SurveyEntity;
-import io.pestakit.surveys.model.Question;
+import io.pestakit.surveys.model.QuestionRef;
 import io.pestakit.surveys.model.Survey;
+import io.pestakit.surveys.model.SurveyRef;
 import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.pestakit.surveys.repositories.SurveysRepository;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.InetAddress;
 import java.net.URI;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,17 +32,11 @@ import static org.springframework.http.ResponseEntity.ok;
 @Controller
 public class SurveysApiController implements SurveysApi {
 
-    @Autowired
-    Environment environment;
-
     private static final String CONTEXT_PATH = "/api";
-
     private static final String SERVER_PORT = "8080";
     private static final String LOCAL_HOSTADDRESS = "http://localhost";
     private static final String QUESTIONS_ENDPOINT = "/questions/";
-
     private String prefix = LOCAL_HOSTADDRESS + ":" + SERVER_PORT;
-
     private  String questionsEndpointAddress =  prefix + CONTEXT_PATH + QUESTIONS_ENDPOINT;
 
     @Autowired
@@ -68,8 +61,8 @@ public class SurveysApiController implements SurveysApi {
                 }
                 else {
                     Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
-                    if (questionsRepository.findOne(idQuestion)
-                            == null) {
+                    QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
+                    if (questionEntity == null) {
                         return badRequest().build();
                     }
                 }
@@ -85,26 +78,26 @@ public class SurveysApiController implements SurveysApi {
     }
 
     @Override
-    public ResponseEntity<Survey> findSurveyById(@ApiParam(value = "ID of survey to fetch", required = true)
+    public ResponseEntity<SurveyRef> findSurveyById(@ApiParam(value = "ID of survey to fetch", required = true)
                                                  @PathVariable("id_survey")
                                                          Long idSurvey) {
         SurveyEntity entity = surveysRepository.findOne(idSurvey);
         if (entity != null) {
-            Survey survey = toSurvey(entity);
-            return ok(survey);
+            SurveyRef surveyRef = toSurveyRef(entity);
+            return ok(surveyRef);
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 
     @Override
-    public ResponseEntity<List<Survey>> getAllSurveys() {
-        List<Survey> surveys = new ArrayList<>();
+    public ResponseEntity<List<SurveyRef>> getAllSurveys() {
+        List<SurveyRef> surveyRefs = new ArrayList<>();
         for (SurveyEntity entity :
                 surveysRepository.findAll()) {
-            surveys.add(toSurvey(entity));
+            surveyRefs.add(toSurveyRef(entity));
         }
-        return ok(surveys);
+        return ok(surveyRefs);
     }
 
     private SurveyEntity toSurveyEntity(Survey survey) {
@@ -118,6 +111,26 @@ public class SurveysApiController implements SurveysApi {
         Survey survey = new Survey();
         survey.setTitle(entity.getTitle());
         survey.setQuestionURLs(entity.getQuestions());
+
         return survey;
+    }
+
+    private SurveyRef toSurveyRef(SurveyEntity entity){
+
+        SurveyRef surveyRef = new SurveyRef();
+
+        surveyRef.setTitle(entity.getTitle());
+        ArrayList<QuestionRef> questionRefs = new ArrayList<>();
+        for (String url : entity.getQuestions()) {
+            QuestionRef questionRef = new QuestionRef();
+            Long id_question = Long.decode(url.substring(questionsEndpointAddress.length()));
+            QuestionEntity questionEntity = questionsRepository.findOne(id_question);
+            questionRef.setTitle(questionEntity.getTitle());
+            questionRef.setSelf(url);
+            questionRefs.add(questionRef);
+        }
+        surveyRef.setQuestionRefs(questionRefs);
+
+        return surveyRef;
     }
 }

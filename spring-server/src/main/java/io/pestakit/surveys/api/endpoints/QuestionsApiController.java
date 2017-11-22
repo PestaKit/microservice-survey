@@ -1,14 +1,11 @@
 package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.QuestionsApi;
-//import io.pestakit.surveys.entities.ChoiceEntity;
 import io.pestakit.surveys.entities.ChoiceEntity;
 import io.pestakit.surveys.entities.QuestionEntity;
-//import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Question;
 
-//import io.pestakit.surveys.repositories.ChoicesRepository;
 import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.swagger.annotations.*;
 
@@ -18,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import springfox.documentation.spring.web.json.Json;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -78,7 +74,6 @@ public class QuestionsApiController implements QuestionsApi {
     private QuestionEntity toQuestionEntity(Question question){
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
-//        entity.setUsed(question.getUsed());
         entity.setEnabled(question.getEnabled());
         List<ChoiceEntity> choiceEntities = entity.getChoices();
         for (Choice choice : question.getChoices()){
