@@ -182,7 +182,41 @@ definitions:
     properties:
       title:
         type: string
-      questions:
+      questionURLs:
         type: array
         items:
-          type: string # Not sure for now these fields should be URLs
+          type: string
+
+  # This object is to represent the questions in the list of questions in a given survey
+  QuestionRef:
+    type: object
+    required:
+    - self
+    - title
+    properties:
+      self:
+        type: string
+      title:
+        type: string
+
+  # This object is to represent the existing questions in the db
+  QuestionRep:
+    type: object
+    required:
+    - title
+    - used
+    - enabled
+    - choices
+    properties:
+      title:
+        type: string
+      used:
+        type: integer
+        format: int32
+      enabled:
+        type: integer
+        format: int32
+      choices:
+        type: array
+        items:
+          $ref: '#/definitions/Choice'
