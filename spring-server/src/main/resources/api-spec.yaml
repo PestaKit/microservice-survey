@@ -81,7 +81,9 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Survey'
+            type: array
+            items:
+              $ref: '#/definitions/Survey'
         default:
           description: unexpected error
           schema:
@@ -93,7 +95,7 @@ paths:
       consumes:
         - application/json
       parameters:
-        - name: id_survey
+        - name: survey
           in: body
           description: The survey to be created
           required: true

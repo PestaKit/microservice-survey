@@ -69,7 +69,7 @@ public class QuestionsApiController implements QuestionsApi {
         return ok(questions);
     }
 
-    public QuestionEntity toQuestionEntity(Question question){
+    private QuestionEntity toQuestionEntity(Question question){
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
         entity.setUsed(question.getUsed());
@@ -82,7 +82,7 @@ public class QuestionsApiController implements QuestionsApi {
         return entity;
     }
 
-    public Question toQuestion(QuestionEntity entity){
+    private Question toQuestion(QuestionEntity entity){
         Question question= new Question();
         question.setTitle(entity.getTitle());
         question.setUsed(entity.getUsed());
@@ -95,16 +95,14 @@ public class QuestionsApiController implements QuestionsApi {
         return question;
     }
 
-
-
-    public Choice toChoice(ChoiceEntity entity){
+    private Choice toChoice(ChoiceEntity entity){
         Choice choice = new Choice();
         choice.setPosition(entity.getPosition());
         choice.setText(entity.getText());
         return choice;
     }
 
-    public ChoiceEntity toChoiceEntity(Choice choice){
+    private ChoiceEntity toChoiceEntity(Choice choice){
         ChoiceEntity entity = new ChoiceEntity();
         entity.setPosition(choice.getPosition());
         entity.setText(choice.getText());
