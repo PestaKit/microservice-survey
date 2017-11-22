@@ -127,7 +127,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-    
+
 definitions:
   Error:
     type: object
@@ -163,6 +163,9 @@ definitions:
 
   Choice:
     type: object
+    required:
+    - position
+    - text
     properties:
       position:
         type: integer
