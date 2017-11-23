@@ -23,9 +23,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.badRequest;
-import static org.springframework.http.ResponseEntity.created;
-import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.*;
 
 /**
  * Created by ali.miladi on 21.11.2017.
@@ -88,7 +86,7 @@ public class SurveysApiController implements SurveysApi {
             SurveyRef surveyRef = toSurveyRef(entity);
             return ok(surveyRef);
         } else {
-            return ResponseEntity.notFound().build();
+            return notFound().build();
         }
     }
 
