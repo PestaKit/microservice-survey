@@ -8,10 +8,7 @@ import cucumber.api.java.en.When;
 import io.pestakit.survey.ApiException;
 import io.pestakit.survey.ApiResponse;
 import io.pestakit.survey.api.DefaultApi;
-import io.pestakit.survey.api.dto.Choice;
-import io.pestakit.survey.api.dto.Question;
-import io.pestakit.survey.api.dto.Survey;
-import io.pestakit.survey.api.dto.SurveyRef;
+import io.pestakit.survey.api.dto.*;
 import io.pestakit.survey.api.spec.helpers.Environment;
 
 import java.util.ArrayList;
@@ -397,9 +394,9 @@ public class CreationSteps {
         assertEquals(questionPosted, questionGetted);
     }
 
-    @And("^The getted survey and the posted survey are the same$")
-    public void the_getted_survey_and_the_posted_survey_are_the_same() throws Throwable {
-        //comparer un survey ref getted et un survey posted
+    @And("^The getted survey and the posted survey have the same title and question urls$")
+    public void the_getted_survey_and_the_posted_survey_have_the_same_title_and_question_urls() throws Throwable {
+        assertEquals(surveyPosted, toSurvey(surveyRefGetted));
     }
 
 
@@ -433,4 +430,17 @@ public class CreationSteps {
         assertEquals((long)questionGetted.getUsed(), 0);
     }
 
+
+//----------------------------------------OTHERS------------------------------------------------------------------------
+    public Survey toSurvey(SurveyRef surveyRef) {
+        Survey survey = new Survey();
+        ArrayList<String> questionUrls= new ArrayList<>();
+        for (QuestionRef questionRef:surveyRef.getQuestionRefs()) {
+            String questionUrl = questionRef.getSelf();
+            questionUrls.add(questionUrl);
+        }
+        survey.setTitle(surveyRef.getTitle());
+        survey.setQuestionURLs(questionUrls);
+        return survey;
+    }
 }
