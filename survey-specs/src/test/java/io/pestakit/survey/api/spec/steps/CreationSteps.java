@@ -27,18 +27,20 @@ public class CreationSteps {
     private Environment environment;
     private DefaultApi api;
 
-    long surveyId;
-    Survey survey;
-    Question question;
-    Object location;
-    long questionId;
-    Question questionPosted;
-    Question questionGetted;
-    Survey surveyPosted;
-    Survey surveyGetted;
-    ArrayList<Question> listOfAllQuestions;
-    int lastQuantityOfQuestions;
-    ArrayList<String> questionsUrls;
+    private long surveyId;
+    private Survey survey;
+    private Question question;
+    private Object location;
+    private long questionId;
+    private Question questionPosted;
+    private Question questionGetted;
+    private Survey surveyPosted;
+    private Survey surveyGetted;
+    private ArrayList<Question> listOfAllQuestions;
+    private ArrayList<Survey> listOfAllSurveys;
+    private int lastQuantityOfQuestions;
+    private int lastQuantityOfSurveys;
+    private ArrayList<String> questionsUrls;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
@@ -56,15 +58,26 @@ public class CreationSteps {
         lastQuantityOfQuestions = listOfAllQuestions.size();
     }
 
+    @Given("^I have getted all the surveys and I know the number of surveys")
+    public void i_have_getted_all_the_surveys_and_I_know_the_number_of_surveys() throws Throwable {
+        i_GET_it_to_the_surveys_endpoint();
+        lastQuantityOfSurveys = listOfAllSurveys.size();
+    }
+
 
     @Given("^there is a Survey server$")
     public void there_is_a_Survey_server() throws Throwable {
         assertNotNull(api);
     }
 
-    @Given("^I have a wrong id$")
-    public void i_have_a_wrong_id() throws Throwable {
+    @Given("^I have an id that does not exist for the questions")
+    public void i_have_an_id_that_does_not_exist_for_the_questions() throws Throwable {
         questionId = -1;
+    }
+
+    @Given("^I have an id that does not exist for the surveys$")
+    public void i_have_an_id_that_does_not_exist_for_the_surveys() throws Throwable {
+        surveyId = -1;
     }
 
 
@@ -125,6 +138,19 @@ public class CreationSteps {
         question.setChoices(choiceList);
     }
 
+    @Given("^I have a survey with missing title attribute in payload$")
+    public void i_have_a_survey_with_missing_title_attribute_in_payload() throws Throwable {
+        survey = new Survey();
+        i_POST_questions_successively_to_the_questions_endpoint(3);
+        survey.setQuestionURLs(questionsUrls);
+    }
+
+    @Given("^I have a survey with missing questuionUrls attribute in payload$")
+    public void i_have_a_survey_with_missing_questuionUrls_attribute_in_payload() throws Throwable {
+        survey = new Survey();
+        survey.setTitle("survey test");
+    }
+
     @Given("^I have a question with full payload$")
     public void i_have_a_question_with_full_payload() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
@@ -142,19 +168,32 @@ public class CreationSteps {
         question.setChoices(choiceList);
     }
 
-    @Given("^I have a survey with full payload$")
-    public void i_have_a_survey_with_full_payload() throws Throwable {
+    @Given("^I have a survey with full payload and questions that exist$")
+    public void i_have_a_survey_with_full_payload_and_questions_that_exist() throws Throwable {
         survey = new Survey();
         i_POST_questions_successively_to_the_questions_endpoint(3);
         survey.setQuestionURLs(questionsUrls);
         survey.setTitle("survey test1");
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    }
+
+    @Given("^I have a survey with full payload and questions that does not exist$")
+    public void i_have_a_survey_with_full_payload_and_questions_that_does_not_exist() throws Throwable {
+        survey = new Survey();
+        survey.getQuestionURLs().add("http://localhost/api/questions/-1");
+        survey.getQuestionURLs().add("http://localhost/api/questions/-2");
+        survey.getQuestionURLs().add("http://localhost/api/questions/-3");
+        survey.setTitle("survey test1");
     }
 
 
     @Given("^I have a question with empty payload$")
     public void i_have_a_question_with_empty_payload() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
+    }
+
+    @Given("^I have a survey with empty payload$")
+    public void i_have_a_survey_with_empty_payload() throws Throwable {
+        survey = new Survey();
     }
 
     @Given("^I have a correct id that exists because I posted a question$")
@@ -169,8 +208,9 @@ public class CreationSteps {
 
     @Given("^I have a correct id that exists because I posted a survey")
     public void i_have_a_correct_id_that_exists_because_i_posted_a_survey() throws Throwable {
-        i_have_a_survey_with_full_payload();
+        i_have_a_survey_with_full_payload_and_questions_that_exist();
         i_POST_it_to_the_surveys_endpoint();
+        assertEquals(201, lastStatusCode);
         String locationStr = location.toString();
         String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
         idStr = idStr.substring(0, idStr.length() - 1);
@@ -184,8 +224,20 @@ public class CreationSteps {
         questionsUrls = new ArrayList<>();
         for(int i = 0; i < numberOfPosts; i++){
             i_POST_it_to_the_questions_endpoint();
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            questionsUrls.add(location.toString());
+            StringBuilder realLocation = new StringBuilder(location.toString());
+            realLocation.deleteCharAt(0);
+            realLocation.deleteCharAt(realLocation.length()-1);
+            questionsUrls.add(realLocation.toString());
+            assertEquals(201, lastStatusCode);
+        }
+    }
+
+    @When("^I POST (\\d+) surveys successively to the /surveys endpoint$")
+    public void i_POST_surveys_successively_to_the_surveys_endpoint(int numberOfPosts) throws Throwable {
+        i_have_a_survey_with_full_payload_and_questions_that_exist();
+        for(int i = 0; i < numberOfPosts; i++){
+            i_POST_it_to_the_surveys_endpoint();
+            assertEquals(201, lastStatusCode);
         }
     }
 
@@ -242,6 +294,22 @@ public class CreationSteps {
     }
 
 
+    @When("^I GET it to the /surveys endpoint$")
+    public void i_GET_it_to_the_surveys_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.getAllSurveysWithHttpInfo();
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+            listOfAllSurveys = (ArrayList<Survey>)lastApiResponse.getData();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
     @When("^I GET it to the /questions/id_question endpoint$")
     public void i_GET_it_to_the_questions_id_endpoint() throws Throwable {
         try {
@@ -281,6 +349,12 @@ public class CreationSteps {
         assertEquals(lastQuantityOfQuestions+numberOfPosts, listOfAllQuestions.size());
     }
 
+    @Then("^the difference of surveys is (\\d+) when I get again all the surveys")
+    public void the_difference_of_surveys_is_theGoodDifVariable_when_i_get_again_all_the_surveys(int numberOfPosts) throws Throwable {
+        i_GET_it_to_the_surveys_endpoint();
+        assertEquals(lastQuantityOfSurveys+numberOfPosts, listOfAllSurveys.size());
+    }
+
     @Then("^I receive a (\\d+) status code$")
     public void i_receive_a_status_code(int statusCode) throws Throwable {
         assertEquals(statusCode, lastStatusCode);
@@ -306,4 +380,19 @@ public class CreationSteps {
         assertEquals(lastChar, ']');
     }
 
+
+    @And("^I cannnot GET those given questions because they were not created$")
+    public void i_cannnot_GET_those_given_questions_because_they_were_not_created() throws Throwable {
+        questionId = -1;
+        i_GET_it_to_the_questions_id_endpoint();
+        assertEquals(404, lastStatusCode);
+
+        questionId = -2;
+        i_GET_it_to_the_questions_id_endpoint();
+        assertEquals(404, lastStatusCode);
+
+        questionId = -3;
+        i_GET_it_to_the_questions_id_endpoint();
+        assertEquals(404, lastStatusCode);
+    }
 }
