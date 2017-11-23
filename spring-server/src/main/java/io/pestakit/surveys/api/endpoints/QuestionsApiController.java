@@ -1,14 +1,11 @@
 package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.QuestionsApi;
-//import io.pestakit.surveys.entities.ChoiceEntity;
 import io.pestakit.surveys.entities.ChoiceEntity;
 import io.pestakit.surveys.entities.QuestionEntity;
-//import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Question;
 
-//import io.pestakit.surveys.repositories.ChoicesRepository;
 import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.swagger.annotations.*;
 
@@ -18,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import springfox.documentation.spring.web.json.Json;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -26,6 +22,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -40,7 +37,12 @@ public class QuestionsApiController implements QuestionsApi {
 
     @Override
     public ResponseEntity<Void> createQuestion(@ApiParam(value = "The question to be created" ,required=true )  @Valid @RequestBody Question question) {
+        List<Choice> choices = question.getChoices();
+        if (choices.size() == 0){
+            return badRequest().build();
+        }
         QuestionEntity entity = toQuestionEntity(question);
+        entity.setUsed(0);
         questionsRepository.save(entity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -50,12 +52,18 @@ public class QuestionsApiController implements QuestionsApi {
 
     @Override
     public ResponseEntity<Question> findQuestionById(@ApiParam(value = "ID of question to fetch",required=true ) @PathVariable("id_question") Long idQuestion) {
-        Question question = toQuestion(questionsRepository.findOne(idQuestion));
-        return ok(question);
+        QuestionEntity entity = questionsRepository.findOne(idQuestion);
+        if (entity != null) {
+            Question question = toQuestion(entity);
+            return ok(question);
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Override
-    public ResponseEntity<List<Question>> questionsGet() {
+    public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = new ArrayList<>();
         for (QuestionEntity entity : questionsRepository.findAll()){
             questions.add(toQuestion(entity));
@@ -63,10 +71,9 @@ public class QuestionsApiController implements QuestionsApi {
         return ok(questions);
     }
 
-    public QuestionEntity toQuestionEntity(Question question){
+    private QuestionEntity toQuestionEntity(Question question){
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
-        entity.setUsed(question.getUsed());
         entity.setEnabled(question.getEnabled());
         List<ChoiceEntity> choiceEntities = entity.getChoices();
         for (Choice choice : question.getChoices()){
@@ -76,7 +83,7 @@ public class QuestionsApiController implements QuestionsApi {
         return entity;
     }
 
-    public Question toQuestion(QuestionEntity entity){
+    private Question toQuestion(QuestionEntity entity){
         Question question= new Question();
         question.setTitle(entity.getTitle());
         question.setUsed(entity.getUsed());
@@ -89,16 +96,14 @@ public class QuestionsApiController implements QuestionsApi {
         return question;
     }
 
-
-
-    public Choice toChoice(ChoiceEntity entity){
+    private Choice toChoice(ChoiceEntity entity){
         Choice choice = new Choice();
         choice.setPosition(entity.getPosition());
         choice.setText(entity.getText());
         return choice;
     }
 
-    public ChoiceEntity toChoiceEntity(Choice choice){
+    private ChoiceEntity toChoiceEntity(Choice choice){
         ChoiceEntity entity = new ChoiceEntity();
         entity.setPosition(choice.getPosition());
         entity.setText(choice.getText());
