@@ -148,7 +148,6 @@ public class CreationSteps {
         i_POST_questions_successively_to_the_questions_endpoint(3);
         survey.setQuestionURLs(questionsUrls);
         survey.setTitle("survey test1");
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 
@@ -171,6 +170,7 @@ public class CreationSteps {
     public void i_have_a_correct_id_that_exists_because_i_posted_a_survey() throws Throwable {
         i_have_a_survey_with_full_payload();
         i_POST_it_to_the_surveys_endpoint();
+        assertEquals(201, lastStatusCode);
         String locationStr = location.toString();
         String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
         idStr = idStr.substring(0, idStr.length() - 1);
@@ -184,8 +184,11 @@ public class CreationSteps {
         questionsUrls = new ArrayList<>();
         for(int i = 0; i < numberOfPosts; i++){
             i_POST_it_to_the_questions_endpoint();
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            questionsUrls.add(location.toString());
+            StringBuilder realLocation = new StringBuilder(location.toString());
+            realLocation.deleteCharAt(0);
+            realLocation.deleteCharAt(realLocation.length()-1);
+            questionsUrls.add(realLocation.toString());
+            assertEquals(201, lastStatusCode);
         }
     }
 
