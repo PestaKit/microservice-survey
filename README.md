@@ -21,9 +21,6 @@ Enter the line command : docker-compose up --build.
 
 It will build and run all the images with the good configuration (phpmyadmin and mysql).
 Then open your web browser and and go to the following url if you want to administrate the Data Base: <http://192.168.99.100:6060/>. The username is "root" and the pasword "adminpw".
-
-
-Then launch IntelliJ IDEA, open the project in the folder "spring-server" that contains the survey API and run it.
 Attention: at this moment, you just have a database that is running and not the server with the API.
 
 To launch this server, you have to launch IntelliJ IDEA, open the project in the folder "spring-server" that contains the survey API and run it.

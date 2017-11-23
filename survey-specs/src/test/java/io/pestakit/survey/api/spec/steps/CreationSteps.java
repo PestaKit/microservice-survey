@@ -370,6 +370,15 @@ public class CreationSteps {
     @Then("^the difference of questions is (\\d+) when I get again all the questions$")
     public void the_difference_of_questions_is_theGoodDifVariable_when_i_get_again_all_the_questions(int numberOfPosts) throws Throwable {
         i_GET_it_to_the_questions_endpoint();
+        assertEquals(lastQuantityOfQuestions+numberOfPosts, listOfAllQuestions.size());
+    }
+
+    @Then("^the difference of surveys is (\\d+) when I get again all the surveys")
+    public void the_difference_of_surveys_is_theGoodDifVariable_when_i_get_again_all_the_surveys(int numberOfPosts) throws Throwable {
+        i_GET_it_to_the_surveys_endpoint();
+        assertEquals(lastQuantityOfSurveys+numberOfPosts, listOfAllSurveysRef.size());
+    }
+
     @Then("^I receive a (\\d+) status code$")
     public void i_receive_a_status_code(int statusCode) throws Throwable {
         assertEquals(statusCode, lastStatusCode);

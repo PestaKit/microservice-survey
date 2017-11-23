@@ -10,6 +10,7 @@ Feature: api surveys
     Given I have a correct id that exists because I posted a question
     When I GET it to the /questions/id_question endpoint
     Then I receive a 200 status code
+    And The getted question and the posted question are the same
 
     #2
   Scenario: get a given question with an id that does not exist
@@ -80,7 +81,6 @@ Feature: api surveys
     Then I receive a 200 status code
     And the used attribute value is zero
 
- #----------------------------------------------------------------------------------------------------------------------
 
 #----------------------------------------------SURVEYS------------------------------------------------------------------
 
