@@ -1,6 +1,6 @@
-#-----------------------------------------------------------------------------------------------------------------------
+#-------------------------------------------------QUESTIONS-------------------------------------------------------------
 
-Feature: questions
+Feature: api surveys
 
   Background:
     Given there is a Survey server
@@ -74,12 +74,8 @@ Feature: questions
     Then the difference of questions is 2 when I get again all the questions
 
 
-#-----------------------------------------------------------------------------------------------------------------------
+#----------------------------------------------SURVEYS------------------------------------------------------------------
 
-#Feature: surveys
-
-  #Background:
-    #Given there is a Survey server
 
   #1
   Scenario: create a survey with full payload
@@ -88,8 +84,26 @@ Feature: questions
     Then I receive a 201 status code
 
   #2
+  Scenario: create a survey with empty payload
+    Given I have a survey with empty payload
+    When I POST it to the /surveys endpoint
+    Then I receive a 400 status code
+
+  #3
+  Scenario: create a survey with missing title attribute in payload
+    Given I have a survey with missing title attribute in payload
+    When I POST it to the /surveys endpoint
+    Then I receive a 400 status code
+
+  #4
+  Scenario: create a survey with missing questuionUrls attribute in payload
+    Given I have a survey with missing questuionUrls attribute in payload
+    When I POST it to the /surveys endpoint
+    Then I receive a 400 status code
+
+  #5
   #Scenario: post a survey and get it by specifying the id
-   # Given I have a correct id that exists because I posted a survey
+    #Given I have a correct id that exists because I posted a survey
     #When I GET it to the /surveys/id_survey endpoint
     #Then I receive a 200 status code
     #And The getted survey and the posted survey are the same

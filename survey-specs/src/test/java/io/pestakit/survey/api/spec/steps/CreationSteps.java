@@ -27,18 +27,18 @@ public class CreationSteps {
     private Environment environment;
     private DefaultApi api;
 
-    long surveyId;
-    Survey survey;
-    Question question;
-    Object location;
-    long questionId;
-    Question questionPosted;
-    Question questionGetted;
-    Survey surveyPosted;
-    Survey surveyGetted;
-    ArrayList<Question> listOfAllQuestions;
-    int lastQuantityOfQuestions;
-    ArrayList<String> questionsUrls;
+    private long surveyId;
+    private Survey survey;
+    private Question question;
+    private Object location;
+    private long questionId;
+    private Question questionPosted;
+    private Question questionGetted;
+    private Survey surveyPosted;
+    private Survey surveyGetted;
+    private ArrayList<Question> listOfAllQuestions;
+    private int lastQuantityOfQuestions;
+    private ArrayList<String> questionsUrls;
 
     private ApiResponse lastApiResponse;
     private ApiException lastApiException;
@@ -125,6 +125,19 @@ public class CreationSteps {
         question.setChoices(choiceList);
     }
 
+    @Given("^I have a survey with missing title attribute in payload$")
+    public void i_have_a_survey_with_missing_title_attribute_in_payload() throws Throwable {
+        survey = new Survey();
+        i_POST_questions_successively_to_the_questions_endpoint(3);
+        survey.setQuestionURLs(questionsUrls);
+    }
+
+    @Given("^I have a survey with missing questuionUrls attribute in payload$")
+    public void i_have_a_survey_with_missing_questuionUrls_attribute_in_payload() throws Throwable {
+        survey = new Survey();
+        survey.setTitle("survey test");
+    }
+
     @Given("^I have a question with full payload$")
     public void i_have_a_question_with_full_payload() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
@@ -154,6 +167,11 @@ public class CreationSteps {
     @Given("^I have a question with empty payload$")
     public void i_have_a_question_with_empty_payload() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
+    }
+
+    @Given("^I have a survey with empty payload$")
+    public void i_have_a_survey_with_empty_payload() throws Throwable {
+        survey = new Survey();
     }
 
     @Given("^I have a correct id that exists because I posted a question$")
