@@ -11,6 +11,7 @@ import io.pestakit.survey.api.DefaultApi;
 import io.pestakit.survey.api.dto.Choice;
 import io.pestakit.survey.api.dto.Question;
 import io.pestakit.survey.api.dto.Survey;
+import io.pestakit.survey.api.dto.SurveyRef;
 import io.pestakit.survey.api.spec.helpers.Environment;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class CreationSteps {
     private DefaultApi api;
 
 
+    private SurveyRef surveyRefGetted;
     private ArrayList usedAttributesOfQuestions = new ArrayList();
     private ArrayList questionIdAttributesOfQuestions = new ArrayList();
     private long lastUsedAttributeValue;
@@ -39,9 +41,8 @@ public class CreationSteps {
     private Question questionPosted;
     private Question questionGetted;
     private Survey surveyPosted;
-    private Survey surveyGetted;
     private ArrayList<Question> listOfAllQuestions;
-    private ArrayList<Survey> listOfAllSurveys;
+    private ArrayList<SurveyRef> listOfAllSurveysRef;
     private int lastQuantityOfQuestions;
     private int lastQuantityOfSurveys;
     private ArrayList<String> questionsUrls;
@@ -65,7 +66,7 @@ public class CreationSteps {
     @Given("^I have getted all the surveys and I know the number of surveys")
     public void i_have_getted_all_the_surveys_and_I_know_the_number_of_surveys() throws Throwable {
         i_GET_it_to_the_surveys_endpoint();
-        lastQuantityOfSurveys = listOfAllSurveys.size();
+        lastQuantityOfSurveys = listOfAllSurveysRef.size();
     }
 
 
@@ -326,7 +327,7 @@ public class CreationSteps {
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
-            listOfAllSurveys = (ArrayList<Survey>)lastApiResponse.getData();
+            listOfAllSurveysRef = (ArrayList<SurveyRef>)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -359,7 +360,8 @@ public class CreationSteps {
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
-            surveyGetted = (Survey) lastApiResponse.getData();
+            //surveyGetted = (Survey) lastApiResponse.getData();
+            surveyRefGetted = (SurveyRef)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -377,7 +379,7 @@ public class CreationSteps {
     @Then("^the difference of surveys is (\\d+) when I get again all the surveys")
     public void the_difference_of_surveys_is_theGoodDifVariable_when_i_get_again_all_the_surveys(int numberOfPosts) throws Throwable {
         i_GET_it_to_the_surveys_endpoint();
-        assertEquals(lastQuantityOfSurveys+numberOfPosts, listOfAllSurveys.size());
+        assertEquals(lastQuantityOfSurveys+numberOfPosts, listOfAllSurveysRef.size());
     }
 
     @Then("^I receive a (\\d+) status code$")
@@ -397,7 +399,7 @@ public class CreationSteps {
 
     @And("^The getted survey and the posted survey are the same$")
     public void the_getted_survey_and_the_posted_survey_are_the_same() throws Throwable {
-        assertEquals(surveyPosted, surveyGetted);
+        //comparer un survey ref getted et un survey posted
     }
 
 
