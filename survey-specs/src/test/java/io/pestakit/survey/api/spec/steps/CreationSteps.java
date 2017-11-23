@@ -27,6 +27,9 @@ public class CreationSteps {
     private Environment environment;
     private DefaultApi api;
 
+    private ArrayList usedAttributesOfQuestions = new ArrayList();
+    private ArrayList questionIdAttributesOfQuestions = new ArrayList();
+    private long lastUsedAttributeValue;
     private long surveyId;
     private Survey survey;
     private Question question;
@@ -185,6 +188,13 @@ public class CreationSteps {
         survey.setTitle("survey test1");
     }
 
+    @Given("^I have a survey with full payload but with one of the questions that has a bad url$")
+    public void i_have_a_survey_with_full_payload_but_with_one_of_the_questions_that_has_a_bad_url() throws Throwable {
+        i_have_a_survey_with_full_payload_and_questions_that_exist();
+        //we add a bad url
+        survey.getQuestionURLs().add("http://localhost/questions/1");
+    }
+
 
     @Given("^I have a question with empty payload$")
     public void i_have_a_question_with_empty_payload() throws Throwable {
@@ -215,6 +225,14 @@ public class CreationSteps {
         String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
         idStr = idStr.substring(0, idStr.length() - 1);
         surveyId = Integer.parseInt(idStr);
+    }
+
+    @Given("^I have posted a survey with a question wich I know the value of the used attribute$")
+    public void i_have_posted_a_survey_with_a_question_wich_i_know_the_value_of_the_used_attribute() throws Throwable {
+        i_have_a_survey_with_full_payload_and_questions_that_exist();
+        lastUsedAttributeValue = (Integer)usedAttributesOfQuestions.get(0);
+        questionId = (long)questionIdAttributesOfQuestions.get(0);
+        i_POST_it_to_the_surveys_endpoint();
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -251,6 +269,12 @@ public class CreationSteps {
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
             location = lastApiResponse.getHeaders().get("Location");
+            usedAttributesOfQuestions.add(question.getUsed());
+            String locationStr = location.toString();
+            String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
+            idStr = idStr.substring(0, idStr.length() - 1);
+            questionId = Integer.parseInt(idStr);
+            questionIdAttributesOfQuestions.add(questionId);
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -360,6 +384,11 @@ public class CreationSteps {
         assertEquals(statusCode, lastStatusCode);
     }
 
+    @Then("^the value of the used attribute has been incremented$")
+    public void the_value_of_the_used_attribute_has_been_incremented() throws Throwable {
+        assertEquals((long)questionGetted.getUsed(), lastUsedAttributeValue+1);
+    }
+
     @And("^The getted question and the posted question are the same$")
     public void the_getted_question_and_the_posted_question_are_the_same() throws Throwable {
         assertEquals(questionPosted, questionGetted);
@@ -395,4 +424,10 @@ public class CreationSteps {
         i_GET_it_to_the_questions_id_endpoint();
         assertEquals(404, lastStatusCode);
     }
+
+    @And("^the used attribute value is zero$")
+    public void the_used_attribute_value_is_zero() throws Throwable {
+        assertEquals((long)questionGetted.getUsed(), 0);
+    }
+
 }

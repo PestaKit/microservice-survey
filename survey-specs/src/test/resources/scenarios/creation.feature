@@ -74,6 +74,14 @@ Feature: api surveys
     Then the difference of questions is 2 when I get again all the questions
 
 
+  #11
+  Scenario: create a new question with a default value for the used attribute
+    Given I have a correct id that exists because I posted a question
+    And I GET it to the /questions/id_question endpoint
+    Then I receive a 200 status code
+    And the used attribute value is zero
+
+
 #----------------------------------------------SURVEYS------------------------------------------------------------------
 
 
@@ -126,8 +134,20 @@ Feature: api surveys
     When I POST 2 surveys successively to the /surveys endpoint
     Then the difference of surveys is 2 when I get again all the surveys
 
+   #8
+  Scenario: create a survey with full payload but with one of the questions that has a bad url, then survey not created
+    Given I have a survey with full payload but with one of the questions that has a bad url
+    When I POST it to the /surveys endpoint
+    Then I receive a 400 status code
 
-  #8
+  #9
+  Scenario: create a survey with a question which the used attribute must be incremented
+    Given I have posted a survey with a question wich I know the value of the used attribute
+    When I GET it to the /questions/id_question endpoint
+    Then the value of the used attribute has been incremented
+
+
+  #10
   #Scenario: post a survey and get it by specifying the id
     #Given I have a correct id that exists because I posted a survey
     #When I GET it to the /surveys/id_survey endpoint
