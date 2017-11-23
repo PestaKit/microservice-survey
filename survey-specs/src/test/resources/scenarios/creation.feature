@@ -152,4 +152,4 @@ Feature: api surveys
     Given I have a correct id that exists because I posted a survey
     When I GET it to the /surveys/id_survey endpoint
     Then I receive a 200 status code
-    And The getted survey and the posted survey are the same
+    And The getted survey and the posted survey have the same title and question urls
