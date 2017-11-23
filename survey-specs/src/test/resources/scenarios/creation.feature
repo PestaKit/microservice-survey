@@ -13,8 +13,8 @@ Feature: api surveys
     And The getted question and the posted question are the same
 
     #2
-  Scenario: get a given question by specifying a wrong id
-    Given I have a wrong id
+  Scenario: get a given question with an id that does not exist
+    Given I have an id that does not exist for the questions
     When I GET it to the /questions/id_question endpoint
     Then I receive a 404 status code
 
@@ -79,7 +79,7 @@ Feature: api surveys
 
   #1
   Scenario: create a survey with full payload
-    Given I have a survey with full payload
+    Given I have a survey with full payload and questions that exist
     When I POST it to the /surveys endpoint
     Then I receive a 201 status code
 
@@ -101,7 +101,27 @@ Feature: api surveys
     When I POST it to the /surveys endpoint
     Then I receive a 400 status code
 
+  #4
+  Scenario: get a given survey with an id that does not exist
+    Given I have an id that does not exist for the surveys
+    When I GET it to the /surveys/id_survey endpoint
+    Then I receive a 404 status code
+
   #5
+  Scenario: get all the surveys
+    When I GET it to the /surveys endpoint
+    Then I receive a 200 status code
+    And The response is a table
+
+  #6
+  Scenario: create a survey with full payload but with questions that does not exist
+    Given I have a survey with full payload and questions that does not exist
+    When I POST it to the /surveys endpoint
+    Then I receive a 400 status code
+    And I cannnot GET those given questions because they were not created
+
+
+  #7
   #Scenario: post a survey and get it by specifying the id
     #Given I have a correct id that exists because I posted a survey
     #When I GET it to the /surveys/id_survey endpoint

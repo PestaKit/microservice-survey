@@ -62,9 +62,14 @@ public class CreationSteps {
         assertNotNull(api);
     }
 
-    @Given("^I have a wrong id$")
-    public void i_have_a_wrong_id() throws Throwable {
+    @Given("^I have an id that does not exist for the questions")
+    public void i_have_an_id_that_does_not_exist_for_the_questions() throws Throwable {
         questionId = -1;
+    }
+
+    @Given("^I have an id that does not exist for the surveys$")
+    public void i_have_an_id_that_does_not_exist_for_the_surveys() throws Throwable {
+        surveyId = -1;
     }
 
 
@@ -155,11 +160,20 @@ public class CreationSteps {
         question.setChoices(choiceList);
     }
 
-    @Given("^I have a survey with full payload$")
-    public void i_have_a_survey_with_full_payload() throws Throwable {
+    @Given("^I have a survey with full payload and questions that exist$")
+    public void i_have_a_survey_with_full_payload_and_questions_that_exist() throws Throwable {
         survey = new Survey();
         i_POST_questions_successively_to_the_questions_endpoint(3);
         survey.setQuestionURLs(questionsUrls);
+        survey.setTitle("survey test1");
+    }
+
+    @Given("^I have a survey with full payload and questions that does not exist$")
+    public void i_have_a_survey_with_full_payload_and_questions_that_does_not_exist() throws Throwable {
+        survey = new Survey();
+        survey.getQuestionURLs().add("http://localhost/api/questions/-1");
+        survey.getQuestionURLs().add("http://localhost/api/questions/-2");
+        survey.getQuestionURLs().add("http://localhost/api/questions/-3");
         survey.setTitle("survey test1");
     }
 
@@ -186,7 +200,7 @@ public class CreationSteps {
 
     @Given("^I have a correct id that exists because I posted a survey")
     public void i_have_a_correct_id_that_exists_because_i_posted_a_survey() throws Throwable {
-        i_have_a_survey_with_full_payload();
+        i_have_a_survey_with_full_payload_and_questions_that_exist();
         i_POST_it_to_the_surveys_endpoint();
         assertEquals(201, lastStatusCode);
         String locationStr = location.toString();
@@ -263,6 +277,21 @@ public class CreationSteps {
     }
 
 
+    @When("^I GET it to the /surveys endpoint$")
+    public void i_GET_it_to_the_surveys_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.getAllSurveysWithHttpInfo();
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
     @When("^I GET it to the /questions/id_question endpoint$")
     public void i_GET_it_to_the_questions_id_endpoint() throws Throwable {
         try {
@@ -327,4 +356,19 @@ public class CreationSteps {
         assertEquals(lastChar, ']');
     }
 
+
+    @And("^I cannnot GET those given questions because they were not created$")
+    public void i_cannnot_GET_those_given_questions_because_they_were_not_created() throws Throwable {
+        questionId = -1;
+        i_GET_it_to_the_questions_id_endpoint();
+        assertEquals(404, lastStatusCode);
+
+        questionId = -2;
+        i_GET_it_to_the_questions_id_endpoint();
+        assertEquals(404, lastStatusCode);
+
+        questionId = -3;
+        i_GET_it_to_the_questions_id_endpoint();
+        assertEquals(404, lastStatusCode);
+    }
 }
