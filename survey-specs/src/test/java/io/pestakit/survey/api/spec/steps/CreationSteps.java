@@ -37,7 +37,9 @@ public class CreationSteps {
     private Survey surveyPosted;
     private Survey surveyGetted;
     private ArrayList<Question> listOfAllQuestions;
+    private ArrayList<Survey> listOfAllSurveys;
     private int lastQuantityOfQuestions;
+    private int lastQuantityOfSurveys;
     private ArrayList<String> questionsUrls;
 
     private ApiResponse lastApiResponse;
@@ -54,6 +56,12 @@ public class CreationSteps {
     public void i_have_getted_all_the_questions_and_I_know_the_number_of_questions() throws Throwable {
         i_GET_it_to_the_questions_endpoint();
         lastQuantityOfQuestions = listOfAllQuestions.size();
+    }
+
+    @Given("^I have getted all the surveys and I know the number of surveys")
+    public void i_have_getted_all_the_surveys_and_I_know_the_number_of_surveys() throws Throwable {
+        i_GET_it_to_the_surveys_endpoint();
+        lastQuantityOfSurveys = listOfAllSurveys.size();
     }
 
 
@@ -224,6 +232,15 @@ public class CreationSteps {
         }
     }
 
+    @When("^I POST (\\d+) surveys successively to the /surveys endpoint$")
+    public void i_POST_surveys_successively_to_the_surveys_endpoint(int numberOfPosts) throws Throwable {
+        i_have_a_survey_with_full_payload_and_questions_that_exist();
+        for(int i = 0; i < numberOfPosts; i++){
+            i_POST_it_to_the_surveys_endpoint();
+            assertEquals(201, lastStatusCode);
+        }
+    }
+
 
     @When("^I POST it to the /questions endpoint$")
     public void i_POST_it_to_the_questions_endpoint() throws Throwable {
@@ -284,6 +301,7 @@ public class CreationSteps {
             lastApiCallThrewException = false;
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
+            listOfAllSurveys = (ArrayList<Survey>)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -329,6 +347,12 @@ public class CreationSteps {
     public void the_difference_of_questions_is_theGoodDifVariable_when_i_get_again_all_the_questions(int numberOfPosts) throws Throwable {
         i_GET_it_to_the_questions_endpoint();
         assertEquals(lastQuantityOfQuestions+numberOfPosts, listOfAllQuestions.size());
+    }
+
+    @Then("^the difference of surveys is (\\d+) when I get again all the surveys")
+    public void the_difference_of_surveys_is_theGoodDifVariable_when_i_get_again_all_the_surveys(int numberOfPosts) throws Throwable {
+        i_GET_it_to_the_surveys_endpoint();
+        assertEquals(lastQuantityOfSurveys+numberOfPosts, listOfAllSurveys.size());
     }
 
     @Then("^I receive a (\\d+) status code$")

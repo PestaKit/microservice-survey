@@ -120,8 +120,14 @@ Feature: api surveys
     Then I receive a 400 status code
     And I cannnot GET those given questions because they were not created
 
-
   #7
+  Scenario: get all surveys, count them, post some (variable value) more surveys and get again all the surveys to notice de difference
+    Given I have getted all the surveys and I know the number of surveys
+    When I POST 2 surveys successively to the /surveys endpoint
+    Then the difference of surveys is 2 when I get again all the surveys
+
+
+  #8
   #Scenario: post a survey and get it by specifying the id
     #Given I have a correct id that exists because I posted a survey
     #When I GET it to the /surveys/id_survey endpoint
