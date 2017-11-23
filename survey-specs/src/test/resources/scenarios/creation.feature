@@ -109,45 +109,45 @@ Feature: api surveys
     When I POST it to the /surveys endpoint
     Then I receive a 400 status code
 
-  #4
+  #5
   Scenario: get a given survey with an id that does not exist
     Given I have an id that does not exist for the surveys
     When I GET it to the /surveys/id_survey endpoint
     Then I receive a 404 status code
 
-  #5
+  #6
   Scenario: get all the surveys
     When I GET it to the /surveys endpoint
     Then I receive a 200 status code
     And The response is a table
 
-  #6
+  #7
   Scenario: create a survey with full payload but with questions that does not exist
     Given I have a survey with full payload and questions that does not exist
     When I POST it to the /surveys endpoint
     Then I receive a 400 status code
     And I cannnot GET those given questions because they were not created
 
-  #7
+  #8
   Scenario: get all surveys, count them, post some (variable value) more surveys and get again all the surveys to notice de difference
     Given I have getted all the surveys and I know the number of surveys
     When I POST 2 surveys successively to the /surveys endpoint
     Then the difference of surveys is 2 when I get again all the surveys
 
-   #8
+   #9
   Scenario: create a survey with full payload but with one of the questions that has a bad url, then survey not created
     Given I have a survey with full payload but with one of the questions that has a bad url
     When I POST it to the /surveys endpoint
     Then I receive a 400 status code
 
-  #9
+  #10
   Scenario: create a survey with a question which the used attribute must be incremented
     Given I have posted a survey with a question wich I know the value of the used attribute
     When I GET it to the /questions/id_question endpoint
     Then the value of the used attribute has been incremented
 
 
-  #10
+  #11
   Scenario: post a survey and get it by specifying the id
     Given I have a correct id that exists because I posted a survey
     When I GET it to the /surveys/id_survey endpoint
