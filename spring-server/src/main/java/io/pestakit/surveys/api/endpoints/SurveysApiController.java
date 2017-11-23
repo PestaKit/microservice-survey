@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -37,7 +38,7 @@ public class SurveysApiController implements SurveysApi {
     private static final String LOCAL_HOSTADDRESS = "http://localhost";
     private static final String QUESTIONS_ENDPOINT = "/questions/";
     private String prefix = LOCAL_HOSTADDRESS + ":" + SERVER_PORT;
-    private  String questionsEndpointAddress =  prefix + CONTEXT_PATH + QUESTIONS_ENDPOINT;
+    private String questionsEndpointAddress = prefix + CONTEXT_PATH + QUESTIONS_ENDPOINT;
 
     @Autowired
     SurveysRepository surveysRepository;
@@ -45,6 +46,7 @@ public class SurveysApiController implements SurveysApi {
     @Autowired
     QuestionsRepository questionsRepository;
 
+    @Transactional
     @Override
     public ResponseEntity<Void> createSurvey(@ApiParam(value = "The survey to be created", required = true)
                                              @Valid
@@ -58,13 +60,13 @@ public class SurveysApiController implements SurveysApi {
                 if (url.length() < questionsEndpointAddress.length()
                         || !url.substring(0, questionsEndpointAddress.length()).equals(questionsEndpointAddress)) {
                     return badRequest().build();
-                }
-                else {
+                } else {
                     Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
                     QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
                     if (questionEntity == null) {
                         return badRequest().build();
                     }
+                    updateUsedField(questionEntity);
                 }
             }
             surveysRepository.save(entity);
@@ -79,8 +81,8 @@ public class SurveysApiController implements SurveysApi {
 
     @Override
     public ResponseEntity<SurveyRef> findSurveyById(@ApiParam(value = "ID of survey to fetch", required = true)
-                                                 @PathVariable("id_survey")
-                                                         Long idSurvey) {
+                                                    @PathVariable("id_survey")
+                                                            Long idSurvey) {
         SurveyEntity entity = surveysRepository.findOne(idSurvey);
         if (entity != null) {
             SurveyRef surveyRef = toSurveyRef(entity);
@@ -115,7 +117,7 @@ public class SurveysApiController implements SurveysApi {
         return survey;
     }
 
-    private SurveyRef toSurveyRef(SurveyEntity entity){
+    private SurveyRef toSurveyRef(SurveyEntity entity) {
 
         SurveyRef surveyRef = new SurveyRef();
 
@@ -132,5 +134,13 @@ public class SurveysApiController implements SurveysApi {
         surveyRef.setQuestionRefs(questionRefs);
 
         return surveyRef;
+    }
+
+    private Integer updateUsedField(QuestionEntity questionEntity) {
+        int used = questionEntity.getUsed();
+        Long questionId = questionEntity.getId();
+        used++;
+        Integer update = questionsRepository.updateUsed(questionId, used);
+        return update;
     }
 }
