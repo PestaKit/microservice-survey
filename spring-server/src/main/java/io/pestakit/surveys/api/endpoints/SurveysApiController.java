@@ -82,8 +82,8 @@ public class SurveysApiController implements SurveysApi {
     @Override
     public ResponseEntity<SurveyRef> findSurveyById(@ApiParam(value = "ID of survey to fetch", required = true)
                                                     @PathVariable("id_survey")
-                                                            Long idSurvey) {
-        SurveyEntity entity = surveysRepository.findOne(idSurvey);
+                                                            Long id_survey) {
+        SurveyEntity entity = surveysRepository.findOne(id_survey);
         if (entity != null) {
             SurveyRef surveyRef = toSurveyRef(entity);
             return ok(surveyRef);
