@@ -77,9 +77,15 @@ Feature: api surveys
   #11
   Scenario: create a new question with a default value for the used attribute
     Given I have a correct id that exists because I posted a question
-    And I GET it to the /questions/id_question endpoint
+    When I GET it to the /questions/id_question endpoint
     Then I receive a 200 status code
     And the used attribute value is zero
+
+  #12 By Dany
+  Scenario: create a question with one choice in choices attribute in payload
+    Given I have a question with one choice in choices attribute in payload
+    When I POST it to the /questions endpoint
+    Then I receive a 400 status code
 
 
 #----------------------------------------------SURVEYS------------------------------------------------------------------

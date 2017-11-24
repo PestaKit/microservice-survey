@@ -234,6 +234,21 @@ public class CreationSteps {
         i_POST_it_to_the_surveys_endpoint();
     }
 
+    // Add by Dany
+    @Given("I have a question with one choice in choices attribute in payload")
+    public void I_have_a_question_with_one_choice_in_choices_attribute_in_payload() throws Throwable{
+        question = new Question();
+        question.setTitle("test1");
+        question.setEnabled(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("option1");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);
+        question.setChoices(choiceList);
+
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
     @When("^I POST (\\d+) questions successively to the /questions endpoint$")
     public void i_POST_questions_successively_to_the_questions_endpoint(int numberOfPosts) throws Throwable {
@@ -366,6 +381,9 @@ public class CreationSteps {
             lastStatusCode = lastApiException.getCode();
         }
     }
+
+    // add by Dany
+    // I used the same method from Adri
 //----------------------------------------------------------------------------------------------------------------------
     @Then("^the difference of questions is (\\d+) when I get again all the questions$")
     public void the_difference_of_questions_is_theGoodDifVariable_when_i_get_again_all_the_questions(int numberOfPosts) throws Throwable {
