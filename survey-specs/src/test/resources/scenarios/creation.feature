@@ -81,12 +81,17 @@ Feature: api surveys
     Then I receive a 200 status code
     And the used attribute value is zero
 
-  #12 By Dany
+  #12 By Dany ------  A IMPLEMENTER DANS L'API----------------------------
   Scenario: create a question with one choice in choices attribute in payload
     Given I have a question with one choice in choices attribute in payload
     When I POST it to the /questions endpoint
     Then I receive a 400 status code
 
+  #13 By Dany and Julien
+  Scenario: create a disabled question with full payload
+    Given I have a disabled question with full payload
+    When I POST a disabled question to the /questions endpoint
+    Then I receive a 201 status code
 
 #----------------------------------------------SURVEYS------------------------------------------------------------------
 
@@ -159,3 +164,11 @@ Feature: api surveys
     When I GET it to the /surveys/id_survey endpoint
     Then I receive a 200 status code
     And The getted survey and the posted survey have the same title and question urls
+
+
+  #12 Add by Julien et Dany ------  A IMPLEMENTER DANS L'API----------------------------
+  Scenario: create a survey with disabled question
+    Given I have a survey with full payload and a disabled question
+    When I POST a survey with a disabled question to the /surveys endpoint
+    Then I receive a 400 status code
+
