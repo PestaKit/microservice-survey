@@ -134,13 +134,17 @@ definitions:
   Error:
     type: object
     properties:
+      timestamp:
+        type: string
+        format: date-time
       code:
         type: integer
         format: int32
       message:
         type: string
-      fields:
+      exception:
         type: string
+
 
   Question:
     type: object
@@ -212,3 +216,8 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/QuestionRef'
+
+  ErrorsList:
+    type: array
+    items:
+      $ref: '#/definitions/Error'

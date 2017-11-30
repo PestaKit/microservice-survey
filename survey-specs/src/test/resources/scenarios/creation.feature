@@ -30,7 +30,7 @@ Feature: api surveys
   Scenario: create a question with empty payload
     Given I have a question with empty payload
     When I POST it to the /questions endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
 
   #5
@@ -44,13 +44,13 @@ Feature: api surveys
   Scenario: create a question with missing enabled attribute in payload
     Given I have a question with missing enabled attribute in payload
     When I POST it to the /questions endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
    #7
   Scenario: create a question with missing title attribute in payload
     Given I have a question with missing title attribute in payload
     When I POST it to the /questions endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
 
    #8
@@ -64,7 +64,7 @@ Feature: api surveys
   Scenario: create a question with missing choices attribute in payload
     Given I have a question with missing choices attribute in payload
     When I POST it to the /questions endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
 
   #10
@@ -85,7 +85,7 @@ Feature: api surveys
   Scenario: create a question with one choice in choices attribute in payload
     Given I have a question with one choice in choices attribute in payload
     When I POST it to the /questions endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
   #13 By Dany and Julien
   Scenario: create a disabled question with full payload
@@ -106,19 +106,19 @@ Feature: api surveys
   Scenario: create a survey with empty payload
     Given I have a survey with empty payload
     When I POST it to the /surveys endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
   #3
   Scenario: create a survey with missing title attribute in payload
     Given I have a survey with missing title attribute in payload
     When I POST it to the /surveys endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
   #4
   Scenario: create a survey with missing questuionUrls attribute in payload
     Given I have a survey with missing questuionUrls attribute in payload
     When I POST it to the /surveys endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
   #5
   Scenario: get a given survey with an id that does not exist
@@ -136,7 +136,7 @@ Feature: api surveys
   Scenario: create a survey with full payload but with questions that does not exist
     Given I have a survey with full payload and questions that does not exist
     When I POST it to the /surveys endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
     And I cannnot GET those given questions because they were not created
 
   #8
@@ -149,7 +149,7 @@ Feature: api surveys
   Scenario: create a survey with full payload but with one of the questions that has a bad url, then survey not created
     Given I have a survey with full payload but with one of the questions that has a bad url
     When I POST it to the /surveys endpoint
-    Then I receive a 400 status code
+    Then I receive a 422 status code
 
   #10
   Scenario: create a survey with a question which the used attribute must be incremented
