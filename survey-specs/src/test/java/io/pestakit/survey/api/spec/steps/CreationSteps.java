@@ -170,10 +170,38 @@ public class CreationSteps {
         question.setChoices(choiceList);
     }
 
+    // Add by Julien et Dany
+    @Given("^I have a disabled question with full payload$")
+    public void i_have_a_disabled_question_with_full_payload() throws Throwable {
+        question = new Question();
+        question.setTitle("test1");
+        question.setEnabled(0);
+        question.setUsed(0);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("pomme");
+        Choice choice2 = new Choice();
+        choice2.setPosition(2);
+        choice2.setText("banane");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+
     @Given("^I have a survey with full payload and questions that exist$")
     public void i_have_a_survey_with_full_payload_and_questions_that_exist() throws Throwable {
         survey = new Survey();
         i_POST_questions_successively_to_the_questions_endpoint(3);
+        survey.setQuestionURLs(questionsUrls);
+        survey.setTitle("survey test1");
+    }
+
+    // Add by Julien et Dany
+    @Given("^I have a survey with full payload and a disabled question$")
+    public void i_have_a_survey_with_full_payload_and_a_disabled_question() throws Throwable {
+        survey = new Survey();
+        i_POST_a_disabled_question_to_the_questions_endpoint();
         survey.setQuestionURLs(questionsUrls);
         survey.setTitle("survey test1");
     }
@@ -234,6 +262,21 @@ public class CreationSteps {
         i_POST_it_to_the_surveys_endpoint();
     }
 
+    // Add by Dany
+    @Given("I have a question with one choice in choices attribute in payload")
+    public void I_have_a_question_with_one_choice_in_choices_attribute_in_payload() throws Throwable{
+        question = new Question();
+        question.setTitle("test1");
+        question.setEnabled(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("option1");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);
+        question.setChoices(choiceList);
+
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
     @When("^I POST (\\d+) questions successively to the /questions endpoint$")
     public void i_POST_questions_successively_to_the_questions_endpoint(int numberOfPosts) throws Throwable {
@@ -249,13 +292,33 @@ public class CreationSteps {
         }
     }
 
+    // Add by Dany and Julien
+    // demander au prof pour l'assert dans une etape intermediaire
+    @When("^I POST a disabled question to the /questions endpoint$")
+    public void i_POST_a_disabled_question_to_the_questions_endpoint() throws Throwable {
+        i_have_a_disabled_question_with_full_payload();
+        questionsUrls = new ArrayList<>();
+        i_POST_it_to_the_questions_endpoint();
+        StringBuilder realLocation = new StringBuilder(location.toString());
+        realLocation.deleteCharAt(0);
+        realLocation.deleteCharAt(realLocation.length()-1);
+        questionsUrls.add(realLocation.toString());
+
+    }
+    // Add by Dany and Julien
+    @When("^I POST a survey with a disabled question to the /surveys endpoint$")
+    public void i_POST_a_survey_with_a_disabled_question_to_the_surveys_endpoint() throws Throwable {
+        i_have_a_survey_with_full_payload_and_a_disabled_question();
+        i_POST_it_to_the_surveys_endpoint();
+    }
+
     @When("^I POST (\\d+) surveys successively to the /surveys endpoint$")
     public void i_POST_surveys_successively_to_the_surveys_endpoint(int numberOfPosts) throws Throwable {
         i_have_a_survey_with_full_payload_and_questions_that_exist();
         for(int i = 0; i < numberOfPosts; i++){
             i_POST_it_to_the_surveys_endpoint();
-            assertEquals(201, lastStatusCode);
         }
+        assertEquals(201, lastStatusCode);
     }
 
 
@@ -366,6 +429,9 @@ public class CreationSteps {
             lastStatusCode = lastApiException.getCode();
         }
     }
+
+    // add by Dany
+    // I used the same method from Adri
 //----------------------------------------------------------------------------------------------------------------------
     @Then("^the difference of questions is (\\d+) when I get again all the questions$")
     public void the_difference_of_questions_is_theGoodDifVariable_when_i_get_again_all_the_questions(int numberOfPosts) throws Throwable {
