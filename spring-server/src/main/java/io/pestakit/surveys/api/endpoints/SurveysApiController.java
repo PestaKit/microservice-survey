@@ -1,6 +1,9 @@
 package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.SurveysApi;
+import io.pestakit.surveys.api.exceptions.EmptyListException;
+import io.pestakit.surveys.api.exceptions.IllegalIdException;
+import io.pestakit.surveys.api.exceptions.IllegalQuestionUrlException;
 import io.pestakit.surveys.entities.QuestionEntity;
 import io.pestakit.surveys.entities.SurveyEntity;
 import io.pestakit.surveys.model.QuestionRef;
@@ -57,12 +60,12 @@ public class SurveysApiController implements SurveysApi {
             for (String url : questions) {
                 if (url.length() < questionsEndpointAddress.length()
                         || !url.substring(0, questionsEndpointAddress.length()).equals(questionsEndpointAddress)) {
-                    return badRequest().build();
+                    throw new IllegalQuestionUrlException("Bad question URL");
                 } else {
                     Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
                     QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
                     if (questionEntity == null) {
-                        return badRequest().build();
+                        throw new IllegalIdException("Bad question id");
                     }
                     updateUsedField(questionEntity);
                 }
@@ -73,7 +76,7 @@ public class SurveysApiController implements SurveysApi {
                     .buildAndExpand(entity.getId()).toUri();
             return created(location).build();
         } else {
-            return badRequest().build();
+            throw new EmptyListException("You have posted an empty questions list !");
         }
     }
 
