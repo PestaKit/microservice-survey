@@ -30,12 +30,12 @@ import static org.springframework.http.ResponseEntity.unprocessableEntity;
  */
 
 @ControllerAdvice
-public class SurveysResponseEntityExceptionHandler {//extends ResponseEntityExceptionHandler {
+public class SurveysResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     public SurveysResponseEntityExceptionHandler() {
         super();
     }
 
-//
+    //
 //    @Override
 //    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 //                                                                  HttpHeaders headers,
@@ -49,29 +49,33 @@ public class SurveysResponseEntityExceptionHandler {//extends ResponseEntityExce
 //        error.setTimestamp(DateTime.now());
 //        error.setPath(request.getContextPath());
 //        return badRequest().body(error);
-//    }
 
-//    @Override
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, WebRequest request) {
-        Error error = newError(422, ex, ex.getMessage(), DateTime.now());
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+//        Error error = newError(422, ex, ex.getMessage(), DateTime.now());
         ErrorsList errorsList = new ErrorsList();
-        for (ObjectError objectError : ex.getBindingResult().getAllErrors()){
+        for (ObjectError objectError : ex.getBindingResult().getAllErrors()) {
             int code = 422;
-            errorsList.add(newError(code , ex, objectError.getDefaultMessage(),DateTime.now()));
+            errorsList.add(newError(ex, objectError.getDefaultMessage(), DateTime.now(), objectError.getObjectName()));
         }
-
         return unprocessableEntity().body(errorsList);
     }
 
-//    @ExceptionHandler(EmptyListException.class)
-//    protected ResponseEntity<Object> handleEmptyList(EmptyListException ex, WebRequest request) {
-//        Error error = newError(422, ex,
-//                ex.getMessage(), "Please fill in the list !",
-//                DateTime.now(), request.getContextPath());
-//
-//        return unprocessableEntity().body(error);
 //    }
+
+    @ExceptionHandler(EmptyListException.class)
+    protected ResponseEntity<Object> handleEmptyList(EmptyListException ex, WebRequest request) {
+        Error error = newError(ex, ex.getMessage(),
+                DateTime.now(), "questionURLs");
+
+        return unprocessableEntity().body(error);
+    }
 
 //    @ExceptionHandler(IllegalChoicesSizeException.class)
 //    protected ResponseEntity<Object> handleIllegalChoicesSize(IllegalChoicesSizeException ex, WebRequest request) {
@@ -82,23 +86,23 @@ public class SurveysResponseEntityExceptionHandler {//extends ResponseEntityExce
 //    }
 
     @ExceptionHandler(IllegalQuestionUrlException.class)
-    protected ResponseEntity<Object> handleIllegalQuestionUrl(IllegalQuestionUrlException ex, WebRequest request){
-        Error error = newError(422, ex, ex.getMessage(), DateTime.now());
+    protected ResponseEntity<Object> handleIllegalQuestionUrl(IllegalQuestionUrlException ex, WebRequest request) {
+        Error error = newError(ex, ex.getMessage(), DateTime.now(), "questionURLMalformed");
         return unprocessableEntity().body(error);
     }
 
     @ExceptionHandler(IllegalIdException.class)
-    protected ResponseEntity<Object> handleIllegalId(IllegalIdException ex, WebRequest request){
-        Error error = newError(422, ex, ex.getMessage(), DateTime.now());
+    protected ResponseEntity<Object> handleIllegalId(IllegalIdException ex, WebRequest request) {
+        Error error = newError(ex, ex.getMessage(), DateTime.now(), "questionId");
         return unprocessableEntity().body(error);
     }
 
-    private Error newError(int code, Exception exception, String message, DateTime timestamp) {
+    private Error newError(Exception exception, String message, DateTime timestamp, String field) {
         Error error = new Error();
-        error.setCode(code);
         error.setException(exception.toString());
         error.setMessage(exception.getMessage());
         error.setTimestamp(DateTime.now());
+        error.setField(field);
         return error;
     }
 
