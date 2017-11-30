@@ -288,6 +288,7 @@ public class CreationSteps {
             realLocation.deleteCharAt(0);
             realLocation.deleteCharAt(realLocation.length()-1);
             questionsUrls.add(realLocation.toString());
+            assertEquals(201, lastStatusCode);
         }
     }
 
@@ -317,6 +318,7 @@ public class CreationSteps {
         for(int i = 0; i < numberOfPosts; i++){
             i_POST_it_to_the_surveys_endpoint();
         }
+        assertEquals(201, lastStatusCode);
     }
 
 
