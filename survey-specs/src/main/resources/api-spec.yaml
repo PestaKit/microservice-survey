@@ -137,12 +137,11 @@ definitions:
       timestamp:
         type: string
         format: date-time
-      code:
-        type: integer
-        format: int32
       message:
         type: string
       exception:
+        type: string
+      field:
         type: string
 
 
