@@ -141,8 +141,10 @@ definitions:
         type: string
       exception:
         type: string
-      field:
-        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErroneousField'
 
 
   Question:
@@ -216,7 +218,14 @@ definitions:
         items:
           $ref: '#/definitions/QuestionRef'
 
-  ErrorsList:
-    type: array
-    items:
-      $ref: '#/definitions/Error'
+  # This object is meant to represent an error in a field of a posted DTO
+  ErroneousField:
+    type: object
+    required:
+      - fieldName
+      - errorCode
+    properties:
+      fieldName:
+        type: string
+      errorCode:
+        type: string
