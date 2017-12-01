@@ -41,14 +41,23 @@ public class QuestionValidator implements Validator {
     @SuppressWarnings("rawtypes")
     public void validate(Object target, Errors errors) {
         Question question = (Question) target;
-        Collection<Choice> collection = question.getChoices();
-        if (collection.size() == 0) {
-            errors.reject("Empty list", "Empty choices list");
-        } else if (collection.size() < 2){
-            errors.reject("Tiny list", "Too small choices list(minimum 2");
+        List<Choice> choices = question.getChoices();
+        if (choices.size() == 0) {
+            errors.rejectValue("choices", "EmptyList");
+        } else if (choices.size() < 2) {
+            errors.rejectValue("choices", "ListWithASingleChoice");
+        } else if (question.getEnabled() != 0 && question.getEnabled() != 1) {
+            errors.rejectValue("enabled", "InvalidEnabledField");
         }
-            for (Object object : collection) {
-                ValidationUtils.invokeValidator(validator, object, errors);
+        // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later
+        for (int i = 0; i < choices.size(); i++) {
+            if (choices.get(i).getPosition() != i + 1){
+                errors.rejectValue("choices", "InvalidPositions");
+                break;
             }
+        }
+        for (Object object : choices) {
+            ValidationUtils.invokeValidator(validator, object, errors);
+        }
     }
 }
