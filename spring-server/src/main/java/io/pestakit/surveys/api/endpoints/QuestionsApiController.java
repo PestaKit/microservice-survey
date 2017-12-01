@@ -1,8 +1,6 @@
 package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.QuestionsApi;
-import io.pestakit.surveys.api.exceptions.EmptyListException;
-import io.pestakit.surveys.api.exceptions.IllegalChoicesSizeException;
 import io.pestakit.surveys.entities.ChoiceEntity;
 import io.pestakit.surveys.entities.QuestionEntity;
 import io.pestakit.surveys.model.Choice;

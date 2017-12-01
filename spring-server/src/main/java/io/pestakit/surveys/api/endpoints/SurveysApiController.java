@@ -1,9 +1,6 @@
 package io.pestakit.surveys.api.endpoints;
 
 import io.pestakit.surveys.api.SurveysApi;
-import io.pestakit.surveys.api.exceptions.EmptyListException;
-import io.pestakit.surveys.api.exceptions.IllegalIdException;
-import io.pestakit.surveys.api.exceptions.IllegalQuestionUrlException;
 import io.pestakit.surveys.entities.QuestionEntity;
 import io.pestakit.surveys.entities.SurveyEntity;
 import io.pestakit.surveys.model.QuestionRef;
@@ -11,12 +8,14 @@ import io.pestakit.surveys.model.Survey;
 import io.pestakit.surveys.model.SurveyRef;
 import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.pestakit.surveys.repositories.SurveysRepository;
+import io.pestakit.surveys.validators.SurveyValidator;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,6 +46,9 @@ public class SurveysApiController implements SurveysApi {
     @Autowired
     QuestionsRepository questionsRepository;
 
+    @Autowired
+    SurveyValidator surveyValidator;
+
     @Transactional
     @Override
     public ResponseEntity<Void> createSurvey(@ApiParam(value = "The survey to be created", required = true)
@@ -55,29 +57,17 @@ public class SurveysApiController implements SurveysApi {
                                                      Survey survey) {
         SurveyEntity entity = toSurveyEntity(survey);
         List<String> questions = entity.getQuestions();
-        if (questions.size() != 0) {
-            // Controlling url patterns
+
             for (String url : questions) {
-                if (url.length() < questionsEndpointAddress.length()
-                        || !url.substring(0, questionsEndpointAddress.length()).equals(questionsEndpointAddress)) {
-                    throw new IllegalQuestionUrlException("Bad question URL");
-                } else {
                     Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
                     QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
-                    if (questionEntity == null) {
-                        throw new IllegalIdException("Bad question id");
-                    }
                     updateUsedField(questionEntity);
                 }
-            }
             surveysRepository.save(entity);
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{id}")
                     .buildAndExpand(entity.getId()).toUri();
             return created(location).build();
-        } else {
-            throw new EmptyListException("You have posted an empty questions list !");
-        }
     }
 
     @Override
@@ -143,5 +133,10 @@ public class SurveysApiController implements SurveysApi {
         used++;
         Integer update = questionsRepository.updateUsed(questionId, used);
         return update;
+    }
+
+    @InitBinder("survey")
+    public void initBinder(WebDataBinder binder){
+        binder.addValidators(surveyValidator);
     }
 }

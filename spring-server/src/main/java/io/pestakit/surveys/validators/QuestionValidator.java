@@ -46,7 +46,7 @@ public class QuestionValidator implements Validator {
             errors.rejectValue("choices", "EmptyList");
         } else if (choices.size() < 2) {
             errors.rejectValue("choices", "ListWithASingleChoice");
-        } else if (question.getEnabled() != 0 && question.getEnabled() != 1) {
+        } else if (question.getEnabled() != null && question.getEnabled() != 0 && question.getEnabled() != 1) {
             errors.rejectValue("enabled", "InvalidEnabledField");
         }
         // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later
