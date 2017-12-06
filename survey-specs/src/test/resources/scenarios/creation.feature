@@ -180,6 +180,13 @@ Feature: api surveys
     Then I receive a 422 status code
     And The error message specifies it is a position error
 
+  #14
+  Scenario: I can't post a question where a position index is missing for the choices
+    Given I have a question where a position index is missing for the choices
+    When I POST it to the /questions endpoint
+    Then I receive a 422 status code
+    And The error message specifies it is a position error
+
 
 
   #----------------------------------------------Custom Errors Surveys--------------------------------------------------

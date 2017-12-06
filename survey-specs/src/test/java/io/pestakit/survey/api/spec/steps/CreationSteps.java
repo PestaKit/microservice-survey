@@ -59,6 +59,25 @@ public class CreationSteps {
         this.api = environment.getApi();
     }
     //------------------------------------------------------------------------------------------------------------------
+    @Given("^I have a question where a position index is missing for the choices$")
+    public void i_have_a_question_where_a_position_index_is_missing_for_the_choices() throws Throwable {
+        question = new io.pestakit.survey.api.dto.Question();
+        question.setTitle("test");
+        question.setUsed(0);
+        question.setEnabled(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("otpion1");
+        Choice choice2 = new Choice();
+        choice2.setPosition(3);
+        choice2.setText("option2");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+
+
     @Given("^I have a question where the first position of the choices starts with 0$")
     public void i_have_a_question_where_the_first_position_of_the_choices_starts_with_0() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
