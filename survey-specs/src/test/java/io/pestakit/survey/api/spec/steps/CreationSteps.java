@@ -12,8 +12,6 @@ import io.pestakit.survey.api.DefaultApi;
 import io.pestakit.survey.api.dto.*;
 import io.pestakit.survey.api.spec.helpers.Environment;
 
-import java.lang.Error;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class CreationSteps {
     private DefaultApi api;
 
 
-    private Error error;
     private SurveyRef surveyRefGetted;
     private ArrayList usedAttributesOfQuestions = new ArrayList();
     private ArrayList questionIdAttributesOfQuestions = new ArrayList();
@@ -59,6 +56,25 @@ public class CreationSteps {
         this.api = environment.getApi();
     }
     //------------------------------------------------------------------------------------------------------------------
+    @Given("^I have a question where a position index for the choices is not unique$")
+    public void i_have_a_question_where_a_position_index_for_the_choices_is_not_unique() throws Throwable {
+        question = new io.pestakit.survey.api.dto.Question();
+        question.setTitle("test");
+        question.setUsed(0);
+        question.setEnabled(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("otpion1");
+        Choice choice2 = new Choice();
+        choice2.setPosition(1);
+        choice2.setText("option2");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+
+
     @Given("^I have a question where a position index is missing for the choices$")
     public void i_have_a_question_where_a_position_index_is_missing_for_the_choices() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
@@ -243,7 +259,13 @@ public class CreationSteps {
     @Given("^I have a survey with full payload and a disabled question$")
     public void i_have_a_survey_with_full_payload_and_a_disabled_question() throws Throwable {
         survey = new Survey();
-        i_POST_a_disabled_question_to_the_questions_endpoint();
+        i_have_a_disabled_question_with_full_payload();
+        questionsUrls = new ArrayList<>();
+        i_POST_it_to_the_questions_endpoint();
+        StringBuilder realLocation = new StringBuilder(location.toString());
+        realLocation.deleteCharAt(0);
+        realLocation.deleteCharAt(realLocation.length()-1);
+        questionsUrls.add(realLocation.toString());
         survey.setQuestionURLs(questionsUrls);
         survey.setTitle("survey test1");
     }
@@ -334,24 +356,7 @@ public class CreationSteps {
         }
     }
 
-    // Add by Dany and Julien
-    // demander au prof pour l'assert dans une etape intermediaire
-    @When("^I POST a disabled question to the /questions endpoint$")
-    public void i_POST_a_disabled_question_to_the_questions_endpoint() throws Throwable {
-        i_have_a_disabled_question_with_full_payload();
-        questionsUrls = new ArrayList<>();
-        i_POST_it_to_the_questions_endpoint();
-        StringBuilder realLocation = new StringBuilder(location.toString());
-        realLocation.deleteCharAt(0);
-        realLocation.deleteCharAt(realLocation.length()-1);
-        questionsUrls.add(realLocation.toString());
 
-    }
-    // Add by Dany and Julien
-    @When("^I POST a survey with a disabled question to the /surveys endpoint$")
-    public void i_POST_a_survey_with_a_disabled_question_to_the_surveys_endpoint() throws Throwable {
-        i_POST_it_to_the_surveys_endpoint();
-    }
 
     @When("^I POST (\\d+) surveys successively to the /surveys endpoint$")
     public void i_POST_surveys_successively_to_the_surveys_endpoint(int numberOfPosts) throws Throwable {
@@ -471,8 +476,7 @@ public class CreationSteps {
         }
     }
 
-    // add by Dany
-    // I used the same method from Adri
+
 //----------------------------------------------------------------------------------------------------------------------
     @Then("^the difference of questions is (\\d+) when I get again all the questions$")
     public void the_difference_of_questions_is_theGoodDifVariable_when_i_get_again_all_the_questions(int numberOfPosts) throws Throwable {
@@ -540,19 +544,31 @@ public class CreationSteps {
 
     @And("^The error message specifies it is a position error$")
     public void the_error_message_specifies_it_is_a_position_error() throws Throwable {
-        ErroneousField erroneousField = getFirstIndexErroneousField();
-        assertEquals("choices", erroneousField.getFieldName());
-        assertEquals("InvalidPositions", erroneousField.getErrorCode());
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        assertEquals("choices", erroneousFieldList.get(0).getFieldName());
+        assertEquals("InvalidPositions", erroneousFieldList.get(0).getErrorCode());
     }
 
 
 
+    @And("^The error message specifies all the missing fields$")
+    public void the_error_message_specifies_all_the_missing_fields() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        assertEquals("enabled", erroneousFieldList.get(0).getFieldName());
+        assertEquals("NotNull", erroneousFieldList.get(0).getErrorCode());
+        assertEquals("title", erroneousFieldList.get(1).getFieldName());
+        assertEquals("NotNull", erroneousFieldList.get(1).getErrorCode());
+        assertEquals("choices", erroneousFieldList.get(2).getFieldName());
+        assertEquals("EmptyList", erroneousFieldList.get(2).getErrorCode());
+    }
 
 
-
-
-
-
+    @And("^The error message specifies that a single choice is not possible$")
+    public void the_error_message_specifies_that_a_single_choice_is_not_possible() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        assertEquals("choices", erroneousFieldList.get(0).getFieldName());
+        assertEquals("ListWithASingleChoice", erroneousFieldList.get(0).getErrorCode());
+    }
 
 
 //----------------------------------------OTHERS------------------------------------------------------------------------
@@ -570,10 +586,10 @@ public class CreationSteps {
 
 
 
-    public ErroneousField getFirstIndexErroneousField(){
+    public List<ErroneousField> getErroneousFields(){
         String body = lastApiException.getResponseBody();
         io.pestakit.survey.api.dto.Error error = new Gson().fromJson(body, io.pestakit.survey.api.dto.Error.class);
         List<ErroneousField> ErroneousFieldslist = error.getFields();
-        return ErroneousFieldslist.get(0);
+        return ErroneousFieldslist;
     }
 }
