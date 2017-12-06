@@ -54,6 +54,9 @@ public class QuestionValidator implements Validator {
             if (choices.get(i).getPosition() != i + 1){
                 errors.rejectValue("choices", "InvalidPositions");
                 break;
+            }else if (choices.get(i).getText().length() == 0){
+                errors.rejectValue("choices", "EmptyText");
+                break;
             }
         }
         for (Object object : choices) {

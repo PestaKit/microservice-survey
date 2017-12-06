@@ -17,6 +17,7 @@ import java.util.List;
 @Component
 public class SurveyValidator implements Validator {
 
+    // For the moment, we hard code the questions urls TODO improve this later
     private static final String CONTEXT_PATH = "/api";
     private static final String SERVER_PORT = "8080";
     private static final String LOCAL_HOSTADDRESS = "http://localhost";
@@ -51,6 +52,8 @@ public class SurveyValidator implements Validator {
                 QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
                 if (questionEntity == null) {
                     errors.rejectValue("questionURLs", "BadQuestionId");
+                } else if (questionEntity.getEnabled() == 0){
+                    errors.rejectValue("questionURLs", "DisabledQuestion");
                 }
             }
         }
