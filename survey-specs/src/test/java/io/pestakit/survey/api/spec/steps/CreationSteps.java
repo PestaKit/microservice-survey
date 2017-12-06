@@ -1,5 +1,6 @@
 package io.pestakit.survey.api.spec.steps;
 
+import com.google.gson.Gson;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -520,10 +521,21 @@ public class CreationSteps {
 
     @And("^The error message specifies it is a position error$")
     public void the_error_message_specifies_it_is_a_position_error() throws Throwable {
-       //String test = error.toString();
-        //Field field = ApiException.class.getField("fields");
-
+        ErroneousField erroneousField = getFirstIndexErroneousField();
+        assertEquals("choices", erroneousField.getFieldName());
+        assertEquals("InvalidPositions", erroneousField.getErrorCode());
     }
+
+
+
+
+
+
+
+
+
+
+
 //----------------------------------------OTHERS------------------------------------------------------------------------
     public Survey toSurvey(SurveyRef surveyRef) {
         Survey survey = new Survey();
@@ -535,5 +547,14 @@ public class CreationSteps {
         survey.setTitle(surveyRef.getTitle());
         survey.setQuestionURLs(questionUrls);
         return survey;
+    }
+
+
+
+    public ErroneousField getFirstIndexErroneousField(){
+        String body = lastApiException.getResponseBody();
+        io.pestakit.survey.api.dto.Error error = new Gson().fromJson(body, io.pestakit.survey.api.dto.Error.class);
+        List<ErroneousField> ErroneousFieldslist = error.getFields();
+        return ErroneousFieldslist.get(0);
     }
 }

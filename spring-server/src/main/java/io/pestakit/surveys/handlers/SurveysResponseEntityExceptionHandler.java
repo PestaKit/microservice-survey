@@ -68,7 +68,7 @@ public class SurveysResponseEntityExceptionHandler extends ResponseEntityExcepti
         Error error = new Error();
         error.setException(exception.toString());
         error.setMessage(exception.getMessage());
-        error.setTimestamp(DateTime.now());
+        error.setTimestamp(DateTime.now().toString());
         error.setFields(erroneousFields);
         return error;
     }
