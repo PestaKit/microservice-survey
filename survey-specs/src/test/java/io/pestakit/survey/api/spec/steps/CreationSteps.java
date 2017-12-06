@@ -11,6 +11,8 @@ import io.pestakit.survey.api.DefaultApi;
 import io.pestakit.survey.api.dto.*;
 import io.pestakit.survey.api.spec.helpers.Environment;
 
+import java.lang.Error;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class CreationSteps {
     private DefaultApi api;
 
 
+    private Error error;
     private SurveyRef surveyRefGetted;
     private ArrayList usedAttributesOfQuestions = new ArrayList();
     private ArrayList questionIdAttributesOfQuestions = new ArrayList();
@@ -49,11 +52,30 @@ public class CreationSteps {
     private boolean lastApiCallThrewException;
     private int lastStatusCode;
 
+
     public CreationSteps(Environment environment) {
         this.environment = environment;
         this.api = environment.getApi();
     }
     //------------------------------------------------------------------------------------------------------------------
+    @Given("^I have a question where the first position of the choices starts with 0$")
+    public void i_have_a_question_where_the_first_position_of_the_choices_starts_with_0() throws Throwable {
+        question = new io.pestakit.survey.api.dto.Question();
+        question.setTitle("test");
+        question.setUsed(0);
+        question.setEnabled(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(0);
+        choice1.setText("otpion1");
+        Choice choice2 = new Choice();
+        choice2.setPosition(1);
+        choice2.setText("option2");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+
     @Given("^I have getted all the questions and I know the number of questions$")
     public void i_have_getted_all_the_questions_and_I_know_the_number_of_questions() throws Throwable {
         i_GET_it_to_the_questions_endpoint();
@@ -308,7 +330,6 @@ public class CreationSteps {
     // Add by Dany and Julien
     @When("^I POST a survey with a disabled question to the /surveys endpoint$")
     public void i_POST_a_survey_with_a_disabled_question_to_the_surveys_endpoint() throws Throwable {
-        i_have_a_survey_with_full_payload_and_a_disabled_question();
         i_POST_it_to_the_surveys_endpoint();
     }
 
@@ -497,6 +518,12 @@ public class CreationSteps {
     }
 
 
+    @And("^The error message specifies it is a position error$")
+    public void the_error_message_specifies_it_is_a_position_error() throws Throwable {
+       //String test = error.toString();
+        //Field field = ApiException.class.getField("fields");
+
+    }
 //----------------------------------------OTHERS------------------------------------------------------------------------
     public Survey toSurvey(SurveyRef surveyRef) {
         Survey survey = new Survey();

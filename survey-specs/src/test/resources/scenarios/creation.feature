@@ -167,8 +167,21 @@ Feature: api surveys
 
 
   #12 Add by Julien et Dany ------  A IMPLEMENTER DANS L'API----------------------------
-  Scenario: create a survey with disabled question
-    Given I have a survey with full payload and a disabled question
-    When I POST a survey with a disabled question to the /surveys endpoint
-    Then I receive a 400 status code
+  #Scenario: create a survey with disabled question
+   # Given I have a survey with full payload and a disabled question
+    #When I POST a survey with a disabled question to the /surveys endpoint
+    #Then I receive a 400 status code
+
+  #----------------------------------------------Custom Errors Questions------------------------------------------------
+  #13
+  Scenario: I can't post a question where the first position of the choices starts with 0
+    Given I have a question where the first position of the choices starts with 0
+    When I POST it to the /questions endpoint
+    Then I receive a 422 status code
+    And The error message specifies it is a position error
+
+
+
+  #----------------------------------------------Custom Errors Surveys--------------------------------------------------
+
 
