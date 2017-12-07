@@ -39,14 +39,6 @@ public class QuestionsApiController implements QuestionsApi {
     public ResponseEntity<Void> createQuestion(@ApiParam(value = "The question to be created", required = true)
                                                @Valid
                                                @RequestBody Question question){
-        List<Choice> choices = question.getChoices();
-//        if (choices.size() == 0) {
-//            throw new EmptyListException("You have posted an empty choices list !!");
-//        }
-//        else if (choices.size() < 2){
-//            // A question should have minimum two possible choices
-//            throw new IllegalChoicesSizeException("Incorrect size of the choices list !");
-//        }
         QuestionEntity entity = toQuestionEntity(question);
         entity.setUsed(0);
         questionsRepository.save(entity);
@@ -103,14 +95,14 @@ public class QuestionsApiController implements QuestionsApi {
         return question;
     }
 
-    private Choice toChoice(ChoiceEntity entity) {
+    protected static Choice toChoice(ChoiceEntity entity) {
         Choice choice = new Choice();
         choice.setPosition(entity.getPosition());
         choice.setText(entity.getText());
         return choice;
     }
 
-    private ChoiceEntity toChoiceEntity(Choice choice) {
+    protected static ChoiceEntity toChoiceEntity(Choice choice) {
         ChoiceEntity entity = new ChoiceEntity();
         entity.setPosition(choice.getPosition());
         entity.setText(choice.getText());
