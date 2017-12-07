@@ -169,11 +169,11 @@ Feature: api surveys
     And The getted survey and the posted survey have the same title and question urls
 
 
-  #12 Add by Julien et Dany ------  A IMPLEMENTER DANS L'API----------------------------
-  #Scenario: I can't create a survey with disabled question
-    #Given I have a survey with full payload and a disabled question
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
+  #12 Add by Julien et Dany
+  Scenario: I can't create a survey with disabled question
+    Given I have a survey with full payload and a disabled question
+    When I POST it to the /surveys endpoint
+    Then I receive a 422 status code
 
   #----------------------------------------------Custom Errors Questions------------------------------------------------
   #1
@@ -207,14 +207,56 @@ Feature: api surveys
     And The error message specifies that a single choice is not possible
 
 
-  #5 A IMPPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can't post a question where a text choice is missing
-    #Given I have a question where a text choice is missing
-    #When I POST it to the /questions endpoint
-    #Then I receive a 422 status code
-    #And blablalalalalalalall
+  #5
+  Scenario: I can't post a question where a text choice is missing
+    Given I have a question where a text choice is missing
+    When I POST it to the /questions endpoint
+    Then I receive a 422 status code
+    And The error message specifies there is a missing text
 
   #----------------------------------------------Custom Errors Surveys--------------------------------------------------
 
-  #5
+  #1 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  # I can't post a Survey that contains a question (hard coding)
+            #where the first position of the choices starts with 0, but I receive a custom error message
+    #Given I have survey that contains a question where the first position of the choices starts with 0
+    #When I POST it to the /surveys endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies blblablablablbal
 
+
+  #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can't post a Survey that contains a question (hard coding)
+   #         where a position index is missing for the choices but I receive a custom error message
+    #Given I have survey that contains a question where a position index is missing for the choices
+    #When I POST it to the /surveys endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies blblablablablbal
+
+
+
+  #3 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can't post a Survey that contains a question (hard coding)
+  #where all required fields are missing but I receive a customed error message
+   # Given I have survey that contains a question where all required fields are missing
+    #When I POST it to the /surveys endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies blblablablablbal
+
+
+  #4 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can't post a Survey that contains a question (hard coding)
+  #where there is only one choice but I receive a custom error message
+   # Given I have survey that contains a question where there is only one choice
+    #When I POST it to the /surveys endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies blblablablablbal
+  
+
+  #5 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can't post a Survey that contains a question (hard coding)
+  #where a text choice is missing but I receive a custom error message
+   # Given I have survey that contains a question where a text choice is missing
+    #When I POST it to the /surveys endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies blblablablablbal

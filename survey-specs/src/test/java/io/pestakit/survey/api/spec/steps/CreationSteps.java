@@ -56,6 +56,24 @@ public class CreationSteps {
         this.api = environment.getApi();
     }
     //------------------------------------------------------------------------------------------------------------------
+    @Given("^I have a question where a text choice is missing$")
+    public void i_have_a_question_where_a_text_choice_is_missing() throws Throwable {
+        question = new io.pestakit.survey.api.dto.Question();
+        question.setTitle("test");
+        question.setUsed(0);
+        question.setEnabled(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("");
+        Choice choice2 = new Choice();
+        choice2.setPosition(2);
+        choice2.setText("option2");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+
     @Given("^I have a question where a position index for the choices is not unique$")
     public void i_have_a_question_where_a_position_index_for_the_choices_is_not_unique() throws Throwable {
         question = new io.pestakit.survey.api.dto.Question();
@@ -554,9 +572,9 @@ public class CreationSteps {
     @And("^The error message specifies all the missing fields$")
     public void the_error_message_specifies_all_the_missing_fields() throws Throwable {
         List<ErroneousField> erroneousFieldList = getErroneousFields();
-        assertEquals("enabled", erroneousFieldList.get(0).getFieldName());
+        assertEquals("title", erroneousFieldList.get(0).getFieldName());
         assertEquals("NotNull", erroneousFieldList.get(0).getErrorCode());
-        assertEquals("title", erroneousFieldList.get(1).getFieldName());
+        assertEquals("enabled", erroneousFieldList.get(1).getFieldName());
         assertEquals("NotNull", erroneousFieldList.get(1).getErrorCode());
         assertEquals("choices", erroneousFieldList.get(2).getFieldName());
         assertEquals("EmptyList", erroneousFieldList.get(2).getErrorCode());
@@ -570,7 +588,12 @@ public class CreationSteps {
         assertEquals("ListWithASingleChoice", erroneousFieldList.get(0).getErrorCode());
     }
 
-
+    @And("^The error message specifies there is a missing text$")
+    public void the_error_message_specifies_there_is_a_missing_text() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        assertEquals("choices", erroneousFieldList.get(0).getFieldName());
+        assertEquals("EmptyText", erroneousFieldList.get(0).getErrorCode());
+    }
 //----------------------------------------OTHERS------------------------------------------------------------------------
     public Survey toSurvey(SurveyRef surveyRef) {
         Survey survey = new Survey();
