@@ -569,15 +569,25 @@ public class CreationSteps {
 
 
 
-    @And("^The error message specifies all the missing fields$")
-    public void the_error_message_specifies_all_the_missing_fields() throws Throwable {
+    @And("^The error message specifies the empty fields for the question$")
+    public void the_error_message_specifies_the_empty_fields_for_the_question() throws Throwable {
         List<ErroneousField> erroneousFieldList = getErroneousFields();
-        assertEquals("title", erroneousFieldList.get(0).getFieldName());
-        assertEquals("NotNull", erroneousFieldList.get(0).getErrorCode());
-        assertEquals("enabled", erroneousFieldList.get(1).getFieldName());
-        assertEquals("NotNull", erroneousFieldList.get(1).getErrorCode());
-        assertEquals("choices", erroneousFieldList.get(2).getFieldName());
-        assertEquals("EmptyList", erroneousFieldList.get(2).getErrorCode());
+        int indexTitle = findIndexOfError(erroneousFieldList, "title");
+        int indexEnabled = findIndexOfError(erroneousFieldList, "enabled");
+        int indexChoices = findIndexOfError(erroneousFieldList, "choices");
+
+        if(indexTitle != -1) {
+            assertEquals("title", erroneousFieldList.get(indexTitle).getFieldName());
+            assertEquals("NotNull", erroneousFieldList.get(indexTitle).getErrorCode());
+        }
+        if(indexEnabled != -1) {
+            assertEquals("enabled", erroneousFieldList.get(indexEnabled).getFieldName());
+            assertEquals("NotNull", erroneousFieldList.get(indexEnabled).getErrorCode());
+        }
+        if(indexChoices != -1) {
+            assertEquals("choices", erroneousFieldList.get(indexChoices).getFieldName());
+            assertEquals("EmptyList", erroneousFieldList.get(indexChoices).getErrorCode());
+        }
     }
 
 
@@ -593,6 +603,31 @@ public class CreationSteps {
         List<ErroneousField> erroneousFieldList = getErroneousFields();
         assertEquals("choices", erroneousFieldList.get(0).getFieldName());
         assertEquals("EmptyText", erroneousFieldList.get(0).getErrorCode());
+    }
+
+
+    @And("^The error message specifies there is a bad URL question$")
+    public void the_error_message_specifies_there_is_a_bad_url_question() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        assertEquals("questionURLs", erroneousFieldList.get(0).getFieldName());
+        assertEquals("BadURL", erroneousFieldList.get(0).getErrorCode());
+    }
+
+
+    @And("^The error message specifies the empty fields for the survey$")
+    public void the_error_message_specifies_the_empty_fields_for_the_survey() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexTitle = findIndexOfError(erroneousFieldList, "title");
+        int indexUrls = findIndexOfError(erroneousFieldList, "enabled");
+
+        if(indexTitle != -1) {
+            assertEquals("title", erroneousFieldList.get(indexTitle).getFieldName());
+            assertEquals("NotNull", erroneousFieldList.get(indexTitle).getErrorCode());
+        }
+        if(indexUrls != -1) {
+            assertEquals("questionURLs", erroneousFieldList.get(indexUrls).getFieldName());
+            assertEquals("EmptyQuestionURLs", erroneousFieldList.get(indexUrls).getErrorCode());
+        }
     }
 //----------------------------------------OTHERS------------------------------------------------------------------------
     public Survey toSurvey(SurveyRef surveyRef) {
@@ -614,5 +649,16 @@ public class CreationSteps {
         io.pestakit.survey.api.dto.Error error = new Gson().fromJson(body, io.pestakit.survey.api.dto.Error.class);
         List<ErroneousField> ErroneousFieldslist = error.getFields();
         return ErroneousFieldslist;
+    }
+
+
+    public int findIndexOfError(List<ErroneousField> erroneousFieldList, String error){
+        int index = -1;
+        for (int i = 0; i < erroneousFieldList.size();i++) {
+            if(erroneousFieldList.get(i).getFieldName().equals(error)){
+                index = i;
+            }
+        }
+        return index;
     }
 }

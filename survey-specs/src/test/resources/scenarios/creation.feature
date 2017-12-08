@@ -196,7 +196,7 @@ Feature: api surveys
     Given I have a question with empty payload
     When I POST it to the /questions endpoint
     Then I receive a 422 status code
-    And The error message specifies all the missing fields
+    And The error message specifies the empty fields for the question
 
   #4
   Scenario: I can't post a question where there is only one choice but I receive
@@ -260,3 +260,24 @@ Feature: api surveys
     #When I POST it to the /surveys endpoint
     #Then I receive a 422 status code
     #And The error message specifies blblablablablbal
+
+  #6
+  Scenario: I can't post a survey whith a bad URL question but a receive a custom error message
+    Given I have a survey with full payload but with one of the questions that has a bad url
+    When I POST it to the /surveys endpoint
+    Then I receive a 422 status code
+    And The error message specifies there is a bad URL question
+
+  #7
+  Scenario: I can't post a survey whith empty fields but I receive a custom error message
+    Given I have a survey with empty payload
+    When I POST it to the /surveys endpoint
+    Then I receive a 422 status code
+    And The error message specifies the empty fields for the survey
+
+  #8 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can't post a survey whith a doubled question url but I receive a custom error message
+   # Given I have a survey with doubled questions
+    #When I POST it to the /surveys endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies blablablablabla
