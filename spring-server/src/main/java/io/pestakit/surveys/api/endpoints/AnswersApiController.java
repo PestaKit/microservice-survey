@@ -7,10 +7,14 @@ import io.pestakit.surveys.model.Answer;
 import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Survey;
 import io.pestakit.surveys.repositories.AnswersRepository;
+import io.pestakit.surveys.validators.AnswerValidator;
 import io.swagger.annotations.ApiParam;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -72,6 +76,7 @@ public class AnswersApiController implements AnswersApi {
         answer.setIdQuestion(entity.getIdQuestion());
         answer.setIdSurvey(entity.getIdSurvey());
         answer.setIdUser(entity.getIdUser());
+        answer.setTimestamp(entity.getTimestamp());
         return answer;
     }
 
@@ -85,7 +90,16 @@ public class AnswersApiController implements AnswersApi {
         entity.setIdQuestion(answer.getIdQuestion());
         entity.setIdSurvey(answer.getIdSurvey());
         entity.setIdUser(answer.getIdUser());
+        entity.setTimestamp(DateTime.now().toString());
         return entity;
+    }
+
+    @Autowired
+    AnswerValidator answerValidator;
+
+    @InitBinder("answer")
+    public void initBinder(WebDataBinder binder){
+        binder.addValidators(answerValidator);
     }
 
 }

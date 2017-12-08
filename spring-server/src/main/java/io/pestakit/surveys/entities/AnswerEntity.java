@@ -19,6 +19,7 @@ public class AnswerEntity implements Serializable{
     private long idSurvey;
     private long idQuestion;
     private long idUser;
+    private String timestamp;
 
     @OneToMany(targetEntity = ChoiceEntity.class, fetch = FetchType.EAGER, cascade =CascadeType.PERSIST)
     private List<ChoiceEntity> choices = new ArrayList<>();
@@ -61,5 +62,13 @@ public class AnswerEntity implements Serializable{
 
     public List<ChoiceEntity> getChoices() {
         return choices;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

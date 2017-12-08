@@ -306,6 +306,8 @@ definitions:
       idUser:
         type: integer
         format: int64
+      timestamp:
+        type: string
       choices:
         type: array
         items:
