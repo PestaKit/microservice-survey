@@ -316,6 +316,46 @@ public class CreationSteps {
     }
 
 
+    @Given("^I have an answer where a choice position is missing$")
+    public void i_have_an_answer_where_a_choice_position_is_missing() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //no choice position but good text choice
+        Choice choice1 = new Choice();
+        choice1.setText(succesivePostedQuestions.get(0).getChoices().get(0).getText());
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);;
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+
+    @Given("^I have an answer where a choice text is missing$")
+    public void i_have_an_answer_where_a_choice_text_is_missing() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //no choice text but good position choice
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);;
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+
 
     @Given("^I have an answer where the surveyId does not exists$")
     public void i_have_an_answer_where_the_surveyId_does_not_exists() throws Throwable {
@@ -933,6 +973,28 @@ public class CreationSteps {
         if(indexChoices != -1) {
             assertEquals("choices", erroneousFieldList.get(indexChoices).getFieldName());
             assertEquals("EmptyList", erroneousFieldList.get(indexChoices).getErrorCode());
+        }
+    }
+
+
+    @And("^The error message specifies that a choice text is missing$")
+    public void the_error_message_specifies_that_a_choice_text_is_missing() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexChoices = findIndexOfError(erroneousFieldList, "choices[0].text");
+        if(indexChoices != -1) {
+            assertEquals("choices[0].text", erroneousFieldList.get(indexChoices).getFieldName());
+            assertEquals("NotNull", erroneousFieldList.get(indexChoices).getErrorCode());
+        }
+    }
+
+
+    @And("^The error message specifies that a choice position is missing$")
+    public void the_error_message_specifies_that_a_choice_position_is_missing() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexChoices = findIndexOfError(erroneousFieldList, "choices[0].text");
+        if(indexChoices != -1) {
+            assertEquals("choices[0].position", erroneousFieldList.get(indexChoices).getFieldName());
+            assertEquals("NotNull", erroneousFieldList.get(indexChoices).getErrorCode());
         }
     }
 //----------------------------------------OTHERS------------------------------------------------------------------------

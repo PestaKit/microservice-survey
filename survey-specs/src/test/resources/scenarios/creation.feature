@@ -354,3 +354,19 @@ Feature: api surveys
     When I POST it to the /answers endpoint
     Then I receive a 422 status code
     And The error message specifies that the choices are not specified
+
+
+   #5
+  Scenario: I can't post an answer where a choice text is missing (choice index 0 in this test)
+    Given I have an answer where a choice text is missing
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
+    And The error message specifies that a choice text is missing
+
+
+   #6
+  Scenario: I can't post an answer where a choice position is missing (choice index 0 in this test)
+    Given I have an answer where a choice position is missing
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
+    And The error message specifies that a choice position is missing
