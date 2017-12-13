@@ -281,6 +281,87 @@ public class CreationSteps {
     }
 
 
+    @Given("^I have an answer where the choices are not specified$")
+    public void i_have_an_answer_where_the_choices_are_not_specified() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+
+    @Given("^I have an answer where the questionId does not exists$")
+    public void i_have_an_answer_where_the_questionId_does_not_exists() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //we take all the choices of the first question of the survey to simulate the answer
+        //it means the user checked all the boxes for example
+        answer.setChoices(succesivePostedQuestions.get(0).getChoices());
+        //bad questionId
+        Long badId = 0L;
+        answer.setIdQuestion(badId);
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+
+
+    @Given("^I have an answer where the surveyId does not exists$")
+    public void i_have_an_answer_where_the_surveyId_does_not_exists() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //we take all the choices of the first question of the survey to simulate the answer
+        //it means the user checked all the boxes for example
+        answer.setChoices(succesivePostedQuestions.get(0).getChoices());
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        //bad survey id
+        Long badId = 0L;
+        answer.setIdSurvey(badId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+
+    @Given("^I have an answer where the choice does not match with the question$")
+    public void i_have_an_answer_where_the_choice_does_not_match_with_the_question() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //bad choices
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("bad1");
+        Choice choice2 = new Choice();
+        choice2.setPosition(2);
+        choice2.setText("bad2");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        answer.setChoices(choiceList);
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+
     @Given("^I have an answer with missing timestamp in payload$")
     public void i_have_an_answer_with_missing_timestamp_in_payload() throws Throwable {
         //we need first to create a Survey with questions and a user id (fake for the moment)
@@ -810,6 +891,49 @@ public class CreationSteps {
     public void i_have_a_default_timestamp_when_I_get_this_answer_again() throws Throwable {
         i_GET_it_to_the_answers_id_endpoint();
         assertNotSame("the default timestamp must not be empty","", answerGetted.getTimestamp());
+    }
+
+
+    @And("^The error message specifies it is a non existent question$")
+    public void the_error_message_specifies_it_is_a_non_existent_question() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexIdQuestion = findIndexOfError(erroneousFieldList, "idQuestion");
+        if(indexIdQuestion != -1) {
+            assertEquals("idQuestion", erroneousFieldList.get(indexIdQuestion).getFieldName());
+            assertEquals("NonExistentQuestion", erroneousFieldList.get(indexIdQuestion).getErrorCode());
+        }
+    }
+
+
+    @And("^The error message specifies it is a non existent survey$")
+    public void the_error_message_specifies_it_is_a_non_existent_survey() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexIdSurvey = findIndexOfError(erroneousFieldList, "idSurvey");
+        if(indexIdSurvey != -1) {
+            assertEquals("idSurvey", erroneousFieldList.get(indexIdSurvey).getFieldName());
+            assertEquals("NonExistentSurvey", erroneousFieldList.get(indexIdSurvey).getErrorCode());
+        }
+    }
+
+
+    @And("^The error message specifies it is a choice for non existent question$")
+    public void the_error_message_specifies_it_is_a_choice_for_non_existent_question() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexChoices = findIndexOfError(erroneousFieldList, "choices");
+        if(indexChoices != -1) {
+            assertEquals("choices", erroneousFieldList.get(indexChoices).getFieldName());
+            assertEquals("ChoicesForNonExistentQuestion", erroneousFieldList.get(indexChoices).getErrorCode());
+        }
+    }
+
+    @And("^The error message specifies that the choices are not specified$")
+    public void the_error_message_specifies_that_the_choices_are_not_specified() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexChoices = findIndexOfError(erroneousFieldList, "choices");
+        if(indexChoices != -1) {
+            assertEquals("choices", erroneousFieldList.get(indexChoices).getFieldName());
+            assertEquals("EmptyList", erroneousFieldList.get(indexChoices).getErrorCode());
+        }
     }
 //----------------------------------------OTHERS------------------------------------------------------------------------
     public Survey toSurvey(SurveyRef surveyRef) {

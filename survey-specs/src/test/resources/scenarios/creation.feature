@@ -325,3 +325,32 @@ Feature: api surveys
     When I POST it to the /answers endpoint
     Then I receive a 201 status code
     And I have a default timestamp when I get this answer again
+
+#----------------------------------------------Custom Errors Answers----------------------------------------------------
+  #1
+  Scenario: I can't post an answer where the questionId does not exists
+    Given I have an answer where the questionId does not exists
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
+    And The error message specifies it is a non existent question
+
+  #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!l answer se crée quand meme si juste les choix ne correspondent pas à la question
+  #Scenario: I can't post an answer where the choice does not match with the question
+   # Given I have an answer where the choice does not match with the question
+    #When I POST it to the /answers endpoint
+    #Then I receive a 422 status code
+    #And The error message specifies it is a choice for non existent question
+
+  #3
+  Scenario: I can't post an answer where the surveyId does not exists
+    Given I have an answer where the surveyId does not exists
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
+    And The error message specifies it is a non existent survey
+
+   #4
+  Scenario: I can't post an answer where the choices are not specified
+    Given I have an answer where the choices are not specified
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
+    And The error message specifies that the choices are not specified
