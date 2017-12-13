@@ -26,21 +26,29 @@ public class CreationSteps {
     private Environment environment;
     private DefaultApi api;
 
-
+    private Answer answer;
     private SurveyRef surveyRefGetted;
     private ArrayList usedAttributesOfQuestions = new ArrayList();
     private ArrayList questionIdAttributesOfQuestions = new ArrayList();
+    private ArrayList answerIdAttributesOfAnswers = new ArrayList();
+    private ArrayList<Question> succesivePostedQuestions = new ArrayList();
+    private ArrayList<Answer> succesivePostedAnswers = new ArrayList();
     private long lastUsedAttributeValue;
     private long surveyId;
     private Survey survey;
     private Question question;
     private Object location;
     private long questionId;
+    private long answerId;
+    private Answer answerPosted;
+    private Answer answerGetted;
     private Question questionPosted;
     private Question questionGetted;
     private Survey surveyPosted;
+    private ArrayList<Answer> listOfAllAnswers;
     private ArrayList<Question> listOfAllQuestions;
     private ArrayList<SurveyRef> listOfAllSurveysRef;
+    private int lastQuantityOfAnswers;
     private int lastQuantityOfQuestions;
     private int lastQuantityOfSurveys;
     private ArrayList<String> questionsUrls;
@@ -134,6 +142,14 @@ public class CreationSteps {
     public void i_have_getted_all_the_questions_and_I_know_the_number_of_questions() throws Throwable {
         i_GET_it_to_the_questions_endpoint();
         lastQuantityOfQuestions = listOfAllQuestions.size();
+    }
+
+    @Given("^I have getted all the answers and I know the number of answers")
+    public void i_have_getted_all_the_answers_and_I_know_the_number_of_answers() throws Throwable {
+        i_GET_it_to_the_answers_endpoint();
+        assertEquals(200, lastStatusCode);
+        lastQuantityOfAnswers = listOfAllAnswers.size();
+        int test =2;
     }
 
     @Given("^I have getted all the surveys and I know the number of surveys")
@@ -246,6 +262,23 @@ public class CreationSteps {
         question.setChoices(choiceList);
     }
 
+    @Given("^I have an answer with full payload$")
+    public void i_have_an_answer_with_full_payload() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //we take all the choices of the first question of the survey to simulate the answer
+        //it means the user checked all the boxes for example
+        answer.setChoices(succesivePostedQuestions.get(0).getChoices());
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
     // Add by Julien et Dany
     @Given("^I have a disabled question with full payload$")
     public void i_have_a_disabled_question_with_full_payload() throws Throwable {
@@ -325,6 +358,20 @@ public class CreationSteps {
         questionId = Integer.parseInt(idStr);
     }
 
+
+    @Given("^I have a correct id that exists because I posted an answer")
+    public void i_have_a_correct_id_that_exists_because_i_posted_an_answer() throws Throwable {
+        i_have_an_answer_with_full_payload();
+        i_POST_it_to_the_answers_endpoint();
+        /*i_have_a_question_with_full_payload();
+        i_POST_it_to_the_questions_endpoint();
+        String locationStr = location.toString();
+        String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
+        idStr = idStr.substring(0, idStr.length() - 1);
+        questionId = Integer.parseInt(idStr);*/
+    }
+
+
     @Given("^I have a correct id that exists because I posted a survey")
     public void i_have_a_correct_id_that_exists_because_i_posted_a_survey() throws Throwable {
         i_have_a_survey_with_full_payload_and_questions_that_exist();
@@ -364,12 +411,27 @@ public class CreationSteps {
     public void i_POST_questions_successively_to_the_questions_endpoint(int numberOfPosts) throws Throwable {
         i_have_a_question_with_full_payload();
         questionsUrls = new ArrayList<>();
+        succesivePostedQuestions.clear();
+        questionIdAttributesOfQuestions.clear();
         for(int i = 0; i < numberOfPosts; i++){
             i_POST_it_to_the_questions_endpoint();
             StringBuilder realLocation = new StringBuilder(location.toString());
             realLocation.deleteCharAt(0);
             realLocation.deleteCharAt(realLocation.length()-1);
             questionsUrls.add(realLocation.toString());
+            assertEquals(201, lastStatusCode);
+        }
+    }
+
+
+    @When("^I POST (\\d+) answers successively to the /answers endpoint$")
+    public void i_POST_answers_successively_to_the_answers_endpoint(int numberOfPosts) throws Throwable {
+        i_have_an_answer_with_full_payload();
+        succesivePostedAnswers.clear();
+        answerIdAttributesOfAnswers.clear();
+
+        for(int i = 0; i < numberOfPosts; i++){
+            i_POST_it_to_the_answers_endpoint();
             assertEquals(201, lastStatusCode);
         }
     }
@@ -401,6 +463,7 @@ public class CreationSteps {
             idStr = idStr.substring(0, idStr.length() - 1);
             questionId = Integer.parseInt(idStr);
             questionIdAttributesOfQuestions.add(questionId);
+            succesivePostedQuestions.add(question);
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -408,6 +471,34 @@ public class CreationSteps {
             lastStatusCode = lastApiException.getCode();
         }
     }
+
+
+
+    @When("^I POST it to the /answers endpoint$")
+    public void i_POST_it_to_the_answers_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.createAnswerWithHttpInfo(answer);
+            answerPosted = answer;
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+            location = lastApiResponse.getHeaders().get("Location");
+            String locationStr = location.toString();
+            String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
+            idStr = idStr.substring(0, idStr.length() - 1);
+            answerId = Integer.parseInt(idStr);
+            answerIdAttributesOfAnswers.add(answerId);
+            succesivePostedAnswers.add(answer);
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+
+
 
     @When("^I POST it to the /surveys endpoint$")
     public void i_POST_it_to_the_surveys_endpoint() throws Throwable {
@@ -435,6 +526,23 @@ public class CreationSteps {
             lastApiException = null;
             lastStatusCode = lastApiResponse.getStatusCode();
             listOfAllQuestions = (ArrayList<Question>)lastApiResponse.getData();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+
+    @When("^I GET it to the /answers endpoint$")
+    public void i_GET_it_to_the_answers_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.getAllSurveysWithHttpInfo();
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+            listOfAllAnswers = (ArrayList<Answer>)lastApiResponse.getData();
         } catch (ApiException e) {
             lastApiCallThrewException = true;
             lastApiResponse = null;
@@ -477,6 +585,27 @@ public class CreationSteps {
     }
 
 
+
+    @When("^I GET it to the /answers/id_answer endpoint$")
+    public void i_GET_it_to_the_answers_id_endpoint() throws Throwable {
+        try {
+            lastApiResponse = api.findAnswerByIdWithHttpInfo(answerId);
+            lastApiCallThrewException = false;
+            lastApiException = null;
+            lastStatusCode = lastApiResponse.getStatusCode();
+            answerGetted = (Answer) lastApiResponse.getData();
+        } catch (ApiException e) {
+            lastApiCallThrewException = true;
+            lastApiResponse = null;
+            lastApiException = e;
+            lastStatusCode = lastApiException.getCode();
+        }
+    }
+
+
+
+
+
     @When("^I GET it to the /surveys/id_survey endpoint$")
     public void i_GET_it_to_the_surveys_id_endpoint() throws Throwable {
         try {
@@ -502,6 +631,12 @@ public class CreationSteps {
         assertEquals(lastQuantityOfQuestions+numberOfPosts, listOfAllQuestions.size());
     }
 
+    @Then("^the difference of answers is (\\d+) when I get again all the answers")
+    public void the_difference_of_answers_is_theGoodDifVariable_when_i_get_again_all_the_answers(int numberOfPosts) throws Throwable {
+        i_GET_it_to_the_answers_endpoint();
+        assertEquals(lastQuantityOfAnswers+numberOfPosts, listOfAllAnswers.size());
+    }
+
     @Then("^the difference of surveys is (\\d+) when I get again all the surveys")
     public void the_difference_of_surveys_is_theGoodDifVariable_when_i_get_again_all_the_surveys(int numberOfPosts) throws Throwable {
         i_GET_it_to_the_surveys_endpoint();
@@ -521,6 +656,12 @@ public class CreationSteps {
     @And("^The getted question and the posted question are the same$")
     public void the_getted_question_and_the_posted_question_are_the_same() throws Throwable {
         assertEquals(questionPosted, questionGetted);
+    }
+
+
+    @And("^The getted answer and the posted answer are the same$")
+    public void the_getted_answer_and_the_posted_answer_are_the_same() throws Throwable {
+        assertEquals(answerPosted, answerGetted);
     }
 
     @And("^The getted survey and the posted survey have the same title and question urls$")

@@ -281,3 +281,35 @@ Feature: api surveys
     #When I POST it to the /surveys endpoint
     #Then I receive a 422 status code
     #And The error message specifies blablablablabla
+
+  #-------------------------------------------------ANSWERS-------------------------------------------------------------
+   #1
+  Scenario: I can create an answer with full payload
+    Given I have an answer with full payload
+    When I POST it to the /answers endpoint
+    Then I receive a 201 status code
+
+
+  #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!problème de timestamp à gérer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can post an answer and get it by specifying the id
+   # Given I have a correct id that exists because I posted an answer
+    #When I GET it to the /answers/id_answer endpoint
+    #Then I receive a 200 status code
+    #And The getted answer and the posted answer are the same
+
+
+  #3
+  Scenario: I can get all the answers and I receive a table
+    When I GET it to the /answers endpoint
+    Then I receive a 200 status code
+    And The response is a table
+
+
+  #4 !!!!!!!!!!!!!J OBTIENS SEULEMENT UNE DIFFERENCE DE 1 ET PAS DE 2.....!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  #Scenario: I can get all answers, count them, post some (variable value) more answers and
+  #get again all the answers to notice de difference
+   # Given I have getted all the answers and I know the number of answers
+    #When I POST 2 answers successively to the /answers endpoint
+    #Then the difference of answers is 2 when I get again all the answers
+
+
