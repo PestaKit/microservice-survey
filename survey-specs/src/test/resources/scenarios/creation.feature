@@ -319,3 +319,9 @@ Feature: api surveys
     Then the difference of answers is 2 when I get again all the answers
 
 
+   #6
+  Scenario: I can create an answer with missing timestamp in payload and get the default value
+    Given I have an answer with missing timestamp in payload
+    When I POST it to the /answers endpoint
+    Then I receive a 201 status code
+    And I have a default timestamp when I get this answer again
