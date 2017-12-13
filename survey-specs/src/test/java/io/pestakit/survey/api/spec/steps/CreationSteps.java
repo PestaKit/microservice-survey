@@ -279,6 +279,7 @@ public class CreationSteps {
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
 
+
     // Add by Julien et Dany
     @Given("^I have a disabled question with full payload$")
     public void i_have_a_disabled_question_with_full_payload() throws Throwable {
@@ -424,13 +425,28 @@ public class CreationSteps {
     }
 
 
-    @When("^I POST (\\d+) answers successively to the /answers endpoint$")
-    public void i_POST_answers_successively_to_the_answers_endpoint(int numberOfPosts) throws Throwable {
+    @When("^I POST (\\d+) identical answers successively to the /answers endpoint$")
+    public void i_POST_identical_answers_successively_to_the_answers_endpoint(int numberOfPosts) throws Throwable {
+
         i_have_an_answer_with_full_payload();
         succesivePostedAnswers.clear();
         answerIdAttributesOfAnswers.clear();
 
         for(int i = 0; i < numberOfPosts; i++){
+            i_POST_it_to_the_answers_endpoint();
+            assertEquals(201, lastStatusCode);
+        }
+    }
+
+
+    @When("^I POST (\\d+) different answers successively to the /answers endpoint$")
+    public void i_POST_two_different_answers_successively_to_the_answers_endpoint(int numberOfPosts) throws Throwable {
+
+        succesivePostedAnswers.clear();
+        answerIdAttributesOfAnswers.clear();
+
+        for(int i = 0; i < numberOfPosts; i++){
+            i_have_an_answer_with_full_payload();
             i_POST_it_to_the_answers_endpoint();
             assertEquals(201, lastStatusCode);
         }

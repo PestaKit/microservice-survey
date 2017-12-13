@@ -53,5 +53,7 @@ Here are some rules about the utilisation of the API if you want to use it to de
 
 - Each choice of a response has is position. This position starts with the index 1 and must be incremental.
 
+- when you create two identical answers, only one is considered.
+
 
 

@@ -305,11 +305,17 @@ Feature: api surveys
     And The response is a table
 
 
-  #4 !!!!!!!!!!!!!J OBTIENS SEULEMENT UNE DIFFERENCE DE 1 ET PAS DE 2.....!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can get all answers, count them, post some (variable value) more answers and
-  #get again all the answers to notice de difference
-   # Given I have getted all the answers and I know the number of answers
-    #When I POST 2 answers successively to the /answers endpoint
-    #Then the difference of answers is 2 when I get again all the answers
+  #4
+  Scenario: If I create two identical answers, only one is considered
+    Given I have getted all the answers and I know the number of answers
+    When I POST 2 identical answers successively to the /answers endpoint
+    Then the difference of answers is 1 when I get again all the answers
+
+
+  #5
+  Scenario: If I create two different answers, both are considered
+    Given I have getted all the answers and I know the number of answers
+    When I POST 2 different answers successively to the /answers endpoint
+    Then the difference of answers is 2 when I get again all the answers
 
 
