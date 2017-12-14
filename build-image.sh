@@ -1,4 +1,5 @@
 #!/bin/bash
+pwd
 cd spring-server
 mvn clean install
 cd ../images/survey-server
