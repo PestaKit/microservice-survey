@@ -1,0 +1,17 @@
+---------------------POUR LES ANSWERS----------------------------------------------------------------------------------------------------------------------------------
+
+
+- On ne vérifie pas que les choix correspondent à l'id de la question.
+- On ne vérifie pas que le userId soit validé par un système d authentification (utiliser l'api de l'autre groupe). S'il n'est pas validé, l'answer ne peut être postée.(voir pour virer le userId d'une answer et le récupérer plutot depuis le hedaer de la requete)
+- Quand il manque le surveyId ou le questionId, on reçoit une erreur 500 au lieu d'une custom erreur 422.
+- Quand la position d'un choix est fausse (par exemple 0), l'answer se crée quand même (code 201).
+- Concernant le timestamp, comme c'est un simple string, il faudrait au moins vérifier que la syntax est correcte et renvoyer une erreur si ce n'est pas le cas.
+- Quand on GET une answer précise, le timestamp prend la valeur de la date actuelle alors que ce qu'on veut c'est retrouver la date à laquelle l'answer est postée.
+
+
+
+
+-----------------------A envisager par la suite après discussion avec le prof--------------------------------------------------------------------------------------------
+
+
+- Il faudrait aussi que le survey et la question aient une notion de userId pour savoir qui les a créés.
