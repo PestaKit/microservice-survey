@@ -23,14 +23,19 @@ public class QuestionEntity implements Serializable {
     private String title;
     private int used;
     private int enabled;
+    private int multipleChoice;
 
     // Fetch type for cascade requests. Here it makes sense to have it eager since we have at most a dozen of choices
     // per question
-    @OneToMany(targetEntity = ChoiceEntity.class, fetch = FetchType.EAGER, cascade =CascadeType.PERSIST)
+    @OneToMany(targetEntity = ChoiceEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<ChoiceEntity> choices = new ArrayList<>();
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -63,5 +68,13 @@ public class QuestionEntity implements Serializable {
 
     public void setEnabled(int enabled) {
         this.enabled = enabled;
+    }
+
+    public void setMultipleChoice(int multipleChoice) {
+        this.multipleChoice = multipleChoice;
+    }
+
+    public int getMultipleChoice() {
+        return multipleChoice;
     }
 }

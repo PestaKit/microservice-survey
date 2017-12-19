@@ -48,15 +48,15 @@ public class AnswerValidator implements Validator {
         if (answer.getIdSurvey() != null) {
             SurveyEntity survey = surveysRepository.findOne(answer.getIdSurvey());
             if (survey == null) {
-                errors.rejectValue("idSurvey", "NonExistentSurvey");
+                errors.rejectValue("idSurvey", "NonExistingSurvey");
             }
         }
         if (answer.getIdQuestion() != null) {
             QuestionEntity question = questionsRepository.findOne(answer.getIdQuestion());
             if (question == null) {
-                errors.rejectValue("idQuestion", "NonExistentQuestion");
+                errors.rejectValue("idQuestion", "NonExistingQuestion");
                 if (answer.getChoices().size() > 0) {
-                    errors.rejectValue("choices", "ChoicesForNonExistentQuestion");
+                    errors.rejectValue("choices", "ChoicesForNonExistingQuestion");
                 }
             } else {
                 if (question.getEnabled() == 0) {
@@ -65,34 +65,35 @@ public class AnswerValidator implements Validator {
                         errors.rejectValue("choices", "ChoicesForDisabledQuestion");
                     }
                 }
-                // In case where more choices than the question's qre selected to the answer
-                if (answer.getChoices().size() > question.getChoices().size()) {
-                    errors.rejectValue("choices", "TooMuchChoices");
+                if (answer.getChoices().size() == 0) {
+                    errors.rejectValue("choices", "EmptyList");
                 }
                 // Deep check of the selected choices. In case that at least one doesn't match, this should not pass
                 // the validation
-                if (incorrectSelectedChoices(answer.getChoices(), question.getChoices())) {
+                else if (incorrectSelectedChoices(answer.getChoices(), question.getChoices())) {
                     errors.rejectValue("choices", "SelectedChoicesDontMatchQuestionChoices");
+                } else {
+                    if (question.getMultipleChoice() == 0 && answer.getChoices().size() != 1) {
+                        errors.rejectValue("choices", "TooMuchChoices");
+                    }
+                    else if (answer.getChoices().size() != 1){
+                        // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later
+                        for (int i = 0; i < answer.getChoices().size(); i++) {
+                            if (answer.getChoices().get(i).getPosition() != i + 1) {
+                                errors.rejectValue("choices", "InvalidPositions");
+                                break;
+                            } else if (answer.getChoices().get(i).getText().length() == 0) {
+                                errors.rejectValue("choices", "EmptyText");
+                                break;
+                            }
+                        }
+                    }
                 }
-            }
-        }
-        if (answer.getChoices().size() == 0) {
-            errors.rejectValue("choices", "EmptyList");
-        }
-        // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later
-        for (int i = 0; i < answer.getChoices().size(); i++) {
-            if (answer.getChoices().get(i).getPosition() != i + 1) {
-                errors.rejectValue("choices", "InvalidPositions");
-                break;
-            } else if (answer.getChoices().get(i).getText().length() == 0) {
-                errors.rejectValue("choices", "EmptyText");
-                break;
             }
         }
         for (Object object : answer.getChoices()) {
             ValidationUtils.invokeValidator(validator, object, errors);
         }
-        // TODO implement user authentication here
     }
 
     /**
@@ -105,16 +106,18 @@ public class AnswerValidator implements Validator {
      * false otherwise
      */
     private boolean incorrectSelectedChoices(List<Choice> postedChoices, List<ChoiceEntity> existingChoiceEntities) {
+        if (postedChoices.size() > existingChoiceEntities.size())
+            return true;
         List<Choice> existingChoices = new ArrayList<>();
-        for (ChoiceEntity entity : existingChoiceEntities){
+        for (ChoiceEntity entity : existingChoiceEntities) {
             existingChoices.add(QuestionsApiController.toChoice(entity));
         }
-        for (Choice choice : postedChoices){
-            if (!existingChoices.contains(choice)){
+        for (Choice choice : postedChoices) {
+            if (!existingChoices.contains(choice)) {
                 return true;
             }
         }
-            return false;
+        return false;
     }
 }
 

@@ -74,6 +74,7 @@ public class QuestionsApiController implements QuestionsApi {
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
         entity.setEnabled(question.getEnabled());
+        entity.setMultipleChoice(question.getMultipleChoice());
         List<ChoiceEntity> choiceEntities = entity.getChoices();
         for (Choice choice : question.getChoices()) {
             choiceEntities.add(toChoiceEntity(choice));
@@ -88,6 +89,7 @@ public class QuestionsApiController implements QuestionsApi {
         question.setUsed(entity.getUsed());
         List<Choice> choices = new ArrayList<>();
         question.setEnabled(entity.getEnabled());
+        question.setMultipleChoice(entity.getMultipleChoice());
         for (ChoiceEntity choiceEntity : entity.getChoices()) {
             choices.add(toChoice(choiceEntity));
         }

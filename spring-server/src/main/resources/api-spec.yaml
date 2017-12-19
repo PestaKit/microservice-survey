@@ -211,6 +211,7 @@ definitions:
     required:
     - title
     - enabled
+    - multipleChoice
     - choices
     properties:
       title:
@@ -219,6 +220,9 @@ definitions:
         type: integer
         format: int32
       enabled:
+        type: integer
+        format: int32
+      multipleChoice:
         type: integer
         format: int32
       choices:

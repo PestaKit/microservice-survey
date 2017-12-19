@@ -44,19 +44,25 @@ public class QuestionValidator implements Validator {
         List<Choice> choices = question.getChoices();
         if (choices.size() == 0) {
             errors.rejectValue("choices", "EmptyList");
-        } else if (choices.size() < 2) {
+        } else if (choices.size() == 1) {
             errors.rejectValue("choices", "ListWithASingleChoice");
-        } else if (question.getEnabled() != null && question.getEnabled() != 0 && question.getEnabled() != 1) {
-            errors.rejectValue("enabled", "InvalidEnabledField");
-        }
-        // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later
-        for (int i = 0; i < choices.size(); i++) {
-            if (choices.get(i).getPosition() != i + 1){
-                errors.rejectValue("choices", "InvalidPositions");
-                break;
-            }else if (choices.get(i).getText().length() == 0){
-                errors.rejectValue("choices", "EmptyText");
-                break;
+        } else {
+            if (question.getEnabled() != null && question.getEnabled() != 0 && question.getEnabled() != 1) {
+                errors.rejectValue("enabled", "InvalidEnabledValue");
+            }
+            if (question.getMultipleChoice() != null && question.getMultipleChoice() != 0
+                    && question.getMultipleChoice() != 1) {
+                errors.rejectValue("multipleChoice", "InvalidMultipleChoiceValue");
+            }
+            // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later
+            for (int i = 0; i < choices.size(); i++) {
+                if (choices.get(i).getPosition() != i + 1) {
+                    errors.rejectValue("choices", "InvalidPositions");
+                    break;
+                } else if (choices.get(i).getText().length() == 0) {
+                    errors.rejectValue("choices", "EmptyText");
+                    break;
+                }
             }
         }
         for (Object object : choices) {
