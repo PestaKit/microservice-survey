@@ -1,17 +1,21 @@
 ---------------------POUR LES ANSWERS----------------------------------------------------------------------------------------------------------------------------------
 
 
-- On ne vérifie pas que les choix correspondent à l'id de la question.
+- On ne vérifie pas que les choix correspondent à l'id de la question. ==> OK (ali)
 - On ne vérifie pas que le userId soit validé par un système d authentification (utiliser l'api de l'autre groupe). S'il n'est pas validé, l'answer ne peut être postée.(voir pour virer le userId d'une answer et le récupérer plutot depuis le hedaer de la requete)
-- Quand il manque le surveyId ou le questionId, on reçoit une erreur 500 au lieu d'une custom erreur 422.
-- Quand la position d'un choix est fausse (par exemple 0), l'answer se crée quand même (code 201).
-- Concernant le timestamp, comme c'est un simple string, il faudrait au moins vérifier que la syntax est correcte et renvoyer une erreur si ce n'est pas le cas.
-- Quand on GET une answer précise, le timestamp prend la valeur de la date actuelle alors que ce qu'on veut c'est retrouver la date à laquelle l'answer est postée.
-
-
+- Quand il manque le surveyId ou le questionId, on reçoit une erreur 500 au lieu d'une custom erreur 422. ==> OK (ali)
+- Quand la position d'un choix est fausse (par exemple 0), l'answer se crée quand même (code 201). ==> OK (ali)
+- Concernant le timestamp, comme c'est un simple string, il faudrait au moins vérifier que la syntax est correcte et renvoyer une erreur si ce n'est pas le cas. ==> On ne poste jamais le timestamp donc y'a pas besoin de le controler (ali). 
+- Quand on GET une answer précise, le timestamp prend la valeur de la date actuelle alors que ce qu'on veut c'est retrouver la date à laquelle l'answer est postée. ==> Revu et il ne semble pas avoir de problèmes avec ça. Le timestamp prend la valeur de la date-heure courante lorsque la réponse est postée (appel à la méthode createAnswer dans le contrôleur). Quand on fait un GET, on obtient tout simplement cette valeur qui a été stockée dans la base de données depuis l'entité JPA AnswerEntity (ali). 
 
 
 -----------------------A envisager par la suite après discussion avec le prof--------------------------------------------------------------------------------------------
 
 
-- Il faudrait aussi que le survey et la question aient une notion de userId pour savoir qui les a créés.
+- Il faudrait aussi que le survey et la question aient une notion de userId pour savoir qui les a créés. On rajoutera donc les attributs de type string dans les entités JPA question et survey qu'in récupèrera depuis l'en-tête autorisation.
+
+
+-----------------------Pour une meilleure expérience d'utilisataion ainsi qu'un meilleur contrôle sur l'API et des tests plus sensés--------------------------------------
+
+- Rajouter un attribut dans les questions "multipleChoice" qui prendrait les valeurs "0" ou "1". Ceci faciliterait les contrôles sur les réponses et donnerait plus de sens à l'utilisateur de l'API. 
+

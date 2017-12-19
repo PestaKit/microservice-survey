@@ -95,7 +95,7 @@ public class QuestionsApiController implements QuestionsApi {
         return question;
     }
 
-    protected static Choice toChoice(ChoiceEntity entity) {
+    public static Choice toChoice(ChoiceEntity entity) {
         Choice choice = new Choice();
         choice.setPosition(entity.getPosition());
         choice.setText(entity.getText());
