@@ -1,3 +1,0 @@
-FROM openjdk:8u151-jdk-alpine
-COPY swagger-spring-1.0.0.jar /usr/src/survey-server/
-CMD ["java", "-jar", "/usr/src/survey-server/swagger-spring-1.0.0.jar"]
