@@ -12,10 +12,10 @@
 -----------------------A envisager par la suite après discussion avec le prof--------------------------------------------------------------------------------------------
 
 
-- Il faudrait aussi que le survey et la question aient une notion de userId pour savoir qui les a créés. On rajoutera donc les attributs de type string dans les entités JPA question et survey qu'in récupèrera depuis l'en-tête autorisation.
+- Il faudrait aussi que le survey et la question aient une notion de userId pour savoir qui les a créés. On rajoutera donc les attributs de type string dans les entités JPA question et survey qu'in récupèrera depuis l'en-tête autorisation. ==> OK (ali)
 
 
 -----------------------Pour une meilleure expérience d'utilisataion ainsi qu'un meilleur contrôle sur l'API et des tests plus sensés--------------------------------------
 
-- Rajouter un attribut dans les questions "multipleChoice" qui prendrait les valeurs "0" ou "1". Ceci faciliterait les contrôles sur les réponses et donnerait plus de sens à l'utilisateur de l'API. 
+- Rajouter un attribut dans les questions "multipleChoice" qui prendrait les valeurs "0" ou "1". Ceci faciliterait les contrôles sur les réponses et donnerait plus de sens à l'utilisateur de l'API. ==> OK (ali)
 

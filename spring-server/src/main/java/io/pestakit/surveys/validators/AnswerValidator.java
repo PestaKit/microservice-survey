@@ -73,7 +73,7 @@ public class AnswerValidator implements Validator {
                 else if (incorrectSelectedChoices(answer.getChoices(), question.getChoices())) {
                     errors.rejectValue("choices", "SelectedChoicesDontMatchQuestionChoices");
                 } else {
-                    if (question.getMultipleChoice() == 0 && answer.getChoices().size() != 1) {
+                    if (question.getAllowMultipleChoices() == 0 && answer.getChoices().size() != 1) {
                         errors.rejectValue("choices", "TooMuchChoices");
                     }
                     else if (answer.getChoices().size() != 1){

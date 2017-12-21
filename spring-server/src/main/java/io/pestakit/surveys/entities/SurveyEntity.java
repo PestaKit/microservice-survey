@@ -15,6 +15,7 @@ public class SurveyEntity implements Serializable {
     private long id;
 
     private String title;
+    private String idUser;
 
     // This annotation is used to tell the spring server to consider this field as a collection of instances of a basic
     // or embedded type (in our case String --> embedded class).
@@ -43,5 +44,13 @@ public class SurveyEntity implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getIdUser() {
+        return idUser;
     }
 }

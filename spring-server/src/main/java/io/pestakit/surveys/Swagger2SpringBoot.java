@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"io.pestakit.surveys", "io.pestakit.surveys.api",
+@ComponentScan(basePackages = {"io.pestakit.users.security", "io.pestakit.surveys", "io.pestakit.surveys.api",
         "io.pestakit.surveys.repositories"})
 @EnableSwagger2
 public class Swagger2SpringBoot implements CommandLineRunner {

@@ -2,7 +2,6 @@ package io.pestakit.surveys.entities;
 
 //import io.pestakit.surveys.model.Choice;
 
-import springfox.documentation.spring.web.json.Json;
 //import org.springframework.data.annotation.Id;
 
 
@@ -23,7 +22,8 @@ public class QuestionEntity implements Serializable {
     private String title;
     private int used;
     private int enabled;
-    private int multipleChoice;
+    private int allowMultipleChoices;
+    private String idUser;
 
     // Fetch type for cascade requests. Here it makes sense to have it eager since we have at most a dozen of choices
     // per question
@@ -70,11 +70,19 @@ public class QuestionEntity implements Serializable {
         this.enabled = enabled;
     }
 
-    public void setMultipleChoice(int multipleChoice) {
-        this.multipleChoice = multipleChoice;
+    public void setAllowMultipleChoices(int allowMultipleChoices) {
+        this.allowMultipleChoices = allowMultipleChoices;
     }
 
-    public int getMultipleChoice() {
-        return multipleChoice;
+    public int getAllowMultipleChoices() {
+        return allowMultipleChoices;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 }

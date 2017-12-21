@@ -9,9 +9,12 @@ import io.pestakit.surveys.model.SurveyRef;
 import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.pestakit.surveys.repositories.SurveysRepository;
 import io.pestakit.surveys.validators.SurveyValidator;
+import io.pestakit.users.security.UserProfile;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
@@ -49,6 +52,7 @@ public class SurveysApiController implements SurveysApi {
     @Autowired
     SurveyValidator surveyValidator;
 
+    @PreAuthorize("hasRole('USER')")
     @Transactional
     @Override
     public ResponseEntity<Void> createSurvey(@ApiParam(value = "The survey to be created", required = true)
@@ -58,18 +62,21 @@ public class SurveysApiController implements SurveysApi {
         SurveyEntity entity = toSurveyEntity(survey);
         List<String> questions = entity.getQuestions();
 
-            for (String url : questions) {
-                    Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
-                    QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
-                    updateUsedField(questionEntity);
-                }
-            surveysRepository.save(entity);
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(entity.getId()).toUri();
-            return created(location).build();
+        for (String url : questions) {
+            Long idQuestion = Long.decode(url.substring(questionsEndpointAddress.length()));
+            QuestionEntity questionEntity = questionsRepository.findOne(idQuestion);
+            updateUsedField(questionEntity);
+        }
+        UserProfile profile = (UserProfile) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        entity.setIdUser(profile.getUsername());
+        surveysRepository.save(entity);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(entity.getId()).toUri();
+        return created(location).build();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<SurveyRef> findSurveyById(@ApiParam(value = "ID of survey to fetch", required = true)
                                                     @PathVariable("id_survey")
@@ -83,6 +90,7 @@ public class SurveysApiController implements SurveysApi {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<List<SurveyRef>> getAllSurveys() {
         List<SurveyRef> surveyRefs = new ArrayList<>();
@@ -136,7 +144,7 @@ public class SurveysApiController implements SurveysApi {
     }
 
     @InitBinder("survey")
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder) {
         binder.addValidators(surveyValidator);
     }
 }

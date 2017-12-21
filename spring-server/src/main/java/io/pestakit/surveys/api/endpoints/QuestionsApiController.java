@@ -8,10 +8,13 @@ import io.pestakit.surveys.model.Question;
 
 import io.pestakit.surveys.repositories.QuestionsRepository;
 import io.pestakit.surveys.validators.QuestionValidator;
+import io.pestakit.users.security.UserProfile;
 import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,13 +37,15 @@ public class QuestionsApiController implements QuestionsApi {
     @Autowired
     QuestionsRepository questionsRepository;
 
-
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<Void> createQuestion(@ApiParam(value = "The question to be created", required = true)
                                                @Valid
-                                               @RequestBody Question question){
+                                               @RequestBody Question question) {
         QuestionEntity entity = toQuestionEntity(question);
         entity.setUsed(0);
+        UserProfile profile = (UserProfile) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        entity.setIdUser(profile.getUsername());
         questionsRepository.save(entity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -48,6 +53,7 @@ public class QuestionsApiController implements QuestionsApi {
         return created(location).build();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<Question> findQuestionById(@ApiParam(value = "ID of question to fetch", required = true)
                                                      @PathVariable("id_question")
@@ -61,6 +67,7 @@ public class QuestionsApiController implements QuestionsApi {
 
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<List<Question>> getAllQuestions() {
         List<Question> questions = new ArrayList<>();
@@ -74,7 +81,7 @@ public class QuestionsApiController implements QuestionsApi {
         QuestionEntity entity = new QuestionEntity();
         entity.setTitle(question.getTitle());
         entity.setEnabled(question.getEnabled());
-        entity.setMultipleChoice(question.getMultipleChoice());
+        entity.setAllowMultipleChoices(question.getAllowMultipleChoices());
         List<ChoiceEntity> choiceEntities = entity.getChoices();
         for (Choice choice : question.getChoices()) {
             choiceEntities.add(toChoiceEntity(choice));
@@ -89,7 +96,7 @@ public class QuestionsApiController implements QuestionsApi {
         question.setUsed(entity.getUsed());
         List<Choice> choices = new ArrayList<>();
         question.setEnabled(entity.getEnabled());
-        question.setMultipleChoice(entity.getMultipleChoice());
+        question.setAllowMultipleChoices(entity.getAllowMultipleChoices());
         for (ChoiceEntity choiceEntity : entity.getChoices()) {
             choices.add(toChoice(choiceEntity));
         }
@@ -116,7 +123,7 @@ public class QuestionsApiController implements QuestionsApi {
     QuestionValidator questionValidator;
 
     @InitBinder("question")
-    public void initBinder(WebDataBinder binder){
+    public void initBinder(WebDataBinder binder) {
         binder.addValidators(questionValidator);
     }
 }

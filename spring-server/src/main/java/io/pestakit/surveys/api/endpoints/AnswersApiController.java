@@ -8,10 +8,13 @@ import io.pestakit.surveys.model.Choice;
 import io.pestakit.surveys.model.Survey;
 import io.pestakit.surveys.repositories.AnswersRepository;
 import io.pestakit.surveys.validators.AnswerValidator;
+import io.pestakit.users.security.UserProfile;
 import io.swagger.annotations.ApiParam;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -37,11 +40,14 @@ public class AnswersApiController implements AnswersApi {
     @Autowired
     AnswersRepository answersRepository;
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<Void> createAnswer(@ApiParam(value = "The answer to be created", required = true)
                                              @Valid
                                              @RequestBody Answer answer) {
         AnswerEntity entity = toAnswerEntity(answer);
+        UserProfile profile = (UserProfile) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        entity.setIdUser(profile.getUsername());
         answersRepository.save(entity);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -50,12 +56,14 @@ public class AnswersApiController implements AnswersApi {
         return created(location).build();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<Answer> findAnswerById(@ApiParam(value = "ID of answer to fetch", required = true)
                                                  @PathVariable("id_answer") Long idAnswer) {
         return ok(toAnswer(answersRepository.findOne(idAnswer)));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @Override
     public ResponseEntity<List<Answer>> getAllAnswers() {
         List<Answer> answers = new ArrayList<>();
@@ -75,7 +83,6 @@ public class AnswersApiController implements AnswersApi {
         answer.setChoices(choices);
         answer.setIdQuestion(entity.getIdQuestion());
         answer.setIdSurvey(entity.getIdSurvey());
-        answer.setIdUser(entity.getIdUser());
         answer.setTimestamp(entity.getTimestamp());
         return answer;
     }
@@ -89,7 +96,6 @@ public class AnswersApiController implements AnswersApi {
         entity.setChoices(choiceEntities);
         entity.setIdQuestion(answer.getIdQuestion());
         entity.setIdSurvey(answer.getIdSurvey());
-        entity.setIdUser(answer.getIdUser());
         entity.setTimestamp(DateTime.now().toString());
         return entity;
     }

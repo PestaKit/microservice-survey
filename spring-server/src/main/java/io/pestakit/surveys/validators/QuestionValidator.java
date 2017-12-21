@@ -50,8 +50,8 @@ public class QuestionValidator implements Validator {
             if (question.getEnabled() != null && question.getEnabled() != 0 && question.getEnabled() != 1) {
                 errors.rejectValue("enabled", "InvalidEnabledValue");
             }
-            if (question.getMultipleChoice() != null && question.getMultipleChoice() != 0
-                    && question.getMultipleChoice() != 1) {
+            if (question.getAllowMultipleChoices() != null && question.getAllowMultipleChoices() != 0
+                    && question.getAllowMultipleChoices() != 1) {
                 errors.rejectValue("multipleChoice", "InvalidMultipleChoiceValue");
             }
             // For the moment, we assume that the choices get posted having ordered positions. TODO improve this later

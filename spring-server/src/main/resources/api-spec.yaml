@@ -222,7 +222,7 @@ definitions:
       enabled:
         type: integer
         format: int32
-      multipleChoice:
+      allowMultipleChoices:
         type: integer
         format: int32
       choices:
@@ -305,9 +305,6 @@ definitions:
         type: integer
         format: int64
       idQuestion:
-        type: integer
-        format: int64
-      idUser:
         type: integer
         format: int64
       timestamp:
