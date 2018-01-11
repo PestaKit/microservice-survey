@@ -305,7 +305,7 @@ public class CreationSteps {
         Long userId = 1L;
         //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
-        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+        // answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
 
     @Given("^I have an answer with full payload and only one choice per question$")
@@ -326,7 +326,6 @@ public class CreationSteps {
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
-
 
     @Given("^I have an answer where the choices are not specified$")
     public void i_have_an_answer_where_the_choices_are_not_specified() throws Throwable {
@@ -920,7 +919,9 @@ public class CreationSteps {
 
     @And("^The getted answer and the posted answer are the same$")
     public void the_getted_answer_and_the_posted_answer_are_the_same() throws Throwable {
-        assertEquals(answerPosted, answerGetted);
+        assertEquals(answerPosted.getIdSurvey(), answerGetted.getIdSurvey());
+        assertEquals(answerPosted.getIdQuestion(), answerGetted.getIdQuestion());
+        assertEquals(answerPosted.getChoices(), answerGetted.getChoices());
     }
 
     @And("^The getted survey and the posted survey have the same title and question urls$")

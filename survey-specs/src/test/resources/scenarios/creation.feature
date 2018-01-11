@@ -290,12 +290,12 @@ Feature: api surveys
     Then I receive a 201 status code
 
 
-  #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!problème de timestamp à gérer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can post an answer and get it by specifying the id
-   # Given I have a correct id that exists because I posted an answer
-    #When I GET it to the /answers/id_answer endpoint
-    #Then I receive a 200 status code
-    #And The getted answer and the posted answer are the same
+  #2
+  Scenario: I can post an answer and get it by specifying the id
+    Given I have a correct id that exists because I posted an answer
+    When I GET it to the /answers/id_answer endpoint
+    Then I receive a 200 status code
+    And The getted answer and the posted answer are the same
 
 
   #3
@@ -340,12 +340,11 @@ Feature: api surveys
     Then I receive a 422 status code
     And The error message specifies it is a non existing question
 
-  #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!l answer se crée quand meme si juste les choix ne correspondent pas à la question
-  #Scenario: I can't post an answer where the choice does not match with the question
-   # Given I have an answer where the choice does not match with the question
-    #When I POST it to the /answers endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies it is a choice for non existing question
+  #2
+  Scenario: I can't post an answer where the choice does not match with the question
+    Given I have an answer where the choice does not match with the question
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
 
   #3
   Scenario: I can't post an answer where the surveyId does not exists
