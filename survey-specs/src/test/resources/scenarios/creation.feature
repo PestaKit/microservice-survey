@@ -82,13 +82,13 @@ Feature: api surveys
     Then I receive a 200 status code
     And the used attribute value is zero
 
-  #12 By Dany
+  #12
   Scenario: I can't create a question with one choice in choices attribute in payload
     Given I have a question with one choice in choices attribute in payload
     When I POST it to the /questions endpoint
     Then I receive a 422 status code
 
-  #13 By Dany and Julien
+  #13
   Scenario: I can create a disabled question with full payload
     Given I have a disabled question with full payload
     When I POST it to the /questions endpoint
@@ -169,7 +169,7 @@ Feature: api surveys
     And The getted survey and the posted survey have the same title and question urls
 
 
-  #12 Add by Julien et Dany
+  #12
   Scenario: I can't create a survey with disabled question
     Given I have a survey with full payload and a disabled question
     When I POST it to the /surveys endpoint
@@ -332,21 +332,21 @@ Feature: api surveys
     Given I have an answer where the questionId does not exists
     When I POST it to the /answers endpoint
     Then I receive a 422 status code
-    And The error message specifies it is a non existent question
+    And The error message specifies it is a non existing question
 
   #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!l answer se crée quand meme si juste les choix ne correspondent pas à la question
   #Scenario: I can't post an answer where the choice does not match with the question
    # Given I have an answer where the choice does not match with the question
     #When I POST it to the /answers endpoint
     #Then I receive a 422 status code
-    #And The error message specifies it is a choice for non existent question
+    #And The error message specifies it is a choice for non existing question
 
   #3
   Scenario: I can't post an answer where the surveyId does not exists
     Given I have an answer where the surveyId does not exists
     When I POST it to the /answers endpoint
     Then I receive a 422 status code
-    And The error message specifies it is a non existent survey
+    And The error message specifies it is a non existing survey
 
    #4
   Scenario: I can't post an answer where the choices are not specified
@@ -370,3 +370,10 @@ Feature: api surveys
     When I POST it to the /answers endpoint
     Then I receive a 422 status code
     And The error message specifies that a choice position is missing
+
+  #7
+  Scenario: I can't post an answer with multiple choices in a single choice question
+    Given I have an answer with multiple choices in a single choice question
+    When I POST it to the /answers endpoint
+    Then I receive a 422 status code
+    And The error message specifies that there is too much choices

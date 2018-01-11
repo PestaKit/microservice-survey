@@ -131,23 +131,6 @@ paths:
             $ref: '#/definitions/Error'
 
   /answers:
-    get:
-      description: Returns all the answers stored in the app's db
-      operationId: getAllAnswers
-      produces:
-        - application/json
-      responses:
-        200:
-          description: OK
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Answer'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
     post:
       description: Create an answer
       operationId: createAnswer
@@ -189,6 +172,31 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /results/{idSurvey}:
+    get:
+      description: Returns a list with answer stats of a survey specified by it's id
+      operationId: findResultsOfSurvey
+      produces:
+        - application/json
+      parameters:
+        - name: idSurvey
+          in: path
+          description: ID of the survey on which we calculate the stats
+          required: true
+          type: integer
+          format: int64 #int64 represents long in java
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Result'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
 
 definitions:
   Error:
@@ -211,7 +219,7 @@ definitions:
     required:
     - title
     - enabled
-    - multipleChoice
+    - allowMultipleChoices
     - choices
     properties:
       title:
@@ -298,7 +306,6 @@ definitions:
     required:
     - idSurvey
     - idQuestion
-    - idUser
     - choices
     properties:
       idSurvey:
@@ -313,3 +320,18 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Choice'
+
+  # This object is meant to represent a stat to a specific answer of a question
+  Result:
+    type: object
+    required:
+    - idQuestion
+    - stats
+    properties:
+      idQuestion:
+        type: integer
+        format: int64
+      stats:
+        type: array
+        items:
+          type: string # for instance we leave this as a string. Possibly we can change it to an int value

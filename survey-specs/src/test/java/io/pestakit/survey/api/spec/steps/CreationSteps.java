@@ -71,6 +71,7 @@ public class CreationSteps {
         question.setTitle("test");
         question.setUsed(0);
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("");
@@ -89,6 +90,7 @@ public class CreationSteps {
         question.setTitle("test");
         question.setUsed(0);
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("otpion1");
@@ -108,6 +110,7 @@ public class CreationSteps {
         question.setTitle("test");
         question.setUsed(0);
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("otpion1");
@@ -127,6 +130,7 @@ public class CreationSteps {
         question.setTitle("test");
         question.setUsed(0);
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(0);
         choice1.setText("otpion1");
@@ -181,6 +185,7 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
         question.setTitle("test2");
         question.setUsed(0);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("otpion1");
@@ -197,6 +202,7 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
         question.setTitle("test2");
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("otpion1");
@@ -213,6 +219,7 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
         question.setTitle("test2");
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         question.setUsed(0);
     }
 
@@ -221,6 +228,7 @@ public class CreationSteps {
         question = new io.pestakit.survey.api.dto.Question();
         //question.setTitle("test2");
         question.setEnabled(1);
+        question.setAllowMultipleChoices(1);
         question.setUsed(0);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
@@ -252,6 +260,25 @@ public class CreationSteps {
         question.setTitle("test1");
         question.setEnabled(1);
         question.setUsed(0);
+        question.setAllowMultipleChoices(1);
+        Choice choice1 = new Choice();
+        choice1.setPosition(1);
+        choice1.setText("pomme");
+        Choice choice2 = new Choice();
+        choice2.setPosition(2);
+        choice2.setText("banane");
+        List<Choice> choiceList = new ArrayList<>();
+        choiceList.add(choice1);choiceList.add(choice2);
+        question.setChoices(choiceList);
+    }
+
+    @Given("^I have a single choice question with full payload$")
+    public void i_have_a_single_choice_question_with_full_payload() throws Throwable {
+        question = new Question();
+        question.setTitle("test1");
+        question.setEnabled(1);
+        question.setUsed(0);
+        question.setAllowMultipleChoices(0);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("pomme");
@@ -275,7 +302,7 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -290,7 +317,7 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -310,7 +337,7 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -330,7 +357,7 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -350,7 +377,7 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -371,7 +398,7 @@ public class CreationSteps {
         answer.setIdSurvey(badId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -396,7 +423,7 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
         //here is a valid syntax timestamp in string
         answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
     }
@@ -414,17 +441,18 @@ public class CreationSteps {
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
         Long userId = 1L;
-        answer.setIdUser(userId);
+        //answer.setIdUser(userId);
     }
 
 
-    // Add by Julien et Dany
+
     @Given("^I have a disabled question with full payload$")
     public void i_have_a_disabled_question_with_full_payload() throws Throwable {
         question = new Question();
         question.setTitle("test1");
         question.setEnabled(0);
         question.setUsed(0);
+        question.setAllowMultipleChoices(1);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("pomme");
@@ -445,7 +473,16 @@ public class CreationSteps {
         survey.setTitle("survey test1");
     }
 
-    // Add by Julien et Dany
+         
+    @Given("^I have a survey with full payload and single choice questions that exist$")
+    public void i_have_a_survey_with_full_payload_and_single_choice_questions_that_exist() throws Throwable {
+        survey = new Survey();
+        i_POST_single_choice_questions_successively_to_the_questions_endpoint(1);
+        survey.setQuestionURLs(questionsUrls);
+        survey.setTitle("survey test2");
+    }
+
+
     @Given("^I have a survey with full payload and a disabled question$")
     public void i_have_a_survey_with_full_payload_and_a_disabled_question() throws Throwable {
         survey = new Survey();
@@ -522,6 +559,18 @@ public class CreationSteps {
         surveyId = Integer.parseInt(idStr);
     }
 
+         
+    @Given("^I have a correct id that exists because I posted a survey with single choice questions")
+    public void i_have_a_correct_id_that_exists_because_i_posted_a_survey_with_single_choice_questions() throws Throwable {
+        i_have_a_survey_with_full_payload_and_single_choice_questions_that_exist();
+        i_POST_it_to_the_surveys_endpoint();
+        assertEquals(201, lastStatusCode);
+        String locationStr = location.toString();
+        String idStr = locationStr.substring(locationStr.lastIndexOf('/') + 1);
+        idStr = idStr.substring(0, idStr.length() - 1);
+        surveyId = Integer.parseInt(idStr);
+    }
+
     @Given("^I have posted a survey with a question wich I know the value of the used attribute$")
     public void i_have_posted_a_survey_with_a_question_wich_i_know_the_value_of_the_used_attribute() throws Throwable {
         i_have_a_survey_with_full_payload_and_questions_that_exist();
@@ -530,12 +579,13 @@ public class CreationSteps {
         i_POST_it_to_the_surveys_endpoint();
     }
 
-    // Add by Dany
+
     @Given("I have a question with one choice in choices attribute in payload")
     public void I_have_a_question_with_one_choice_in_choices_attribute_in_payload() throws Throwable{
         question = new Question();
         question.setTitle("test1");
         question.setEnabled(1);
+        question.setAllowMultipleChoices(0);
         Choice choice1 = new Choice();
         choice1.setPosition(1);
         choice1.setText("option1");
@@ -545,10 +595,45 @@ public class CreationSteps {
 
     }
 
+         
+    @Given("I have an answer with multiple choices in a single choice question")
+    public void I_have_an_answer_with_multiple_choices_in_a_single_choice_question() throws Throwable{
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey_with_single_choice_questions();
+        answer = new Answer();
+        //we take all the choices of the first question of the survey to simulate the answer
+        //it means the user checked all the boxes for example
+        answer.setChoices(succesivePostedQuestions.get(0).getChoices());
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        //answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+
+    }
+
 //----------------------------------------------------------------------------------------------------------------------
     @When("^I POST (\\d+) questions successively to the /questions endpoint$")
     public void i_POST_questions_successively_to_the_questions_endpoint(int numberOfPosts) throws Throwable {
         i_have_a_question_with_full_payload();
+        questionsUrls = new ArrayList<>();
+        succesivePostedQuestions.clear();
+        questionIdAttributesOfQuestions.clear();
+        for(int i = 0; i < numberOfPosts; i++){
+            i_POST_it_to_the_questions_endpoint();
+            StringBuilder realLocation = new StringBuilder(location.toString());
+            realLocation.deleteCharAt(0);
+            realLocation.deleteCharAt(realLocation.length()-1);
+            questionsUrls.add(realLocation.toString());
+            assertEquals(201, lastStatusCode);
+        }
+    }
+         
+    @When("^I POST (\\d+) single choice questions successively to the /questions endpoint$")
+    public void i_POST_single_choice_questions_successively_to_the_questions_endpoint(int numberOfPosts) throws Throwable {
+        i_have_a_single_choice_question_with_full_payload();
         questionsUrls = new ArrayList<>();
         succesivePostedQuestions.clear();
         questionIdAttributesOfQuestions.clear();
@@ -934,35 +1019,35 @@ public class CreationSteps {
     }
 
 
-    @And("^The error message specifies it is a non existent question$")
-    public void the_error_message_specifies_it_is_a_non_existent_question() throws Throwable {
+    @And("^The error message specifies it is a non existing question$")
+    public void the_error_message_specifies_it_is_a_non_existing_question() throws Throwable {
         List<ErroneousField> erroneousFieldList = getErroneousFields();
         int indexIdQuestion = findIndexOfError(erroneousFieldList, "idQuestion");
         if(indexIdQuestion != -1) {
             assertEquals("idQuestion", erroneousFieldList.get(indexIdQuestion).getFieldName());
-            assertEquals("NonExistentQuestion", erroneousFieldList.get(indexIdQuestion).getErrorCode());
+            assertEquals("NonExistingQuestion", erroneousFieldList.get(indexIdQuestion).getErrorCode());
         }
     }
 
 
-    @And("^The error message specifies it is a non existent survey$")
-    public void the_error_message_specifies_it_is_a_non_existent_survey() throws Throwable {
+    @And("^The error message specifies it is a non existing survey$")
+    public void the_error_message_specifies_it_is_a_non_existing_survey() throws Throwable {
         List<ErroneousField> erroneousFieldList = getErroneousFields();
         int indexIdSurvey = findIndexOfError(erroneousFieldList, "idSurvey");
         if(indexIdSurvey != -1) {
             assertEquals("idSurvey", erroneousFieldList.get(indexIdSurvey).getFieldName());
-            assertEquals("NonExistentSurvey", erroneousFieldList.get(indexIdSurvey).getErrorCode());
+            assertEquals("NonExistingSurvey", erroneousFieldList.get(indexIdSurvey).getErrorCode());
         }
     }
 
 
-    @And("^The error message specifies it is a choice for non existent question$")
-    public void the_error_message_specifies_it_is_a_choice_for_non_existent_question() throws Throwable {
+    @And("^The error message specifies it is a choice for non existing question$")
+    public void the_error_message_specifies_it_is_a_choice_for_non_existing_question() throws Throwable {
         List<ErroneousField> erroneousFieldList = getErroneousFields();
         int indexChoices = findIndexOfError(erroneousFieldList, "choices");
         if(indexChoices != -1) {
             assertEquals("choices", erroneousFieldList.get(indexChoices).getFieldName());
-            assertEquals("ChoicesForNonExistentQuestion", erroneousFieldList.get(indexChoices).getErrorCode());
+            assertEquals("ChoicesForNonExistingQuestion", erroneousFieldList.get(indexChoices).getErrorCode());
         }
     }
 
@@ -976,6 +1061,16 @@ public class CreationSteps {
         }
     }
 
+
+    @And("^The error message specifies that there is too much choices$")
+    public void the_error_message_specifies_that_there_is_too_much_choices() throws Throwable {
+        List<ErroneousField> erroneousFieldList = getErroneousFields();
+        int indexChoices = findIndexOfError(erroneousFieldList, "choices");
+        if(indexChoices != -1) {
+            assertEquals("choices", erroneousFieldList.get(indexChoices).getFieldName());
+            assertEquals("TooMuchChoices", erroneousFieldList.get(indexChoices).getErrorCode());
+        }
+    }
 
     @And("^The error message specifies that a choice text is missing$")
     public void the_error_message_specifies_that_a_choice_text_is_missing() throws Throwable {
