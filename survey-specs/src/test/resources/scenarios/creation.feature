@@ -326,6 +326,12 @@ Feature: api surveys
     Then I receive a 201 status code
     And I have a default timestamp when I get this answer again
 
+  #7
+  Scenario: I can post an answer with single choice in a multiple choices question
+    Given I have an answer with full payload and only one choice per question
+    When I POST it to the /answers endpoint
+    Then I receive a 201 status code
+
 #----------------------------------------------Custom Errors Answers----------------------------------------------------
   #1
   Scenario: I can't post an answer where the questionId does not exists

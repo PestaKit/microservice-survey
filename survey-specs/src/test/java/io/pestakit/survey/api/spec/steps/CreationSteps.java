@@ -13,6 +13,7 @@ import io.pestakit.survey.api.dto.*;
 import io.pestakit.survey.api.spec.helpers.Environment;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -298,6 +299,25 @@ public class CreationSteps {
         //we take all the choices of the first question of the survey to simulate the answer
         //it means the user checked all the boxes for example
         answer.setChoices(succesivePostedQuestions.get(0).getChoices());
+        answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
+        answer.setIdSurvey(surveyId);
+        //fake user Id because we need the API of the other group
+        Long userId = 1L;
+        //answer.setIdUser(userId);
+        //here is a valid syntax timestamp in string
+        answer.setTimestamp("2017-12-13T09:39:10.582+01:00");
+    }
+
+    @Given("^I have an answer with full payload and only one choice per question$")
+    public void i_have_an_answer_with_full_payload_and_only_one_choice_per_question() throws Throwable {
+        //we need first to create a Survey with questions and a user id (fake for the moment)
+        i_have_a_correct_id_that_exists_because_i_posted_a_survey();
+        answer = new Answer();
+        //we take all the choices of the first question of the survey to simulate the answer
+        //it means the user checked the first box for example
+        List<Choice> choices = new ArrayList();
+        choices.add(succesivePostedQuestions.get(0).getChoices().get(0));
+        answer.setChoices(choices);
         answer.setIdQuestion((Long)questionIdAttributesOfQuestions.get(0));
         answer.setIdSurvey(surveyId);
         //fake user Id because we need the API of the other group
