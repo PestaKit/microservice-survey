@@ -63,17 +63,6 @@ public class AnswersApiController implements AnswersApi {
         return ok(toAnswer(answersRepository.findOne(idAnswer)));
     }
 
-    @PreAuthorize("hasRole('USER')")
-    @Override
-    public ResponseEntity<List<Answer>> getAllAnswers() {
-        List<Answer> answers = new ArrayList<>();
-        for (AnswerEntity entity : answersRepository.findAll()){
-            answers.add(toAnswer(entity));
-        }
-        return ok(answers);
-    }
-
-
     private Answer toAnswer(AnswerEntity entity) {
         Answer answer = new Answer();
         List<Choice> choices = new ArrayList<>();
