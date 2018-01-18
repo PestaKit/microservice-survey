@@ -492,6 +492,15 @@ public class CreationSteps {
         survey.setTitle("survey test1");
     }
 
+    @Given("^I have a survey with full payload and question with no title")
+    public void i_have_a_survey_with_full_payload_and_question_with_no_title() throws Throwable {
+        survey = new Survey();
+        i_have_a_question_with_missing_title_attribute_in_payload();
+        i_POST_it_to_the_questions_endpoint();
+        survey.setQuestionURLs(questionsUrls);
+        survey.setTitle("survey test10");
+    }
+
          
     @Given("^I have a survey with full payload and single choice questions that exist$")
     public void i_have_a_survey_with_full_payload_and_single_choice_questions_that_exist() throws Throwable {

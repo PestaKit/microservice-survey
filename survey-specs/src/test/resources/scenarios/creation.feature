@@ -216,71 +216,25 @@ Feature: api surveys
 
   #----------------------------------------------Custom Errors Surveys--------------------------------------------------
 
-  #1 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  # I can't post a Survey that contains a question (hard coding)
-            #where the first position of the choices starts with 0, but I receive a custom error message
-    #Given I have survey that contains a question where the first position of the choices starts with 0
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies blblablablablbal
+  #1
+  Scenario: I can't post a Survey that contains a question (hard coding) with no title
+    Given I have a survey with full payload and question with no title
+    When I POST it to the /surveys endpoint
+    Then I receive a 422 status code
 
-
-  #2 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can't post a Survey that contains a question (hard coding)
-   #         where a position index is missing for the choices but I receive a custom error message
-    #Given I have survey that contains a question where a position index is missing for the choices
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies blblablablablbal
-
-
-
-  #3 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can't post a Survey that contains a question (hard coding)
-  #where all required fields are missing but I receive a customed error message
-   # Given I have survey that contains a question where all required fields are missing
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies blblablablablbal
-
-
-  #4 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can't post a Survey that contains a question (hard coding)
-  #where there is only one choice but I receive a custom error message
-   # Given I have survey that contains a question where there is only one choice
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies blblablablablbal
-  
-
-  #5 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can't post a Survey that contains a question (hard coding)
-  #where a text choice is missing but I receive a custom error message
-   # Given I have survey that contains a question where a text choice is missing
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies blblablablablbal
-
-  #6
+  #2
   Scenario: I can't post a survey whith a bad URL question but a receive a custom error message
     Given I have a survey with full payload but with one of the questions that has a bad url
     When I POST it to the /surveys endpoint
     Then I receive a 422 status code
     And The error message specifies there is a bad URL question
 
-  #7
+  #3
   Scenario: I can't post a survey whith empty fields but I receive a custom error message
     Given I have a survey with empty payload
     When I POST it to the /surveys endpoint
     Then I receive a 422 status code
     And The error message specifies the empty fields for the survey
-
-  #8 A IMPLEMENTER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  #Scenario: I can't post a survey whith a doubled question url but I receive a custom error message
-   # Given I have a survey with doubled questions
-    #When I POST it to the /surveys endpoint
-    #Then I receive a 422 status code
-    #And The error message specifies blablablablabla
 
   #-------------------------------------------------ANSWERS-------------------------------------------------------------
    #1
