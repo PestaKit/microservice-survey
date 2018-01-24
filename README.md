@@ -78,12 +78,12 @@ Here are some rules about the utilisation of the API if you want to use it to de
 - when you create two identical answers, only one is considered.
 
 
-## Cumcumber tests
+## Cucumber tests
 
-If we want to test our *microservice Survey* with Cumcumber, we need to comment a few lines to ignore the integration of the *microservice User*. We need to do that because we test only functionalities of our service alone.
+If we want to test our *microservice Survey* with Cucumber, we need to comment a few lines to ignore the integration of the *microservice User*. We need to do that because we test only functionalities of our service alone.
 
 We need to comment **`@PreAuthorize("hasRole('User')")`** annotations in our 3 API controllers which are `SurveysApiController`, `QuestionsApiController `and `AnswersApiController`.
 
-Once we've done those changes, we can make our Cumcumber tests without Build errors.
+Once we've done those changes, we can make our Cucumber tests without Build errors.
 
 
