@@ -82,7 +82,7 @@ Here are some rules about the utilisation of the API if you want to use it to de
 
 If we want to test our *microservice Survey* with Cucumber, we need to comment a few lines to ignore the integration of the *microservice User*. We need to do that because we test only functionalities of our service alone.
 
-We need to comment **`@PreAuthorize("hasRole('User')")`** annotations in our 3 API controllers which are `SurveysApiController`, `QuestionsApiController `and `AnswersApiController`.
+We need to comment **`@PreAuthorize("hasRole('User')")`** annotations in our 3 API controllers which are `SurveysApiController`, `QuestionsApiController `and `AnswersApiController`. We need to comment importations of `springframework.security` and `pestakit.users` too.
 
 Once we've done those changes, we can make our Cucumber tests without Build errors.
 
