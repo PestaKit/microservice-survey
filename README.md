@@ -2,7 +2,7 @@
 
 # microservice-survey
 
-A surveys microservice for AMT course 2017
+A surveys microservice for AMT course 2017-2018
 
 ## Getting Started
 
@@ -15,6 +15,7 @@ You first have to install docker and have the last version of IntelliJ IDEA Ulti
 
 ## Deployment
 
+### First method (only to launch the API Surveys, no scripts):
 Open the docker terminal and go to the "topology-amt" folder. There is a file called "docker-compose.yml". 
 
 Enter the line command : docker-compose up --build.
@@ -28,7 +29,26 @@ You will be able to manually test your own requests with tis API on the followin
 
 Then if you want to execute some tests on the api-server, you can open the "survey-specs" folder that contains all the tests and run it with IntelliJ IDEA by doing a right click on the project and select "Run" then "All tests".
 
+### Warnings:
+With this method, you need to manually launch the API Users (<https://github.com/PestaKit/microservice-users>) and be aware of the configuration dependencies (IP addresses and port mapping) what can be a little bit tricky. You will probably change some configurations to get  access to the server with the mentioned link. This is due to the fact we started to implement our API without the API Users dependency. Our API Surveys depends now on the API Users for authentication. If there is no authentication process, you won't be able to use the API Surveys (authorization problem). Be sure the API Users is running when you launch the API Surveys.
 
+
+### Second method (to launch full topology with scripts and docker-compose):
+With this second method, you are sure to launch to full topology to use both APIs (API Users and Surveys). You will use the script and docker-compose we made during our integration test phase. 
+
+That is why you need to put in the same folder: a folder containing our full API Surveys, an other folder with the API Users and finally a folder that contains the integration project you can get here (<https://github.com/PestaKit/integration>). 
+
+This integration project contains a script build-images.sh. Run it and it will build the images you need. Then go to the docker-topology folder and enter the line command : docker-compose up --build. It will create the full topology (be aware of running the script build-images.sh before). Then you can access to the specs of each API with the following links:
+
+<https://192.168.99.100:2201/api>
+<https://192.168.99.100:2200/api>
+
+You are know ready to play with these APIs. But don't forget to check next chapters if you need more details on the endpoints and how to use them.
+
+
+## Endpoints
+
+You can check the different endpoints with swagger (if you choosed the second method of deployment): <https://192.168.99.100:2201/api>
 
 ## Authors
 Julien Brêchet, Adrien Marco, Ali Miladi and Dany Tchente
@@ -36,10 +56,12 @@ Julien Brêchet, Adrien Marco, Ali Miladi and Dany Tchente
 
 ## Acknowledgments
 
-Starting template: Olivier Liechti
+Starting template: Olivier Liechti, Miguel Santamaria
 
 ## API Utilisation warnings and global operation
 Here are some rules about the utilisation of the API if you want to use it to develop your web application:
+
+- #### First off all, you have to be authenticated to use our API. So please, check the API Users (<https://github.com/PestaKit/microservice-users>) to know how to create a user and get the correct token you will need to show while executing the different actions this API gives to you.
 
 - When you create some questions, there are independent and unique. Then you can link it to a survey that is unique too. So if you want, for example, to send the same survey each week to a group of people, it means you have to create each week a new and unique survey which contains the same linked questions as the previous week.
 
@@ -55,5 +77,13 @@ Here are some rules about the utilisation of the API if you want to use it to de
 
 - when you create two identical answers, only one is considered.
 
+
+## Cucumber tests
+
+If we want to test our *microservice Survey* with Cucumber, we need to comment a few lines to ignore the integration of the *microservice User*. We need to do that because we test only functionalities of our service alone.
+
+We need to comment **`@PreAuthorize("hasRole('User')")`** annotations in our 3 API controllers which are `SurveysApiController`, `QuestionsApiController `and `AnswersApiController`.
+
+Once we've done those changes, we can make our Cucumber tests without Build errors.
 
 
