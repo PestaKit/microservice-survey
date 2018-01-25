@@ -327,11 +327,13 @@ definitions:
     required:
     - idQuestion
     - stats
+    - count
     properties:
       idQuestion:
         type: integer
         format: int64
-      stats:
-        type: array
-        items:
-          type: string # for instance we leave this as a string. Possibly we can change it to an int value
+      choiceText:
+        type: string
+      count:
+        type: integer
+        format: int64
