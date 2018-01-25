@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="users-security-0.1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../microservice-users/service-users-server/src/main/resources/lib/users-security-0.1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../microservice-users/service-users-server/target/microserve-users-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

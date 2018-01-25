@@ -1,0 +1,337 @@
+swagger: '2.0'
+info:
+  title: Surveys API
+  description: An API to design and use surveys
+  version: "1.0.0"
+# the domain of the service
+host: localhost
+
+schemes:
+  - https
+
+basePath: /api
+
+paths:
+  /questions:
+    get:
+      summary: All the questions
+      operationId: getAllQuestions
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Question'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    post:
+      description: Create a question
+      operationId: createQuestion
+      consumes:
+        - application/json
+      parameters:
+        - name: question
+          in: body
+          description: The question to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Question'
+      responses:
+        201:
+          description: Created
+        422:
+          description: Unprocessable Entity
+
+  /questions/{id_question}:
+    get:
+      description: Returns the identified question
+      operationId: findQuestionById
+      produces:
+        - application/json
+      parameters:
+        - name: id_question
+          in: path
+          description: ID of question to fetch
+          required: true
+          type: integer
+          format: int64 #int64 represents long in java
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Question'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /surveys:
+    get:
+      description: Returns the identified survey
+      operationId: getAllSurveys
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SurveyRef'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+    post:
+      description: Create a survey
+      operationId: createSurvey
+      consumes:
+        - application/json
+      parameters:
+        - name: survey
+          in: body
+          description: The survey to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Survey'
+      responses:
+        201:
+          description: Created
+        422:
+          description: Unprocessable Entity
+
+  /surveys/{id_survey}:
+    get:
+      description: Returns the identified survey
+      operationId: findSurveyById
+      produces:
+        - application/json
+      parameters:
+        - name: id_survey
+          in: path
+          description: ID of survey to fetch
+          required: true
+          type: integer
+          format: int64 #int64 represents long in java
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/SurveyRef'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /answers:
+    post:
+      description: Create an answer
+      operationId: createAnswer
+      consumes:
+        - application/json
+      parameters:
+        - name: answer
+          in: body
+          description: The answer to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Answer'
+      responses:
+        201:
+          description: Created
+        422:
+          description: Unprocessable Entity
+
+  /answers/{id_answer}:
+    get:
+      description: Returns the identified answer
+      operationId: findAnswerById
+      produces:
+        - application/json
+      parameters:
+        - name: id_answer
+          in: path
+          description: ID of answer to fetch
+          required: true
+          type: integer
+          format: int64 #int64 represents long in java
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Answer'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /results/{idSurvey}:
+    get:
+      description: Returns a list with answer stats of a survey specified by it's id
+      operationId: findResultsOfSurvey
+      produces:
+        - application/json
+      parameters:
+        - name: idSurvey
+          in: path
+          description: ID of the survey on which we calculate the stats
+          required: true
+          type: integer
+          format: int64 #int64 represents long in java
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Result'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+definitions:
+  Error:
+    type: object
+    properties:
+      timestamp:
+        type: string
+        #format: date-time
+      message:
+        type: string
+      exception:
+        type: string
+      fields:
+        type: array
+        items:
+          $ref: '#/definitions/ErroneousField'
+
+  Question:
+    type: object
+    required:
+    - title
+    - enabled
+    - allowMultipleChoices
+    - choices
+    properties:
+      title:
+        type: string
+      used:
+        type: integer
+        format: int32
+      enabled:
+        type: integer
+        format: int32
+      allowMultipleChoices:
+        type: integer
+        format: int32
+      choices:
+        type: array
+        items:
+          $ref: '#/definitions/Choice'
+
+  Choice:
+    type: object
+    required:
+    - position
+    - text
+    properties:
+      position:
+        type: integer
+        format: int32
+      text:
+        type: string
+
+  Survey:
+    type: object
+    required:
+    - title
+    - questionURLs
+    properties:
+      title:
+        type: string
+      questionURLs:
+        type: array
+        items:
+          type: string
+
+  # This object is to represent the questions in the list of questions in a given survey
+  QuestionRef:
+    type: object
+    required:
+    - self
+    - title
+    properties:
+      self:
+        type: string
+      title:
+        type: string
+
+# This object is to represent a survey when calling findById
+  SurveyRef:
+    type: object
+    required:
+    - title
+    - questionRefs
+    properties:
+      title:
+        type: string
+      questionRefs:
+        type: array
+        items:
+          $ref: '#/definitions/QuestionRef'
+
+  # This object is meant to represent an error in a field of a posted DTO
+  ErroneousField:
+    type: object
+    required:
+      - fieldName
+      - errorCode
+    properties:
+      fieldName:
+        type: string
+      errorCode:
+        type: string
+
+  Answer:
+    type: object
+    required:
+    - idSurvey
+    - idQuestion
+    - choices
+    properties:
+      idSurvey:
+        type: integer
+        format: int64
+      idQuestion:
+        type: integer
+        format: int64
+      timestamp:
+        type: string
+      choices:
+        type: array
+        items:
+          $ref: '#/definitions/Choice'
+
+  # This object is meant to represent a stat to a specific answer of a question
+  Result:
+    type: object
+    required:
+    - idQuestion
+    - stats
+    properties:
+      idQuestion:
+        type: integer
+        format: int64
+      stats:
+        type: array
+        items:
+          type: string # for instance we leave this as a string. Possibly we can change it to an int value
